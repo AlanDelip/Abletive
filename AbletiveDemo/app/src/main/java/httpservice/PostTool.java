@@ -14,6 +14,7 @@ import data.PostTitle;
  * Created by Alan on 2016/3/7.
  */
 public class PostTool {
+    private final static String TAG = "Abletive";
 
     public static ArrayList<PostTitle> getPostTitle(PostPO postPO) throws IOException {
         int totalNum = postPO.getCount_total();
@@ -35,12 +36,13 @@ public class PostTool {
                 avatar = new HttpImpl("get_posts").getAvatar(author.get("avatar"));
             }
 
-            //TODO 评论数量
-            String commentsCount = (String) onePost.get("comments_count");
+            //TODO 评论数量API错误
+            double commentsCountDouble = (double) onePost.get("comment_count");
+            int commentsCount = (int) commentsCountDouble;
 
             String url = (String) onePost.get("url");
 
-            PostTitle postTitle = new PostTitle(title, authorName, avatar, date, commentsCount, url);
+            PostTitle postTitle = new PostTitle(title, authorName, avatar, date, commentsCount + "", url);
             postTitleList.add(postTitle);
         }
         return postTitleList;

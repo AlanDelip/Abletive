@@ -1,7 +1,6 @@
 package alandelip.abletivedemo.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,12 +18,18 @@ import java.util.ArrayList;
 import alandelip.abletivedemo.R;
 import data.PostTitle;
 import httpservice.HttpImpl;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import widget.PostTitleAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
+
+    /**
+     * 文章列表内容
+     */
     ArrayList<PostTitle> postTitleList;
+    /**
+     *
+     */
     ListView listView;
     PostTitleAdapter postTitleAdapter;
 
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PostTitle postTitle = (PostTitle) parent.getItemAtPosition(position);
-                WebActivity.actionStart(MainActivity.this, postTitle.getUrl());
+                WebActivity.actionStart(MainActivity.this, postTitle.getUrl(), postTitle.getTitle());
             }
         });
     }
@@ -75,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
-    }
-
     class PostTitleTask extends AsyncTask<Void, Void, Void> {
 
         ProgressDialog progressDialog;
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(MainActivity.this, ProgressDialog.STYLE_SPINNER);
             progressDialog.setCancelable(false);
+            progressDialog.setMessage("Abletive 正在获取列表...");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
         }
@@ -102,7 +103,9 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             progressDialog.dismiss();
             postTitleAdapter = new PostTitleAdapter(MainActivity.this, R.layout.post_title, postTitleList);
-            listView.setAdapter(postTitleAdapter);
+            if (postTitleAdapter != null) {
+                listView.setAdapter(postTitleAdapter);
+            }
         }
     }
 }

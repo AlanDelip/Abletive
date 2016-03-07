@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.MainActivity">
+    tools:context="alandelip.abletivedemo.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -19,18 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="#2b71c1"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/header_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="100dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/studio"
-                app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
+                android:src="@drawable/studio" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -50,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/abc_ic_search_api_mtrl_alpha"
-        app:backgroundTint="#684a4a"
+        app:backgroundTint="#6b7875"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 

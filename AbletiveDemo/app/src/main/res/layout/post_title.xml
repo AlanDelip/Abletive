@@ -2,25 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:contextClickable="false"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:contextClickable="false">
+    android:padding="10dp">
 
     <widget.RoundImageView
         android:id="@+id/avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="5dp" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+
         android:layout_toEndOf="@+id/avatar"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Title"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/author"
@@ -28,8 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:layout_toEndOf="@+id/avatar"
-        android:textSize="18sp"
-        android:text="Author" />
+        android:paddingLeft="5dp"
+        android:text="Author"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/time"
@@ -37,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="2016-03-07 12:00:00"
         android:layout_below="@+id/avatar"
-        android:layout_toEndOf="@+id/avatar" />
+        android:layout_toEndOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/viewerNum"
@@ -46,6 +49,22 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/time"
         android:text="231" />
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:id="@+id/imageView"
+        android:src="@android:drawable/ic_menu_recent_history"
+        android:layout_alignBottom="@+id/time"
+        android:layout_alignStart="@+id/author" />
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:id="@+id/imageView2"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toStartOf="@+id/viewerNum"
+        android:src="@android:drawable/ic_menu_view" />
 
 
 </RelativeLayout>
