@@ -11,14 +11,16 @@ public class PostTitle {
     String author;
     Bitmap avatar;
     String time;
-    int viewerNum;
+    String viewerNum;
+    String url;
 
-    public PostTitle(String title, String author, Bitmap avatar, String time, int viewerNum) {
+    public PostTitle(String title, String author, Bitmap avatar, String time, String viewerNum, String url) {
         this.title = title;
         this.author = author;
         this.avatar = avatar;
         this.time = time;
         this.viewerNum = viewerNum;
+        this.url = url;
     }
 
     public Bitmap getAvatar() {
@@ -53,11 +55,19 @@ public class PostTitle {
         this.time = time;
     }
 
-    public int getViewerNum() {
+    public String getViewerNum() {
         return viewerNum;
     }
 
-    public void setViewerNum(int viewerNum) {
+    public void setViewerNum(String viewerNum) {
         this.viewerNum = viewerNum;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

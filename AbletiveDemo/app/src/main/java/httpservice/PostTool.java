@@ -35,9 +35,12 @@ public class PostTool {
                 avatar = new HttpImpl("get_posts").getAvatar(author.get("avatar"));
             }
 
-//            int commentsCount = (int) onePost.get("comments_count");
-            int commentsCount = 213;
-            PostTitle postTitle = new PostTitle(title, authorName, avatar, date, commentsCount);
+            //TODO 评论数量
+            String commentsCount = (String) onePost.get("comments_count");
+
+            String url = (String) onePost.get("url");
+
+            PostTitle postTitle = new PostTitle(title, authorName, avatar, date, commentsCount, url);
             postTitleList.add(postTitle);
         }
         return postTitleList;

@@ -1,6 +1,7 @@
 package alandelip.abletivedemo.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import alandelip.abletivedemo.R;
 import data.PostTitle;
 import httpservice.HttpImpl;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import widget.PostTitleAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,29 +50,34 @@ public class MainActivity extends AppCompatActivity {
     private void initListView() {
         listView = (ListView) findViewById(R.id.posts_list);
         new PostTitleTask().execute();
-
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PostTitle postTitle = (PostTitle) parent.getItemAtPosition(position);
+                WebActivity.actionStart(MainActivity.this, postTitle.getUrl());
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 
     class PostTitleTask extends AsyncTask<Void, Void, Void> {
