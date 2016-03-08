@@ -1,6 +1,5 @@
 package alandelip.abletivedemo.activity;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Duration;
 
 import java.util.ArrayList;
 
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 WebActivity.actionStart(MainActivity.this, postTitle.getUrl(), postTitle.getTitle());
             }
         });
+
     }
 
     @Override
@@ -82,14 +85,16 @@ public class MainActivity extends AppCompatActivity {
 
     class PostTitleTask extends AsyncTask<Void, Void, Void> {
 
-        ProgressDialog progressDialog;
+        MaterialStyledDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(MainActivity.this, ProgressDialog.STYLE_SPINNER);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Abletive 正在获取列表...");
-            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog = new MaterialStyledDialog(MainActivity.this)
+                    .setDescription("Abletive 正在加载")
+                    .withDialogAnimation(true, Duration.NORMAL)
+                    .setHeaderColor(R.color.colorPrimary)
+                    .setIcon(R.drawable.launch_logo)
+                    .build();
             progressDialog.show();
         }
 
@@ -103,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             progressDialog.dismiss();
             postTitleAdapter = new PostTitleAdapter(MainActivity.this, R.layout.post_title, postTitleList);
-            if (postTitleAdapter != null) {
-                listView.setAdapter(postTitleAdapter);
-            }
+            listView.setAdapter(postTitleAdapter);
         }
     }
 }

@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
+
 import alandelip.abletivedemo.R;
 
 public class WebActivity extends AppCompatActivity {
@@ -53,6 +56,23 @@ public class WebActivity extends AppCompatActivity {
             }
         });
         webView.loadUrl(url);
+
+        MaterialRefreshLayout materialRefreshLayout = (MaterialRefreshLayout) findViewById(R.id.refresh);
+        materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(final MaterialRefreshLayout materialRefreshLayout) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                //load more refreshing...
+            }
+        });
     }
 
     @Override

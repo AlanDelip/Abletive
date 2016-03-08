@@ -14,11 +14,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <WebView
-        android:id="@+id/webView"
+    <com.cjj.MaterialRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/view" />
+        app:overlay="true"
+        app:wave_show="false">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/view" />
+
+    </com.cjj.MaterialRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

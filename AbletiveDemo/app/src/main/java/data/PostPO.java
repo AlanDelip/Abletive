@@ -11,14 +11,24 @@ public class PostPO {
     int count;
     int count_total;
     int pages;
-    ArrayList<HashMap<String,Object>> posts;
+    ArrayList<HashMap<String, Object>> posts;
+    HashMap<String, Object> query;
 
-    public PostPO(String status, int count, int count_total, int pages, ArrayList<HashMap<String, Object>> posts) {
+    public PostPO(String status, int count, int count_total, int pages, ArrayList<HashMap<String, Object>> posts, HashMap<String, Object> query) {
         this.status = status;
         this.count = count;
         this.count_total = count_total;
         this.pages = pages;
         this.posts = posts;
+        this.query = query;
+    }
+
+    public HashMap<String, Object> getQuery() {
+        return query;
+    }
+
+    public void setQuery(HashMap<String, Object> query) {
+        this.query = query;
     }
 
     public String getStatus() {
