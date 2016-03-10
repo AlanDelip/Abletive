@@ -12,15 +12,26 @@ public class PostTitle {
     Bitmap avatar;
     String time;
     String viewerNum;
+    int commentNum;
     String url;
 
-    public PostTitle(String title, String author, Bitmap avatar, String time, String viewerNum, String url) {
+    public PostTitle(String title, String author, Bitmap avatar, String time, String viewerNum, int commentNum, String url) {
         this.title = title;
         this.author = author;
         this.avatar = avatar;
         this.time = time;
         this.viewerNum = viewerNum;
+        this.commentNum = commentNum;
         this.url = url;
+
+    }
+
+    public int getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(int commentNum) {
+        this.commentNum = commentNum;
     }
 
     public Bitmap getAvatar() {

@@ -25,17 +25,8 @@
         </activity>
         <activity android:name=".activity.WebActivity" />
         <activity
-            android:name=".activity.MessageActivity"
-            android:label="@string/title_activity_message"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.BBSActivity"
-            android:label="@string/title_activity_bbs"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.UserActivity"
-            android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".activity.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

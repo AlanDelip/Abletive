@@ -19,7 +19,7 @@ import data.PostTitle;
  */
 public class HttpImpl {
     private static final String TAG = "Abletive";
-    static String webSite = "http://abletive.com/api/";
+    String webSite = "http://abletive.com/api/";
 
     public HttpImpl(String request) {
         webSite = webSite + request;
@@ -29,6 +29,7 @@ public class HttpImpl {
         try {
             URL url = new URL(webSite);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setConnectTimeout(3000);
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 

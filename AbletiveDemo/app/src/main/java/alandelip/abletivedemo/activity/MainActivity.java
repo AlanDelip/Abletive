@@ -20,12 +20,6 @@ import fragment.UserFragment;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
 
-    /**
-     * 文章列表内容
-     */
-//    ArrayList<PostTitle> postTitleList;
-//    ListView listView;
-//    PostTitleAdapter postTitleAdapter;
 
     /**
      * FragmentTabhost
@@ -50,26 +44,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 选项卡图标
      */
-    private int[] mImageArray = {R.drawable.ic_menu_camera,
-            R.drawable.ic_menu_share,
-            R.drawable.ic_menu_gallery,
-            R.drawable.ic_menu_manage};
+    private int[] mImageArray = {R.drawable.menu_post,
+            R.drawable.menu_chat,
+            R.drawable.menu_community,
+            R.drawable.menu_me};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         initTabHost();
 
@@ -92,9 +75,11 @@ public class MainActivity extends AppCompatActivity {
                     .setIndicator(getTabItemView(i));
             // 将Tab按钮添加进Tab选项卡中
             mTabHost.addTab(tabSpec, mFragmentArray[i], null);
+            // 设置Tab分割线
+            mTabHost.getTabWidget().setDividerDrawable(null);
             // 设置Tab按钮的背景
             mTabHost.getTabWidget().getChildAt(i)
-                    .setBackgroundResource(R.color.gray);
+                    .setBackgroundResource(R.color.menu_background);
         }
     }
 
@@ -110,18 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
         return view;
     }
-
-//    private void initListView() {
-//        listView = (ListView) findViewById(R.id.posts_list);
-//        new PostTitleTask().execute();
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                PostTitle postTitle = (PostTitle) parent.getItemAtPosition(position);
-//                WebActivity.actionStart(MainActivity.this, postTitle.getUrl(), postTitle.getTitle());
-//            }
-//        });
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,30 +112,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    class PostTitleTask extends AsyncTask<Void, Void, Void> {
-//
-//        SweetAlertDialog progressDialog;
-//
-//        @Override
-//        protected void onPreExecute() {
-//            progressDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-//            progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-//            progressDialog.setTitleText("Loading");
-//            progressDialog.setCancelable(false);
-//            progressDialog.show();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            postTitleList = new HttpImpl("get_posts").getPostTitleList();
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            progressDialog.dismiss();
-//            postTitleAdapter = new PostTitleAdapter(MainActivity.this, R.layout.post_title, postTitleList);
-//            listView.setAdapter(postTitleAdapter);
-//        }
-//    }
 }
