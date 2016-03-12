@@ -1,12 +1,41 @@
 <resources>
+    <!--General-->
     <string name="app_name">Abletive音乐社区</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_message">MessageActivity</string>
-    <string name="title_activity_bbs">BBSActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_user">UserActivity</string>
-
     <string name="app_sub">abletive.com</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Loading-->
+    <string name="loading">Loading...</string>
+
+    <!--FloatingActionButton-->
+    <string name="all">全部</string>
+    <string name="tag">标签</string>
+    <string name="category">类别</string>
+
+    <!--Search bar-->
+    <string name="search_icon">search</string>
+
+    <!--Message-->
+    <string name="title_activity_message">消息</string>
+
+    <!--BBS-->
+    <string name="title_activity_bbs">论坛</string>
+
+    <!--User-->
+    <string name="title_activity_user">我</string>
+
+    <!--Internet Handle-->
+    <string name="internet_failure">连接失败</string>
+
+    <!--Internet Request-->
+    <string name="get_posts">get_posts</string>
+    <string name="get_tag_index">get_tag_index</string>
+    <string name="get_category_index">get_category_index</string>
+    <string name="get_category_posts">get_category_posts</string>
+    <string name="get_tag_posts">get_tag_posts</string>
+    <string name="get_date_posts">get_date_posts</string>
+    <string name="get_author_posts">get_author_posts</string>
+    <string name="get_search_results">get_search_results</string>
+    <string name="get_post">get_post</string>
+
 </resources>

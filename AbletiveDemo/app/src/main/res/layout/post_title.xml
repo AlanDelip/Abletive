@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <widget.RoundImageView
+    <ImageView
         android:id="@+id/thumb"
         android:layout_width="100dp"
         android:layout_height="90dp"
@@ -78,14 +78,15 @@
 
     <TextView
         android:id="@+id/category"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/author"
         android:layout_alignBottom="@+id/author"
-        android:layout_alignStart="@+id/thumb"
-        android:layout_marginStart="20dp"
         android:text="Category"
-        android:textColor="#383636" />
+        android:textColor="#383636"
+        android:layout_alignStart="@+id/thumb"
+        android:layout_alignEnd="@+id/thumb" />
 
     <ImageView
         android:id="@+id/comments_icon"

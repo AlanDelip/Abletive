@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.PresentActivity"></activity>
     </application>
 
 </manifest>

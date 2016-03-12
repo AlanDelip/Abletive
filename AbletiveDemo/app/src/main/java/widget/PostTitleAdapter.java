@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import alandelip.abletivedemo.R;
 import data.PostTitleVO;
 
 /**
+ * 文章标题列表适配器
  * Created by Alan on 2016/3/7.
  */
 public class PostTitleAdapter extends ArrayAdapter<PostTitleVO> {
@@ -32,7 +34,7 @@ public class PostTitleAdapter extends ArrayAdapter<PostTitleVO> {
         } else {
             view = convertView;
         }
-        RoundImageView thumb = (RoundImageView) view.findViewById(R.id.thumb);
+        ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
         thumb.setImageBitmap(postTitle.getThumb());
 
         TextView title = (TextView) view.findViewById(R.id.title);

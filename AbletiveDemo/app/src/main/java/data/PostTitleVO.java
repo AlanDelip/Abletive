@@ -17,15 +17,14 @@ public class PostTitleVO {
     String url;
 
     /**
-     *
-     * @param title 文章标题
-     * @param author 作者
-     * @param thumb 文章缩略图
+     * @param title    文章标题
+     * @param author   作者
+     * @param thumb    文章缩略图
      * @param category 文章所属目录
-     * @param time 发布时间
-     * @param views 浏览数
+     * @param time     发布时间
+     * @param views    浏览数
      * @param comments 评论数
-     * @param url url地址
+     * @param url      url地址
      */
     public PostTitleVO(String title, String author, Bitmap thumb, String category, String time, String views, int comments, String url) {
         this.title = title;

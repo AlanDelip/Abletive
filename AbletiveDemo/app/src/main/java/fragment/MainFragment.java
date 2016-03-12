@@ -1,6 +1,5 @@
 package fragment;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.github.clans.fab.FloatingActionButton;
@@ -25,8 +26,11 @@ import alandelip.abletivedemo.R;
 import alandelip.abletivedemo.activity.WebActivity;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import data.PostTitleVO;
+import data.TagPO;
 import httpservice.HttpImpl;
 import widget.PostTitleAdapter;
+import widget.TagTitleAdapter;
+import widget.WidgetTool;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +51,8 @@ public class MainFragment extends Fragment {
      * 文章列表内容
      */
     ArrayList<PostTitleVO> postTitleList;
-    ListView listView;
+
+    ListView mListView;
     PostTitleAdapter postTitleAdapter;
     MaterialRefreshLayout materialRefreshLayout;
 
@@ -76,7 +81,10 @@ public class MainFragment extends Fragment {
 
             initListView();
         }
+
         initRefreshLayout();
+
+        initSearchView();
     }
 
     /**
@@ -111,6 +119,7 @@ public class MainFragment extends Fragment {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mListView.setAdapter(postTitleAdapter);
                 Toast.makeText(getContext(), fab1.getLabelText(), Toast.LENGTH_SHORT).show();
                 fabMenu.close(true);
             }
@@ -121,8 +130,23 @@ public class MainFragment extends Fragment {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new TagTask().execute();
                 Toast.makeText(getContext(), fab2.getLabelText(), Toast.LENGTH_SHORT).show();
                 fabMenu.close(true);
+            }
+        });
+
+        android.support.design.widget.FloatingActionButton searchFab =
+                (android.support.design.widget.FloatingActionButton) getView().findViewById(R.id.fab);
+        searchFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FloatingSearchView mSearchView = (FloatingSearchView) getView().findViewById(R.id.floating_search_view);
+                if (mSearchView.getVisibility() == View.VISIBLE) {
+                    mSearchView.setVisibility(View.GONE);
+                } else {
+                    mSearchView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -134,9 +158,9 @@ public class MainFragment extends Fragment {
      */
     private void initListView() {
 
-        listView = (ListView) getView().findViewById(R.id.posts_list);
+        mListView = (ListView) getView().findViewById(R.id.posts_list);
         new PostTitleTask().execute();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PostTitleVO postTitle = (PostTitleVO) parent.getItemAtPosition(position);
@@ -162,10 +186,49 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                new PostNextPage().execute();
+                new PostNextPageTask().execute();
             }
         });
     }
+
+    /**
+     * <strong>初始化搜索栏</strong>
+     * 设置监听，搜索栏部件
+     */
+    private void initSearchView() {
+        final FloatingSearchView mSearchView = (FloatingSearchView) getView().findViewById(R.id.floating_search_view);
+
+        //<监听>根据输入的字符提前检索
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, String newQuery) {
+                //TODO 根据输入字符自动检索
+            }
+        });
+
+        //<监听>列表item的点击事件
+        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+                if (item.getItemId() == R.id.action_search) {
+                    //TODO 搜索键点击事件处理
+                }
+            }
+        });
+
+
+        mSearchView.setShowSearchKey(true);
+    }
+
+    /**
+     * 搜索事件
+     *
+     * @param searchContent 搜索内容
+     */
+    private void search(String searchContent) {
+        //TODO 搜索关键字
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -196,17 +259,14 @@ public class MainFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             if (isFirstLaunched) {
-                progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                progressDialog.setTitleText("Loading");
-                progressDialog.setCancelable(true);
+                progressDialog = WidgetTool.getDefaultDialog(getContext());
                 progressDialog.show();
             }
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            postTitleList = new HttpImpl("get_posts").getPostTitleList();
+            postTitleList = new HttpImpl(getString(R.string.get_posts)).getPostTitleList();
             return (postTitleList != null);
         }
 
@@ -220,22 +280,22 @@ public class MainFragment extends Fragment {
                     materialRefreshLayout.finishRefresh();
                 }
                 postTitleAdapter = new PostTitleAdapter(getContext(), R.layout.post_title, postTitleList);
-                listView.setAdapter(postTitleAdapter);
+                mListView.setAdapter(postTitleAdapter);
             } else {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
                 isFirstLaunched = false;
             }
         }
     }
 
-    class PostNextPage extends AsyncTask<Void, Void, Boolean> {
+    class PostNextPageTask extends AsyncTask<Void, Void, Boolean> {
 
         ArrayList<PostTitleVO> addedPostTitleList;
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            addedPostTitleList = new HttpImpl("get_posts", page).getPostTitleList();
+            addedPostTitleList = new HttpImpl(getString(R.string.get_posts), page).getPostTitleList();
             return (addedPostTitleList != null && addedPostTitleList.size() != 0);
         }
 
@@ -247,7 +307,34 @@ public class MainFragment extends Fragment {
                 postTitleAdapter.notifyDataSetChanged();
                 page++;
             } else {
-                Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class TagTask extends AsyncTask<Void, Void, ArrayList<TagPO>> {
+
+        SweetAlertDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = WidgetTool.getDefaultDialog(getContext());
+            progressDialog.show();
+        }
+
+        @Override
+        protected ArrayList<TagPO> doInBackground(Void... params) {
+            return new HttpImpl(getString(R.string.get_tag_index)).getTag();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<TagPO> tagList) {
+            progressDialog.dismiss();
+            if (tagList != null) {
+                TagTitleAdapter tagTitleAdapter = new TagTitleAdapter(getContext(), R.layout.tag_item, tagList);
+                mListView.setAdapter(tagTitleAdapter);
+            } else {
+                Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
             }
         }
     }

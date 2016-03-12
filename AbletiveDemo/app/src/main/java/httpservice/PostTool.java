@@ -15,6 +15,7 @@ import data.PostPO;
 import data.PostTitleVO;
 
 /**
+ * 文章工具
  * Created by Alan on 2016/3/7.
  */
 public class PostTool {
@@ -46,10 +47,10 @@ public class PostTool {
             String tempAvatar = author.get("avatar");
             if (tempAvatar.startsWith("<")) {
                 Document document = Jsoup.parse(tempAvatar);
-                Elements imageSrc = document.getElementsByAttribute("src");
-            } else {
-                thumb = new HttpImpl().getAvatar(tempAvatar);
+                Elements imageSrc = document.getElementsByAttribute("img");
+                tempAvatar = imageSrc.text();
             }
+            thumb = new HttpImpl().getAvatar(tempAvatar);
 
             ArrayList<Map<String, String>> categoriesList = (ArrayList<Map<String, String>>) onePost.get("categories");
             String firstCategory = categoriesList.get(0).get("title");
