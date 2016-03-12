@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -19,12 +17,6 @@ import fragment.UserFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
-
-
-    /**
-     * FragmentTabhost
-     */
-    private FragmentTabHost mTabHost;
 
     /**
      * 布局填充器
@@ -55,17 +47,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initTabHost();
-
-//        initListView();
-
     }
 
     /**
      * 初始化Tabhost进行碎片显示
      */
     private void initTabHost() {
+
         mLayoutInflater = LayoutInflater.from(this);
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         // 得到fragment的个数
         int count = mFragmentArray.length;
@@ -87,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
      * 给每个Tab按钮设置图标和文字
      */
     private View getTabItemView(int index) {
+
         View view = mLayoutInflater.inflate(R.layout.tab_item_view, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.tab_image);
         imageView.setImageResource(mImageArray[index]);
@@ -94,22 +85,6 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(mTextArray[index]);
 
         return view;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }

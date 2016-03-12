@@ -24,9 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.WebActivity" />
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".activity.SettingsActivity" />
     </application>
 
 </manifest>

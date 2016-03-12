@@ -2,6 +2,7 @@ package httpservice;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,20 +13,29 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import data.PostPO;
-import data.PostTitle;
+import data.PostTitleVO;
 
 /**
+ * 负责网络传输的类
  * Created by Alan on 2016/3/7.
  */
 public class HttpImpl {
     private static final String TAG = "Abletive";
     String webSite = "http://abletive.com/api/";
 
-    public HttpImpl(String request) {
-        webSite = webSite + request;
+    public HttpImpl(String request, int page) {
+        webSite = new HttpBuilder(webSite).addField(request).addParam("page", page).build();
     }
 
-    public ArrayList<PostTitle> getPostTitleList() {
+    public HttpImpl(String request) {
+        webSite = new HttpBuilder(webSite).addField(request).build();
+        Log.d(TAG, "HttpImpl: "+webSite);
+    }
+
+    public HttpImpl() {
+    }
+
+    public ArrayList<PostTitleVO> getPostTitleList() {
         try {
             URL url = new URL(webSite);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -43,7 +53,7 @@ public class HttpImpl {
                 postPO = JSONHandler.getPosts(result);
             }
 
-            ArrayList<PostTitle> postTitleList = null;
+            ArrayList<PostTitleVO> postTitleList = null;
             if (postPO != null && postPO.getStatus().equals("ok")) {
                 postTitleList = PostTool.getPostTitle(postPO);
             }
