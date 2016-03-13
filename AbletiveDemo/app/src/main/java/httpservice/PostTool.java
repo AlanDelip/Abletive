@@ -2,10 +2,6 @@ package httpservice;
 
 import android.graphics.Bitmap;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,14 +39,24 @@ public class PostTool {
             String authorName = author.get("nickname");
 
             //文章缩略图
+
+//            String tempAvatar = author.get("avatar");
+//            if (tempAvatar.startsWith("<")) {
+//                Document document = Jsoup.parse(tempAvatar);
+//                Elements imageSrc = document.getElementsByAttribute("img");
+//                tempAvatar = imageSrc.text();
+//            }
+
             Bitmap thumb = null;
-            String tempAvatar = author.get("avatar");
-            if (tempAvatar.startsWith("<")) {
-                Document document = Jsoup.parse(tempAvatar);
-                Elements imageSrc = document.getElementsByAttribute("img");
-                tempAvatar = imageSrc.text();
+            //TODO 应该有类的对应，迭代二建立
+            Map<String, Object> tempThumb = (Map<String, Object>) onePost.get("thumbnail_images");
+            Map<String, String> mediumThumb = null;
+            String thumbUrl = "";
+            if (tempThumb != null) {
+                mediumThumb = (Map<String, String>) tempThumb.get("medium");
+                thumbUrl = mediumThumb.get("url");
+                thumb = new HttpImpl().getAvatar(thumbUrl);
             }
-            thumb = new HttpImpl().getAvatar(tempAvatar);
 
             ArrayList<Map<String, String>> categoriesList = (ArrayList<Map<String, String>>) onePost.get("categories");
             String firstCategory = categoriesList.get(0).get("title");

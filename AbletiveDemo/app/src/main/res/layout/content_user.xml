@@ -22,25 +22,42 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_logo"
         android:layout_centerHorizontal="true"
-        android:text="欢迎回来"
+        android:text="@string/welcome_text"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/welcome_text"
         android:layout_centerHorizontal="true"
-        android:text="Alan.Delip"
+        android:text="@string/default_user_name"
         android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/reminding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="登录或注册享受更多功能"
-        android:id="@+id/reminding"
         android:layout_below="@+id/welcome_text"
         android:layout_centerHorizontal="true"
+        android:text="@string/none_login"
         android:visibility="gone" />
+
+    <com.github.florent37.materialviewpager.MaterialViewPager
+        android:id="@+id/materialViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name"
+        app:viewpager_animatedHeaderImage="true"
+        app:viewpager_color="@color/colorPrimary"
+        app:viewpager_disableToolbar="false"
+        app:viewpager_displayToolbarWhenSwipe="true"
+        app:viewpager_enableToolbarElevation="true"
+        app:viewpager_headerAdditionalHeight="20dp"
+        app:viewpager_headerAlpha="1.0"
+        app:viewpager_headerHeight="100dp"
+        app:viewpager_hideToolbarAndTitle="true"
+        app:viewpager_parallaxHeaderFactor="1.5"
+        app:viewpager_transparentToolbar="true" />
 </RelativeLayout>

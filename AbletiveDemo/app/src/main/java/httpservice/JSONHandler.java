@@ -1,7 +1,5 @@
 package httpservice;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import data.CategoryPO;
@@ -25,7 +23,6 @@ public class JSONHandler {
 
     public static TagPO getTag(String tagJSONString) {
         Gson gson = new Gson();
-        Log.d("Abletive", "getTag: " + tagJSONString);
         return gson.fromJson(tagJSONString, TagPO.class);
     }
 }

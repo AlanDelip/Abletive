@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import alandelip.abletivedemo.R;
 import alandelip.abletivedemo.activity.WebActivity;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import data.CategoryPO;
 import data.PostTitleVO;
 import data.TagPO;
 import httpservice.HttpImpl;
@@ -120,6 +121,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mListView.setAdapter(postTitleAdapter);
+                setListViewListener(ListViewType.MAIN);
                 Toast.makeText(getContext(), fab1.getLabelText(), Toast.LENGTH_SHORT).show();
                 fabMenu.close(true);
             }
@@ -131,6 +133,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 new TagTask().execute();
+                setListViewListener(ListViewType.TAG);
                 Toast.makeText(getContext(), fab2.getLabelText(), Toast.LENGTH_SHORT).show();
                 fabMenu.close(true);
             }
@@ -160,13 +163,41 @@ public class MainFragment extends Fragment {
 
         mListView = (ListView) getView().findViewById(R.id.posts_list);
         new PostTitleTask().execute();
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PostTitleVO postTitle = (PostTitleVO) parent.getItemAtPosition(position);
-                WebActivity.actionStart(getContext(), postTitle.getUrl(), postTitle.getTitle());
-            }
-        });
+        setListViewListener(ListViewType.MAIN);
+    }
+
+    private void setListViewListener(ListViewType listViewType) {
+
+        switch (listViewType) {
+            case MAIN:
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        PostTitleVO postTitle = (PostTitleVO) parent.getItemAtPosition(position);
+                        WebActivity.actionStart(getContext(), postTitle.getUrl(), postTitle.getTitle());
+                    }
+                });
+                break;
+            case TAG:
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        TagPO tag = (TagPO) parent.getItemAtPosition(position);
+                        //TODO 新建Activity，跳转至过滤后的文章列表界面
+                        Toast.makeText(getContext(), "TODO", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case CATEGORY:
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        CategoryPO category = (CategoryPO) parent.getItemAtPosition(position);
+                        //TODO 同Tag新建同一个Activity,跳转至过滤后的文章列表界面
+                        Toast.makeText(getContext(), "TODO", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        }
     }
 
     /**
@@ -235,6 +266,10 @@ public class MainFragment extends Fragment {
         super.onDestroyView();
         isFirstLaunched = true;
         page = 2;
+    }
+
+    private enum ListViewType {
+        MAIN, TAG, CATEGORY;
     }
 
     /**

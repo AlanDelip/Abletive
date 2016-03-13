@@ -23,6 +23,9 @@
 
     <!--User-->
     <string name="title_activity_user">我</string>
+    <string name="none_login">登录或注册享受更多功能</string>
+    <string name="welcome_text">欢迎回来</string>
+    <string name="default_user_name">Alan.Delip</string>
 
     <!--Internet Handle-->
     <string name="internet_failure">连接失败</string>

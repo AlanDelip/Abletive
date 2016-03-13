@@ -2,6 +2,7 @@ package fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -73,10 +74,32 @@ public class BBSFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        initToolbar();
+
+        initFAB();
+
+    }
+
+    /**
+     * <strong>初始化ToolBar</strong><br>
+     *     设置标题居中，标题内容
+     */
+    private void initToolbar(){
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
+        toolbar.setTitle(R.string.title_activity_bbs);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
+
+    private void initFAB(){
+        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 改成FloatingActionMenu
+            }
+        });
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
