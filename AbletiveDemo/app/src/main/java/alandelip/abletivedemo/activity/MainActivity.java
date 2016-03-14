@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 碎片类
      */
-    private Class[] mFragmentArray = {MainFragment.class, BBSFragment.class, MessageFragment.class, UserFragment.class};
+    private Class[] mFragmentArray = {MainFragment.class, MessageFragment.class, BBSFragment.class, UserFragment.class};
 
     /**
      * 选修卡文字

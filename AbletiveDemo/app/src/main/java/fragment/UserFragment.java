@@ -1,13 +1,20 @@
 package fragment;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.github.florent37.materialviewpager.MaterialViewPager;
 
 import alandelip.abletivedemo.R;
 
@@ -73,9 +80,65 @@ public class UserFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        initViewPager();
+    }
+
+    private void initViewPager() {
+        final MaterialViewPager mViewPager = (MaterialViewPager) getView().findViewById(R.id.materialViewPager);
+
+        Toolbar toolbar = mViewPager.getToolbar();
+        if (toolbar != null) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            toolbar.setTitle(null);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setDisplayShowHomeEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(true);
+                actionBar.setDisplayUseLogoEnabled(false);
+            }
+        }
+
+        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
+
+            @Override
+            public Fragment getItem(int position) {
+                return RecyclerViewFragment.newInstance();
+            }
+
+            @Override
+            public int getCount() {
+                return 4;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position % 4) {
+                    case 0:
+                        return "个人档案";
+                    case 1:
+                        return "社区贡献";
+                    case 2:
+                        return "个人作品";
+                    case 3:
+                        return "关注者";
+                }
+                return "";
+            }
+        });
+
+        ImageView userLogo = (ImageView) mViewPager.getChildAt(0).findViewById(R.id.user_logo);
+        userLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: 实现头像和背景的自定义更改
+                Toast.makeText(getContext(), "it work!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mViewPager.getPagerTitleStrip().setTextColor(Color.WHITE);
+        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
+
     }
 
     /**

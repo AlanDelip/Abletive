@@ -4,31 +4,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Alan on 2016/3/7.
+ * 文章搜索结果
+ * Created by Alan on 2016/3/14.
  */
-public class PostPO {
+public class SearchPO {
     String status;
     int count;
-    int count_total;
     int pages;
+    int count_total;
     ArrayList<HashMap<String, Object>> posts;
-    HashMap<String, Object> query;
 
-    public PostPO(String status, int count, int count_total, int pages, ArrayList<HashMap<String, Object>> posts, HashMap<String, Object> query) {
+    public SearchPO(String status, int count, int pages, int count_total, ArrayList<HashMap<String, Object>> posts) {
         this.status = status;
         this.count = count;
-        this.count_total = count_total;
+
         this.pages = pages;
+        this.count_total = count_total;
         this.posts = posts;
-        this.query = query;
-    }
-
-    public HashMap<String, Object> getQuery() {
-        return query;
-    }
-
-    public void setQuery(HashMap<String, Object> query) {
-        this.query = query;
     }
 
     public String getStatus() {
@@ -47,14 +39,6 @@ public class PostPO {
         this.count = count;
     }
 
-    public int getCount_total() {
-        return count_total;
-    }
-
-    public void setCount_total(int count_total) {
-        this.count_total = count_total;
-    }
-
     public int getPages() {
         return pages;
     }
@@ -63,15 +47,19 @@ public class PostPO {
         this.pages = pages;
     }
 
+    public int getCountTotal() {
+        return count_total;
+    }
+
+    public void setCountTotal(int countTotal) {
+        this.count_total = count_total;
+    }
+
     public ArrayList<HashMap<String, Object>> getPosts() {
         return posts;
     }
 
     public void setPosts(ArrayList<HashMap<String, Object>> posts) {
         this.posts = posts;
-    }
-
-    public SearchPO toSearchPO() {
-        return new SearchPO(status, count, pages, count_total, posts);
     }
 }

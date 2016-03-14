@@ -9,6 +9,7 @@ import java.util.Map;
 
 import data.PostPO;
 import data.PostTitleVO;
+import data.SearchPO;
 
 /**
  * 文章工具
@@ -18,9 +19,13 @@ public class PostTool {
     private final static String TAG = "Abletive";
 
     public static ArrayList<PostTitleVO> getPostTitle(PostPO postPO) throws IOException {
-        int numInPage = postPO.getCount();
+        return getPostTitle(postPO.toSearchPO());
+    }
+
+    public static ArrayList<PostTitleVO> getPostTitle(SearchPO searchPO) throws IOException {
+        int numInPage = searchPO.getCount();
         ArrayList<PostTitleVO> postTitleList = new ArrayList<PostTitleVO>();
-        ArrayList<HashMap<String, Object>> posts = postPO.getPosts();
+        ArrayList<HashMap<String, Object>> posts = searchPO.getPosts();
 
         for (int i = 0; i < numInPage; i++) {
             //获得文章对象
@@ -39,14 +44,6 @@ public class PostTool {
             String authorName = author.get("nickname");
 
             //文章缩略图
-
-//            String tempAvatar = author.get("avatar");
-//            if (tempAvatar.startsWith("<")) {
-//                Document document = Jsoup.parse(tempAvatar);
-//                Elements imageSrc = document.getElementsByAttribute("img");
-//                tempAvatar = imageSrc.text();
-//            }
-
             Bitmap thumb = null;
             //TODO 应该有类的对应，迭代二建立
             Map<String, Object> tempThumb = (Map<String, Object>) onePost.get("thumbnail_images");
@@ -55,7 +52,7 @@ public class PostTool {
             if (tempThumb != null) {
                 mediumThumb = (Map<String, String>) tempThumb.get("medium");
                 thumbUrl = mediumThumb.get("url");
-                thumb = new HttpImpl().getAvatar(thumbUrl);
+                thumb = new HttpImpl().getThumbnail(thumbUrl);
             }
 
             ArrayList<Map<String, String>> categoriesList = (ArrayList<Map<String, String>>) onePost.get("categories");
@@ -77,6 +74,6 @@ public class PostTool {
             postTitleList.add(postTitle);
         }
         return postTitleList;
-
     }
+
 }

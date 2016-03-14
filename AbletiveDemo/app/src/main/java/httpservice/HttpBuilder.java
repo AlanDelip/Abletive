@@ -13,7 +13,7 @@ public class HttpBuilder {
     }
 
     public HttpBuilder addParam(String key, String value) {
-        url += "?" + key + "=" + value;
+        url += key + "=" + value + "&";
         return this;
     }
 
@@ -22,11 +22,14 @@ public class HttpBuilder {
     }
 
     public HttpBuilder addField(String field) {
-        url += field + "/";
+        url += field + "/?";
         return this;
     }
 
     public String build() {
+        if (url.charAt(url.length() - 1) != '?') {
+            url = url.substring(0, url.length() - 1);
+        }
         return url;
     }
 

@@ -2,6 +2,7 @@ package httpservice;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import data.CategoryPO;
 import data.PostPO;
 import data.PostTitleVO;
+import data.SearchPO;
 import data.TagPO;
 
 /**
@@ -30,8 +32,12 @@ public class HttpImpl {
     private String webSite = "http://abletive.com/api/";
     private InputStream inputStream;
 
+    //TODO:逻辑层对界面的接口应该更加简洁
     public HttpImpl(String request, int page) {
-        webSite = new HttpBuilder(webSite).addField(request).addParam("page", page).build();
+        webSite = new HttpBuilder(webSite)
+                .addField(request)
+                .addParam(InternetAccess.PAGE.name().toLowerCase(), page)
+                .build();
     }
 
     public HttpImpl(String request) {
@@ -48,42 +54,50 @@ public class HttpImpl {
      */
     public ArrayList<PostTitleVO> getPostTitleList() {
 
-        processConnection(webSite);
+        if (processConnection(webSite)) {
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        try {
-            String content, result = "";
-            while ((content = bufferedReader.readLine()) != null) {
-                result += content;
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                String content, result = "";
+                while ((content = bufferedReader.readLine()) != null) {
+                    result += content;
+                }
+
+                PostPO postPO = null;
+                if (result.length() != 0) {
+                    postPO = JSONHandler.getPosts(result);
+                }
+
+                ArrayList<PostTitleVO> postTitleList = null;
+                if (postPO != null && postPO.getStatus().equals("ok")) {
+                    postTitleList = PostTool.getPostTitle(postPO);
+                }
+
+                return postTitleList;
+
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+                return null;
             }
-
-            PostPO postPO = null;
-            if (result.length() != 0) {
-                postPO = JSONHandler.getPosts(result);
-            }
-
-            ArrayList<PostTitleVO> postTitleList = null;
-            if (postPO != null && postPO.getStatus().equals("ok")) {
-                postTitleList = PostTool.getPostTitle(postPO);
-            }
-
-            return postTitleList;
-
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
+        } else {
             return null;
         }
+
     }
 
     /**
-     * 获得用户头像
+     * 获得文章简略图
      *
-     * @param avatarUrl 头像Url
-     * @return 用户头像Bitmap
+     * @param thumbnailUrl 简略图url
+     * @return 文章简略图
      */
-    public Bitmap getAvatar(String avatarUrl) {
-        processConnection(avatarUrl);
-        return BitmapFactory.decodeStream(inputStream);
+    public Bitmap getThumbnail(String thumbnailUrl) {
+
+        if (processConnection(thumbnailUrl)) {
+            return BitmapFactory.decodeStream(inputStream);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -93,61 +107,116 @@ public class HttpImpl {
      */
     public ArrayList<CategoryPO> getCategory() {
 
-        processConnection(webSite);
+        if (processConnection(webSite)) {
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        try {
-            String content, result = "";
-            while ((content = bufferedReader.readLine()) != null) {
-                result += content;
-            }
-
-            ArrayList<CategoryPO> categories = new ArrayList<CategoryPO>();
-            if (result.length() != 0) {
-                JSONObject categoryObject = new JSONObject(result);
-                JSONArray categoryArray = categoryObject.getJSONArray("categories");
-
-                for (int i = 0; i < categoryArray.length(); i++) {
-                    JSONObject jsonObject = categoryArray.getJSONObject(i);
-                    CategoryPO categoryPO = JSONHandler.getCategory(jsonObject.toString());
-                    categories.add(categoryPO);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                String content, result = "";
+                while ((content = bufferedReader.readLine()) != null) {
+                    result += content;
                 }
-            }
-            return categories;
 
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
+                ArrayList<CategoryPO> categories = new ArrayList<CategoryPO>();
+                if (result.length() != 0) {
+                    JSONObject categoryObject = new JSONObject(result);
+                    JSONArray categoryArray = categoryObject.getJSONArray("categories");
+
+                    for (int i = 0; i < categoryArray.length(); i++) {
+                        JSONObject jsonObject = categoryArray.getJSONObject(i);
+                        CategoryPO categoryPO = JSONHandler.getCategory(jsonObject.toString());
+                        categories.add(categoryPO);
+                    }
+                }
+                return categories;
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+
+    }
+
+    public ArrayList<TagPO> getTag() {
+        if (processConnection(webSite)) {
+
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                String content, result = "";
+                while ((content = bufferedReader.readLine()) != null) {
+                    result += content;
+                }
+
+                ArrayList<TagPO> tags = new ArrayList<TagPO>();
+                if (result.length() != 0) {
+                    JSONObject tagObject = new JSONObject(result);
+                    JSONArray tagArray = tagObject.getJSONArray("tags");
+
+                    for (int i = 0; i < tagArray.length(); i++) {
+                        JSONObject jsonObject = tagArray.getJSONObject(i);
+                        TagPO tagPO = JSONHandler.getTag(jsonObject.toString());
+                        tags.add(tagPO);
+                    }
+                }
+                return tags;
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
             return null;
         }
     }
 
-    public ArrayList<TagPO> getTag() {
-        processConnection(webSite);
+    /**
+     * 获得搜索的文章结果
+     *
+     * @param keyWord 搜索的关键字
+     * @param page    页码
+     * @return 文章列表
+     */
+    public ArrayList<PostTitleVO> getResultPosts(String keyWord, int page) {
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        try {
-            String content, result = "";
-            while ((content = bufferedReader.readLine()) != null) {
-                result += content;
-            }
+        webSite = new HttpBuilder(webSite)
+                .addParam(InternetAccess.SEARCH.name().toLowerCase(), keyWord)
+                .addParam(InternetAccess.PAGE.name().toLowerCase(), page)
+                .build();
 
-            ArrayList<TagPO> tags = new ArrayList<TagPO>();
-            if (result.length() != 0) {
-                JSONObject tagObject = new JSONObject(result);
-                JSONArray tagArray = tagObject.getJSONArray("tags");
+        Log.d(TAG, "getResultPosts: " + webSite);
 
-                for (int i = 0; i < tagArray.length(); i++) {
-                    JSONObject jsonObject = tagArray.getJSONObject(i);
-                    TagPO tagPO = JSONHandler.getTag(jsonObject.toString());
-                    tags.add(tagPO);
+        if (processConnection(webSite)) {
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                String content, result = "";
+                while ((content = bufferedReader.readLine()) != null) {
+                    result += content;
                 }
-            }
-            return tags;
 
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
+                SearchPO searchPO = null;
+                if (result.length() != 0) {
+                    searchPO = JSONHandler.getSearch(result);
+                }
+
+                ArrayList<PostTitleVO> postTitleList = null;
+                if (searchPO != null && searchPO.getStatus().equals("ok")) {
+                    postTitleList = PostTool.getPostTitle(searchPO);
+                }
+
+                return postTitleList;
+
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
             return null;
         }
+
     }
 
 
@@ -156,7 +225,7 @@ public class HttpImpl {
      *
      * @param site 连接的url String
      */
-    private void processConnection(String site) {
+    private boolean processConnection(String site) {
 
         HttpURLConnection httpURLConnection;
         try {
@@ -164,9 +233,11 @@ public class HttpImpl {
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setConnectTimeout(3000);
             inputStream = httpURLConnection.getInputStream();
+            return true;
 
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.github.clans.fab.FloatingActionButton;
@@ -48,15 +50,16 @@ public class MainFragment extends Fragment {
 
     private static int page = 2;
 
+    private static int searchPage = 1;
     /**
      * 文章列表内容
      */
     ArrayList<PostTitleVO> postTitleList;
-
     ListView mListView;
     PostTitleAdapter postTitleAdapter;
     MaterialRefreshLayout materialRefreshLayout;
-
+    private ListViewType listViewType;
+    private String currentQuery;
     private OnFragmentInteractionListener mListener;
 
     @Override
@@ -234,6 +237,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
                 //TODO 根据输入字符自动检索
+                currentQuery = mSearchView.getQuery();
             }
         });
 
@@ -242,24 +246,25 @@ public class MainFragment extends Fragment {
             @Override
             public void onActionMenuItemSelected(MenuItem item) {
                 if (item.getItemId() == R.id.action_search) {
-                    //TODO 搜索键点击事件处理
+                    //TODO 选择搜索作者、文章
                 }
             }
         });
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+                currentQuery = mSearchView.getQuery();
+            }
 
+            @Override
+            public void onSearchAction() {
+                Log.d(TAG, "onSearchAction: "+currentQuery);
+                new SearchTask().execute();
+            }
+        });
 
         mSearchView.setShowSearchKey(true);
     }
-
-    /**
-     * 搜索事件
-     *
-     * @param searchContent 搜索内容
-     */
-    private void search(String searchContent) {
-        //TODO 搜索关键字
-    }
-
 
     @Override
     public void onDestroyView() {
@@ -269,7 +274,7 @@ public class MainFragment extends Fragment {
     }
 
     private enum ListViewType {
-        MAIN, TAG, CATEGORY;
+        MAIN, TAG, CATEGORY, SEARCH;
     }
 
     /**
@@ -293,8 +298,8 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
+            progressDialog = WidgetTool.getDefaultDialog(getContext());
             if (isFirstLaunched) {
-                progressDialog = WidgetTool.getDefaultDialog(getContext());
                 progressDialog.show();
             }
         }
@@ -330,7 +335,11 @@ public class MainFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            addedPostTitleList = new HttpImpl(getString(R.string.get_posts), page).getPostTitleList();
+            if (listViewType == ListViewType.MAIN) {
+                addedPostTitleList = new HttpImpl(getString(R.string.get_posts), page).getPostTitleList();
+            } else if (listViewType == ListViewType.SEARCH) {
+                addedPostTitleList = new HttpImpl(getString(R.string.get_search_results)).getResultPosts(currentQuery, searchPage);
+            }
             return (addedPostTitleList != null && addedPostTitleList.size() != 0);
         }
 
@@ -368,6 +377,33 @@ public class MainFragment extends Fragment {
             if (tagList != null) {
                 TagTitleAdapter tagTitleAdapter = new TagTitleAdapter(getContext(), R.layout.tag_item, tagList);
                 mListView.setAdapter(tagTitleAdapter);
+            } else {
+                Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class SearchTask extends AsyncTask<Void, Void, ArrayList<PostTitleVO>> {
+        SweetAlertDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = WidgetTool.getDefaultDialog(getContext());
+            progressDialog.show();
+        }
+
+        @Override
+        protected ArrayList<PostTitleVO> doInBackground(Void... keyWord) {
+            return new HttpImpl(getString(R.string.get_search_results)).getResultPosts(currentQuery, searchPage);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<PostTitleVO> postTitleList) {
+            progressDialog.dismiss();
+            if (postTitleList != null) {
+                PostTitleAdapter searchPostAdapter = new PostTitleAdapter(getContext(), R.layout.post_title, postTitleList);
+                mListView.setAdapter(searchPostAdapter);
+                searchPage++;
             } else {
                 Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
             }
