@@ -1,17 +1,18 @@
 package fragment;
 
+import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,14 +24,17 @@ import com.cjj.MaterialRefreshListener;
 import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import alandelip.abletivedemo.R;
+import alandelip.abletivedemo.activity.SearchActivity;
 import alandelip.abletivedemo.activity.WebActivity;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import data.CategoryPO;
 import data.PostTitleVO;
 import data.TagPO;
 import httpservice.HttpImpl;
+import widget.CategoryAdapter;
 import widget.PostTitleAdapter;
 import widget.TagTitleAdapter;
 import widget.WidgetTool;
@@ -58,9 +62,9 @@ public class MainFragment extends Fragment {
     ListView mListView;
     PostTitleAdapter postTitleAdapter;
     MaterialRefreshLayout materialRefreshLayout;
-    private ListViewType listViewType;
+    private ListViewType listViewType = ListViewType.MAIN;
+    private SearchType searchType = SearchType.ALL;
     private String currentQuery;
-    private OnFragmentInteractionListener mListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -136,23 +140,38 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 new TagTask().execute();
-                setListViewListener(ListViewType.TAG);
                 Toast.makeText(getContext(), fab2.getLabelText(), Toast.LENGTH_SHORT).show();
                 fabMenu.close(true);
             }
         });
 
-        android.support.design.widget.FloatingActionButton searchFab =
-                (android.support.design.widget.FloatingActionButton) getView().findViewById(R.id.fab);
-        searchFab.setOnClickListener(new View.OnClickListener() {
+        final com.github.clans.fab.FloatingActionButton fab3 =
+                (FloatingActionButton) fabMenu.findViewById(R.id.fab3);
+        fab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FloatingSearchView mSearchView = (FloatingSearchView) getView().findViewById(R.id.floating_search_view);
-                if (mSearchView.getVisibility() == View.VISIBLE) {
-                    mSearchView.setVisibility(View.GONE);
-                } else {
-                    mSearchView.setVisibility(View.VISIBLE);
-                }
+                new CategoryTask().execute();
+                Toast.makeText(getContext(), fab3.getLabelText(), Toast.LENGTH_SHORT).show();
+                fabMenu.close(true);
+            }
+        });
+
+        final com.github.clans.fab.FloatingActionButton fab4 =
+                (FloatingActionButton) fabMenu.findViewById(R.id.fab4);
+        fab4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        String date = year + "-" + WidgetTool.amplify(monthOfYear);
+                    }
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+
+                Toast.makeText(getContext(), fab4.getLabelText(), Toast.LENGTH_SHORT).show();
+                fabMenu.close(true);
             }
         });
 
@@ -169,15 +188,21 @@ public class MainFragment extends Fragment {
         setListViewListener(ListViewType.MAIN);
     }
 
+    /**
+     * 当表格中内容改变时，修改监听方法
+     *
+     * @param listViewType 列表内容类型
+     */
     private void setListViewListener(ListViewType listViewType) {
 
         switch (listViewType) {
+            case SEARCH:
             case MAIN:
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         PostTitleVO postTitle = (PostTitleVO) parent.getItemAtPosition(position);
-                        WebActivity.actionStart(getContext(), postTitle.getUrl(), postTitle.getTitle());
+                        WebActivity.newInstance(getContext(), postTitle.getUrl(), postTitle.getTitle());
                     }
                 });
                 break;
@@ -186,8 +211,9 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         TagPO tag = (TagPO) parent.getItemAtPosition(position);
-                        //TODO 新建Activity，跳转至过滤后的文章列表界面
-                        Toast.makeText(getContext(), "TODO", Toast.LENGTH_SHORT).show();
+                        SearchActivity.newInstance(getContext()
+                                , ((TagPO) parent.getItemAtPosition(position)).getTitle()
+                                , ((TagPO) parent.getItemAtPosition(position)).getId());
                     }
                 });
                 break;
@@ -209,8 +235,8 @@ public class MainFragment extends Fragment {
      */
     private void initRefreshLayout() {
         materialRefreshLayout = (MaterialRefreshLayout) getView().findViewById(R.id.refresh);
-        materialRefreshLayout.setIsOverLay(false);
-        materialRefreshLayout.setWaveShow(true);
+        materialRefreshLayout.setIsOverLay(true);
+        materialRefreshLayout.setWaveShow(false);
         materialRefreshLayout.setLoadMore(true);
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
@@ -230,7 +256,24 @@ public class MainFragment extends Fragment {
      * 设置监听，搜索栏部件
      */
     private void initSearchView() {
+        //搜索按钮
+        android.support.design.widget.FloatingActionButton searchFab =
+                (android.support.design.widget.FloatingActionButton) getView().findViewById(R.id.fab);
+        searchFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FloatingSearchView mSearchView = (FloatingSearchView) getView().findViewById(R.id.floating_search_view);
+                if (mSearchView.getVisibility() == View.VISIBLE) {
+                    mSearchView.setVisibility(View.GONE);
+                } else {
+                    mSearchView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        //搜索框
         final FloatingSearchView mSearchView = (FloatingSearchView) getView().findViewById(R.id.floating_search_view);
+        mSearchView.setShowSearchKey(true);
 
         //<监听>根据输入的字符提前检索
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
@@ -243,27 +286,29 @@ public class MainFragment extends Fragment {
 
         //<监听>列表item的点击事件
         mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+
             @Override
             public void onActionMenuItemSelected(MenuItem item) {
-                if (item.getItemId() == R.id.action_search) {
-                    //TODO 选择搜索作者、文章
+                if (item.getItemId() == R.id.target_all) {
+                    searchType = SearchType.ALL;
+                } else if (item.getItemId() == R.id.target_author) {
+                    searchType = SearchType.AUTHOR;
+                } else {
+                    new SearchTask().execute(searchType);
                 }
             }
         });
         mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-                currentQuery = mSearchView.getQuery();
             }
 
             @Override
             public void onSearchAction() {
-                Log.d(TAG, "onSearchAction: "+currentQuery);
-                new SearchTask().execute();
+                new SearchTask().execute(searchType);
             }
         });
 
-        mSearchView.setShowSearchKey(true);
     }
 
     @Override
@@ -273,8 +318,18 @@ public class MainFragment extends Fragment {
         page = 2;
     }
 
+    /**
+     * 列表显示的内容类型枚举
+     */
     private enum ListViewType {
         MAIN, TAG, CATEGORY, SEARCH;
+    }
+
+    /**
+     * 搜索类型枚举
+     */
+    private enum SearchType {
+        AUTHOR, ALL;
     }
 
     /**
@@ -292,6 +347,9 @@ public class MainFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * 获得文章列表网络任务
+     */
     class PostTitleTask extends AsyncTask<Void, Void, Boolean> {
 
         SweetAlertDialog progressDialog;
@@ -312,44 +370,50 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean postCondition) {
+            progressDialog.dismiss();
+            materialRefreshLayout.finishRefresh();
             if (postCondition) {
                 if (isFirstLaunched) {
-                    progressDialog.dismiss();
                     isFirstLaunched = false;
-                } else {
-                    materialRefreshLayout.finishRefresh();
                 }
                 postTitleAdapter = new PostTitleAdapter(getContext(), R.layout.post_title, postTitleList);
                 mListView.setAdapter(postTitleAdapter);
+                page = 2;
             } else {
-                progressDialog.dismiss();
                 Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
                 isFirstLaunched = false;
             }
         }
     }
 
-    class PostNextPageTask extends AsyncTask<Void, Void, Boolean> {
-
-        ArrayList<PostTitleVO> addedPostTitleList;
+    class PostNextPageTask extends AsyncTask<Void, Void, ArrayList<PostTitleVO>> {
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected ArrayList<PostTitleVO> doInBackground(Void... params) {
+            ArrayList<PostTitleVO> addedPostTitleList = null;
             if (listViewType == ListViewType.MAIN) {
                 addedPostTitleList = new HttpImpl(getString(R.string.get_posts), page).getPostTitleList();
             } else if (listViewType == ListViewType.SEARCH) {
                 addedPostTitleList = new HttpImpl(getString(R.string.get_search_results)).getResultPosts(currentQuery, searchPage);
             }
-            return (addedPostTitleList != null && addedPostTitleList.size() != 0);
+            return addedPostTitleList;
         }
 
         @Override
-        protected void onPostExecute(Boolean postCondition) {
-            if (postCondition) {
-                materialRefreshLayout.finishRefreshLoadMore();
-                postTitleList.addAll(addedPostTitleList);
-                postTitleAdapter.notifyDataSetChanged();
-                page++;
+        protected void onPostExecute(ArrayList<PostTitleVO> addedList) {
+            materialRefreshLayout.finishRefreshLoadMore();
+            if (addedList != null) {
+                if (addedList.size() == 0) {
+                    Toast.makeText(getContext(), getString(R.string.reach_last), Toast.LENGTH_SHORT).show();
+                } else {
+                    postTitleList.addAll(addedList);
+                    postTitleAdapter.notifyDataSetChanged();
+                    if (listViewType == ListViewType.MAIN) {
+                        page++;
+                    } else if (listViewType == ListViewType.SEARCH) {
+                        searchPage++;
+                    }
+                }
             } else {
                 Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
             }
@@ -377,13 +441,16 @@ public class MainFragment extends Fragment {
             if (tagList != null) {
                 TagTitleAdapter tagTitleAdapter = new TagTitleAdapter(getContext(), R.layout.tag_item, tagList);
                 mListView.setAdapter(tagTitleAdapter);
+
+                setListViewListener(ListViewType.TAG);
             } else {
                 Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    class SearchTask extends AsyncTask<Void, Void, ArrayList<PostTitleVO>> {
+    class CategoryTask extends AsyncTask<Void, Void, ArrayList<CategoryPO>> {
+
         SweetAlertDialog progressDialog;
 
         @Override
@@ -393,8 +460,42 @@ public class MainFragment extends Fragment {
         }
 
         @Override
-        protected ArrayList<PostTitleVO> doInBackground(Void... keyWord) {
-            return new HttpImpl(getString(R.string.get_search_results)).getResultPosts(currentQuery, searchPage);
+        protected ArrayList<CategoryPO> doInBackground(Void... params) {
+            return new HttpImpl(getString(R.string.get_category_index)).getCategory();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CategoryPO> categoryList) {
+            progressDialog.dismiss();
+            if (categoryList != null) {
+                CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), R.layout.tag_item, categoryList);
+                mListView.setAdapter(categoryAdapter);
+
+                setListViewListener(ListViewType.CATEGORY);
+            } else {
+                Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class SearchTask extends AsyncTask<SearchType, Void, ArrayList<PostTitleVO>> {
+        SweetAlertDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = WidgetTool.getDefaultDialog(getContext());
+            progressDialog.show();
+        }
+
+        @Override
+        protected ArrayList<PostTitleVO> doInBackground(SearchType... searchType) {
+            if (searchType[0] == SearchType.ALL) {
+                return new HttpImpl(getString(R.string.get_search_results)).getResultPosts(currentQuery, searchPage);
+            } else if (searchType[0] == SearchType.AUTHOR) {
+                return new HttpImpl(getString(R.string.get_author_posts)).getResultPosts(currentQuery, searchPage);
+            } else {
+                return null;
+            }
         }
 
         @Override
@@ -403,10 +504,13 @@ public class MainFragment extends Fragment {
             if (postTitleList != null) {
                 PostTitleAdapter searchPostAdapter = new PostTitleAdapter(getContext(), R.layout.post_title, postTitleList);
                 mListView.setAdapter(searchPostAdapter);
+
+                listViewType = ListViewType.SEARCH;
                 searchPage++;
             } else {
                 Toast.makeText(getContext(), getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 }

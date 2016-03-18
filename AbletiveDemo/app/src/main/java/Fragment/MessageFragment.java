@@ -74,7 +74,8 @@ public class MessageFragment extends Fragment {
         super.onResume();
 
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
+        toolbar.setNavigationIcon(R.drawable.launch_logo);
+        toolbar.setTitle(getString(R.string.title_activity_message));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 

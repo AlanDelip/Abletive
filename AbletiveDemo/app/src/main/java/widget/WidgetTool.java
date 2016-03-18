@@ -25,4 +25,15 @@ public class WidgetTool {
         progressDialog.setCancelable(true);
         return progressDialog;
     }
+
+    public static String amplify(int date) {
+        return amplify(date + "");
+    }
+
+    public static String amplify(String date) {
+        if (date.length() == 1) {
+            date = "0" + date;
+        }
+        return date;
+    }
 }

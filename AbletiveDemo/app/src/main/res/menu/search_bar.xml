@@ -8,5 +8,18 @@
         android:icon="@drawable/ic_menu_send"
         android:orderInCategory="1"
         android:title="@string/search_icon"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/target_all"
+        android:icon="@drawable/ic_menu_share"
+        android:orderInCategory="2"
+        android:title="@string/all_icon"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/target_author"
+        android:icon="@drawable/ic_menu_share"
+        android:orderInCategory="3"
+        android:title="@string/author_icon"
+        app:showAsAction="never" />
+
 </menu>

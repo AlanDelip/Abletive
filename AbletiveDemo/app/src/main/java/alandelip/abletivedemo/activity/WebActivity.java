@@ -3,6 +3,7 @@ package alandelip.abletivedemo.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ public class WebActivity extends AppCompatActivity {
      * @param context 启动活动的上下文
      * @param url     文章网址
      */
-    public static void actionStart(Context context, String url, String title) {
+    public static void newInstance(Context context, String url, String title) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("url", url);
         intent.putExtra("title", title);
@@ -84,5 +85,10 @@ public class WebActivity extends AppCompatActivity {
             super.onBackPressed();
             overridePendingTransition(R.anim.in_from_top, R.anim.out_to_bottom);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

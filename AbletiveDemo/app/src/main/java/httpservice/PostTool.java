@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import data.PostPO;
+import data.PostTitlePO;
 import data.PostTitleVO;
-import data.SearchPO;
 
 /**
  * 文章工具
@@ -18,14 +17,10 @@ import data.SearchPO;
 public class PostTool {
     private final static String TAG = "Abletive";
 
-    public static ArrayList<PostTitleVO> getPostTitle(PostPO postPO) throws IOException {
-        return getPostTitle(postPO.toSearchPO());
-    }
-
-    public static ArrayList<PostTitleVO> getPostTitle(SearchPO searchPO) throws IOException {
-        int numInPage = searchPO.getCount();
+    public static ArrayList<PostTitleVO> getPostTitle(PostTitlePO postTitlePO) throws IOException {
+        int numInPage = postTitlePO.getCount();
         ArrayList<PostTitleVO> postTitleList = new ArrayList<PostTitleVO>();
-        ArrayList<HashMap<String, Object>> posts = searchPO.getPosts();
+        ArrayList<HashMap<String, Object>> posts = postTitlePO.getPosts();
 
         for (int i = 0; i < numInPage; i++) {
             //获得文章对象

@@ -62,4 +62,8 @@ public class SearchPO {
     public void setPosts(ArrayList<HashMap<String, Object>> posts) {
         this.posts = posts;
     }
+
+    public PostTitlePO toPostTitlePO() {
+        return new PostTitlePO(count, posts);
+    }
 }

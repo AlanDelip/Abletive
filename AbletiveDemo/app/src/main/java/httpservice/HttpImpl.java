@@ -2,13 +2,13 @@ package httpservice;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +21,7 @@ import data.PostPO;
 import data.PostTitleVO;
 import data.SearchPO;
 import data.TagPO;
+import data.TagPostPO;
 
 /**
  * 负责网络传输的类
@@ -31,6 +32,7 @@ public class HttpImpl {
     //TODO 网址放入properties文件
     private String webSite = "http://abletive.com/api/";
     private InputStream inputStream;
+    private HttpURLConnection httpURLConnection;
 
     //TODO:逻辑层对界面的接口应该更加简洁
     public HttpImpl(String request, int page) {
@@ -70,7 +72,7 @@ public class HttpImpl {
 
                 ArrayList<PostTitleVO> postTitleList = null;
                 if (postPO != null && postPO.getStatus().equals("ok")) {
-                    postTitleList = PostTool.getPostTitle(postPO);
+                    postTitleList = PostTool.getPostTitle(postPO.toPostTitlePO());
                 }
 
                 return postTitleList;
@@ -82,7 +84,6 @@ public class HttpImpl {
         } else {
             return null;
         }
-
     }
 
     /**
@@ -92,12 +93,11 @@ public class HttpImpl {
      * @return 文章简略图
      */
     public Bitmap getThumbnail(String thumbnailUrl) {
-
+        Bitmap thumb = null;
         if (processConnection(thumbnailUrl)) {
-            return BitmapFactory.decodeStream(inputStream);
-        } else {
-            return null;
+            thumb = BitmapFactory.decodeStream(inputStream);
         }
+        return thumb;
     }
 
     /**
@@ -106,7 +106,7 @@ public class HttpImpl {
      * @return 文章类型列表
      */
     public ArrayList<CategoryPO> getCategory() {
-
+        ArrayList<CategoryPO> categories = new ArrayList<CategoryPO>();
         if (processConnection(webSite)) {
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -116,7 +116,6 @@ public class HttpImpl {
                     result += content;
                 }
 
-                ArrayList<CategoryPO> categories = new ArrayList<CategoryPO>();
                 if (result.length() != 0) {
                     JSONObject categoryObject = new JSONObject(result);
                     JSONArray categoryArray = categoryObject.getJSONArray("categories");
@@ -131,17 +130,22 @@ public class HttpImpl {
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
-                return null;
+            } finally {
+                closeConn();
+                try {
+                    closeStream(bufferedReader);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } else {
-            return null;
         }
+        return categories;
 
     }
 
     public ArrayList<TagPO> getTag() {
+        ArrayList<TagPO> tags = new ArrayList<TagPO>();
         if (processConnection(webSite)) {
-
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             try {
@@ -150,7 +154,7 @@ public class HttpImpl {
                     result += content;
                 }
 
-                ArrayList<TagPO> tags = new ArrayList<TagPO>();
+
                 if (result.length() != 0) {
                     JSONObject tagObject = new JSONObject(result);
                     JSONArray tagArray = tagObject.getJSONArray("tags");
@@ -165,11 +169,16 @@ public class HttpImpl {
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
-                return null;
+            } finally {
+                closeConn();
+                try {
+                    closeStream(bufferedReader);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } else {
-            return null;
         }
+        return tags;
     }
 
     /**
@@ -186,10 +195,12 @@ public class HttpImpl {
                 .addParam(InternetAccess.PAGE.name().toLowerCase(), page)
                 .build();
 
-        Log.d(TAG, "getResultPosts: " + webSite);
+        return getResultPosts();
+    }
 
+    public ArrayList<PostTitleVO> getResultPosts() {
+        ArrayList<PostTitleVO> postTitleList = null;
         if (processConnection(webSite)) {
-
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             try {
                 String content, result = "";
@@ -202,9 +213,58 @@ public class HttpImpl {
                     searchPO = JSONHandler.getSearch(result);
                 }
 
-                ArrayList<PostTitleVO> postTitleList = null;
                 if (searchPO != null && searchPO.getStatus().equals("ok")) {
-                    postTitleList = PostTool.getPostTitle(searchPO);
+                    postTitleList = PostTool.getPostTitle(searchPO.toPostTitlePO());
+                }
+                return postTitleList;
+
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            } finally {
+                closeConn();
+                try {
+                    closeStream(bufferedReader);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return postTitleList;
+    }
+
+
+    //TODO 这几个方法需要进行封装
+
+    /**
+     * 服务于SearchActivity
+     *
+     * @param id   tag的唯一id
+     * @param page 页码
+     * @return 该tag下所有的文章列表
+     */
+    public ArrayList<PostTitleVO> getTagPost(int id, int page) {
+        webSite = new HttpBuilder(webSite)
+                .addParam("id", id)
+                .addParam("page", page)
+                .build();
+
+        ArrayList<PostTitleVO> postTitleList = null;
+        if (processConnection(webSite)) {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            try {
+                String content, result = "";
+                while ((content = bufferedReader.readLine()) != null) {
+                    result += content;
+                }
+
+                TagPostPO tagPost = null;
+                if (result.length() != 0) {
+                    tagPost = JSONHandler.getTagPost(result);
+                }
+
+
+                if (tagPost != null && tagPost.getStatus().equals("ok")) {
+                    postTitleList = PostTool.getPostTitle(tagPost.toPostTitlePO());
                 }
 
                 return postTitleList;
@@ -212,11 +272,30 @@ public class HttpImpl {
             } catch (java.io.IOException e) {
                 e.printStackTrace();
                 return null;
+            } finally {
+                closeConn();
+                try {
+                    closeStream(bufferedReader);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } else {
-            return null;
         }
+        return postTitleList;
+    }
 
+    /**
+     * @param date 日期YYYY-MM
+     * @param page 页码
+     * @return 文章标题列表
+     */
+    public ArrayList<PostTitleVO> getDatePost(String date, int page) {
+        webSite = new HttpBuilder(webSite)
+                .addParam("date", date)
+                .addParam("page", page)
+                .build();
+
+        return getResultPosts();
     }
 
 
@@ -225,9 +304,9 @@ public class HttpImpl {
      *
      * @param site 连接的url String
      */
+
     private boolean processConnection(String site) {
 
-        HttpURLConnection httpURLConnection;
         try {
             URL url = new URL(site);
             httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -238,6 +317,16 @@ public class HttpImpl {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void closeConn() {
+        httpURLConnection.disconnect();
+    }
+
+    private void closeStream(Closeable stream) throws IOException {
+        if (stream != null) {
+            stream.close();
         }
     }
 }

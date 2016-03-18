@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_menu_search"
-        app:backgroundTint="#4a4948"
+        app:backgroundTint="#37b6d9"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
@@ -77,11 +77,21 @@
         app:menu_colorPressed="#8e8d8c">
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_share"
+            app:fab_colorNormal="#56c2eb"
+            app:fab_colorPressed="#b0a2a1"
+            app:fab_label="@string/time"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#685857"
+            app:fab_colorNormal="#47a2c5"
             app:fab_colorPressed="#b0a2a1"
             app:fab_label="@string/category"
             app:fab_size="mini" />
@@ -91,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#685857"
+            app:fab_colorNormal="#377f9a"
             app:fab_colorPressed="#b0a2a1"
             app:fab_label="@string/tag"
             app:fab_size="mini" />
@@ -101,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#685857"
+            app:fab_colorNormal="#275b6f"
             app:fab_colorPressed="#b0a2a1"
             app:fab_label="@string/all"
             app:fab_size="mini" />

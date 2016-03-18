@@ -41,7 +41,7 @@ public class CategoryAdapter extends ArrayAdapter<CategoryPO> {
         tagDescription.setText(categoryPO.getDescription());
 
         TextView postNum = (TextView) view.findViewById(R.id.post_num);
-        postNum.setText(categoryPO.getPostCount());
+        postNum.setText(categoryPO.getPostCount() + "");
 
         return view;
 

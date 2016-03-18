@@ -1,13 +1,12 @@
 package httpservice;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import data.CategoryPO;
 import data.PostPO;
 import data.SearchPO;
 import data.TagPO;
+import data.TagPostPO;
 
 /**
  * Created by Alan on 2016/3/7.
@@ -30,8 +29,12 @@ public class JSONHandler {
     }
 
     public static SearchPO getSearch(String searchJSONString) {
-        Log.d("Abletive", "getSearch: "+searchJSONString);
         Gson gson = new Gson();
         return gson.fromJson(searchJSONString, SearchPO.class);
+    }
+
+    public static TagPostPO getTagPost(String tagPostJSONString) {
+        Gson gson = new Gson();
+        return gson.fromJson(tagPostJSONString, TagPostPO.class);
     }
 }

@@ -11,9 +11,12 @@
     <string name="all">全部</string>
     <string name="tag">标签</string>
     <string name="category">类别</string>
+    <string name="time">时间</string>
 
     <!--Search bar-->
     <string name="search_icon">search</string>
+    <string name="author_icon">author</string>
+    <string name="all_icon">all</string>
 
     <!--Message-->
     <string name="title_activity_message">消息</string>
@@ -29,6 +32,7 @@
 
     <!--Internet Handle-->
     <string name="internet_failure">连接失败</string>
+    <string name="reach_last">已经加载完</string>
 
     <!--Internet Request-->
     <string name="get_posts">get_posts</string>
