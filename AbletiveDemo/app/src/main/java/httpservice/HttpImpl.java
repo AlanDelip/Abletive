@@ -56,6 +56,8 @@ public class HttpImpl {
      */
     public ArrayList<PostTitleVO> getPostTitleList() {
 
+        webSite = new HttpBuilder(webSite).addParam("count", 7).build();
+
         if (processConnection(webSite)) {
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));

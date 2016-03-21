@@ -1,12 +1,15 @@
 package httpservice;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import alandelip.abletivedemo.R;
+import data.MApplication;
 import data.PostTitlePO;
 import data.PostTitleVO;
 
@@ -39,7 +42,7 @@ public class PostTool {
             String authorName = author.get("nickname");
 
             //文章缩略图
-            Bitmap thumb = null;
+            Bitmap thumb = BitmapFactory.decodeResource(MApplication.getContext().getResources(), R.drawable.thumbnail_sample);
             //TODO 应该有类的对应，迭代二建立
             Map<String, Object> tempThumb = (Map<String, Object>) onePost.get("thumbnail_images");
             Map<String, String> mediumThumb = null;

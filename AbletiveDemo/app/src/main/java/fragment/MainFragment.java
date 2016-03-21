@@ -235,13 +235,12 @@ public class MainFragment extends Fragment {
      */
     private void initRefreshLayout() {
         materialRefreshLayout = (MaterialRefreshLayout) getView().findViewById(R.id.refresh);
-        materialRefreshLayout.setIsOverLay(true);
-        materialRefreshLayout.setWaveShow(false);
         materialRefreshLayout.setLoadMore(true);
+        View view = View.inflate(getContext(), R.layout.tab_item_view, null);
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                new PostTitleTask().execute();
+//                new PostTitleTask().execute();
             }
 
             @Override

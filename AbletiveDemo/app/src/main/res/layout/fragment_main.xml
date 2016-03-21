@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_menu_search"
-        app:backgroundTint="#37b6d9"
+        app:backgroundTint="#cfcfcf"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
@@ -73,15 +73,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:menu_colorNormal="#4a4948"
-        app:menu_colorPressed="#8e8d8c">
+        app:menu_colorNormal="#cfcfcf"
+        app:menu_colorPressed="#e8e7e7">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#56c2eb"
+            app:fab_colorNormal="#73d9ff"
             app:fab_colorPressed="#b0a2a1"
             app:fab_label="@string/time"
             app:fab_size="mini" />
@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#47a2c5"
+            app:fab_colorNormal="#52b9e0"
             app:fab_colorPressed="#b0a2a1"
             app:fab_label="@string/category"
             app:fab_size="mini" />
@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#377f9a"
+            app:fab_colorNormal="#46a1c4"
             app:fab_colorPressed="#b0a2a1"
             app:fab_label="@string/tag"
             app:fab_size="mini" />
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#275b6f"
+            app:fab_colorNormal="#3986a4"
             app:fab_colorPressed="#b0a2a1"
             app:fab_label="@string/all"
             app:fab_size="mini" />

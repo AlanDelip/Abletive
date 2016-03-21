@@ -14,4 +14,9 @@ public class MApplication extends Application {
         return context;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = getApplicationContext();
+    }
 }

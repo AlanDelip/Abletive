@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void initTabHost() {
 
         mLayoutInflater = LayoutInflater.from(this);
-        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        final FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         // 得到fragment的个数
         int count = mFragmentArray.length;

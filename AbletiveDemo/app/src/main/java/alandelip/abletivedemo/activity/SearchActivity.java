@@ -36,14 +36,14 @@ public class SearchActivity extends AppCompatActivity {
         intent.putExtra("keyWord", keyWord);
         intent.putExtra("id", id);
         context.startActivity(intent);
-        ((Activity) context).overridePendingTransition(R.anim.popup_enter, R.anim.out_to_top);
+        ((Activity) context).overridePendingTransition(R.anim.in_from_bottom, R.anim.out_to_top);
     }
 
     public static void newInstance(Context context, String date) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra("date", date);
         context.startActivity(intent);
-        ((Activity) context).overridePendingTransition(R.anim.popup_enter, R.anim.out_to_top);
+        ((Activity) context).overridePendingTransition(R.anim.in_from_bottom, R.anim.out_to_top);
     }
 
     @Override
