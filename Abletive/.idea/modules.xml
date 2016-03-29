@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AbletiveDemo.iml" filepath="$PROJECT_DIR$/AbletiveDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Abletive.iml" filepath="$PROJECT_DIR$/Abletive.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
