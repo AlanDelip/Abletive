@@ -11,7 +11,7 @@ import java.util.Map;
 import alandelip.abletivedemo.R;
 import abletive.presentation.uiutil.MApplication;
 import abletive.po.PostTitlePO;
-import abletive.vo.PostTitleVO;
+import abletive.vo.PostListVO;
 
 /**
  * 文章工具
@@ -20,9 +20,9 @@ import abletive.vo.PostTitleVO;
 public class PostTool {
     private final static String TAG = "Abletive";
 
-    public static ArrayList<PostTitleVO> getPostTitle(PostTitlePO postTitlePO) throws IOException {
+    public static ArrayList<PostListVO> getPostTitle(PostTitlePO postTitlePO) throws IOException {
         int numInPage = postTitlePO.getCount();
-        ArrayList<PostTitleVO> postTitleList = new ArrayList<PostTitleVO>();
+        ArrayList<PostListVO> postTitleList = new ArrayList<PostListVO>();
         ArrayList<HashMap<String, Object>> posts = postTitlePO.getPosts();
 
         for (int i = 0; i < numInPage; i++) {
@@ -68,7 +68,7 @@ public class PostTool {
             //url
             String url = (String) onePost.get("url");
 
-            PostTitleVO postTitle = new PostTitleVO(title, authorName, thumb, firstCategory, date, views, comments, url);
+            PostListVO postTitle = new PostListVO(title, authorName, thumb, firstCategory, date, views, comments, url);
             postTitleList.add(postTitle);
         }
         return postTitleList;

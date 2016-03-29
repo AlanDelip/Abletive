@@ -18,16 +18,18 @@ import java.util.ArrayList;
 
 import abletive.businesslogic.blutil.HttpBuilder;
 import abletive.businesslogic.blutil.InternetAccess;
+import abletive.businesslogic.blutil.JSONHandler;
 import abletive.po.CategoryPO;
 import abletive.po.PostPO;
-import abletive.vo.PostTitleVO;
 import abletive.po.SearchPO;
 import abletive.po.TagPO;
 import abletive.po.TagPostPO;
+import abletive.vo.PostListVO;
 
 /**
  * 负责网络传输的类
- * Created by Alan on 2016/3/7.
+ *
+ * @author Alan
  */
 public class HttpImpl {
     private static final String TAG = "Abletive";
@@ -56,7 +58,7 @@ public class HttpImpl {
      *
      * @return 文章列表数组
      */
-    public ArrayList<PostTitleVO> getPostTitleList() {
+    public ArrayList<PostListVO> getPostTitleList() {
 
         webSite = new HttpBuilder(webSite).addParam("count", 7).build();
 
@@ -74,7 +76,7 @@ public class HttpImpl {
                     postPO = JSONHandler.getPosts(result);
                 }
 
-                ArrayList<PostTitleVO> postTitleList = null;
+                ArrayList<PostListVO> postTitleList = null;
                 if (postPO != null && postPO.getStatus().equals("ok")) {
                     postTitleList = PostTool.getPostTitle(postPO.toPostTitlePO());
                 }
@@ -192,7 +194,7 @@ public class HttpImpl {
      * @param page    页码
      * @return 文章列表
      */
-    public ArrayList<PostTitleVO> getResultPosts(String keyWord, int page) {
+    public ArrayList<PostListVO> getResultPosts(String keyWord, int page) {
 
         webSite = new HttpBuilder(webSite)
                 .addParam(InternetAccess.SEARCH.name().toLowerCase(), keyWord)
@@ -202,8 +204,8 @@ public class HttpImpl {
         return getResultPosts();
     }
 
-    public ArrayList<PostTitleVO> getResultPosts() {
-        ArrayList<PostTitleVO> postTitleList = null;
+    public ArrayList<PostListVO> getResultPosts() {
+        ArrayList<PostListVO> postTitleList = null;
         if (processConnection(webSite)) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             try {
@@ -246,13 +248,13 @@ public class HttpImpl {
      * @param page 页码
      * @return 该tag下所有的文章列表
      */
-    public ArrayList<PostTitleVO> getTagPost(int id, int page) {
+    public ArrayList<PostListVO> getTagPost(int id, int page) {
         webSite = new HttpBuilder(webSite)
                 .addParam("id", id)
                 .addParam("page", page)
                 .build();
 
-        ArrayList<PostTitleVO> postTitleList = null;
+        ArrayList<PostListVO> postTitleList = null;
         if (processConnection(webSite)) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             try {
@@ -293,7 +295,7 @@ public class HttpImpl {
      * @param page 页码
      * @return 文章标题列表
      */
-    public ArrayList<PostTitleVO> getDatePost(String date, int page) {
+    public ArrayList<PostListVO> getDatePost(String date, int page) {
         webSite = new HttpBuilder(webSite)
                 .addParam("date", date)
                 .addParam("page", page)

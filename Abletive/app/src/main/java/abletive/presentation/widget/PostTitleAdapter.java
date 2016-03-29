@@ -11,23 +11,23 @@ import android.widget.TextView;
 import java.util.List;
 
 import alandelip.abletivedemo.R;
-import abletive.vo.PostTitleVO;
+import abletive.vo.PostListVO;
 
 /**
  * 文章标题列表适配器
  * Created by Alan on 2016/3/7.
  */
-public class PostTitleAdapter extends ArrayAdapter<PostTitleVO> {
+public class PostTitleAdapter extends ArrayAdapter<PostListVO> {
     int resourceID;
 
-    public PostTitleAdapter(Context context, int resource, List<PostTitleVO> objects) {
+    public PostTitleAdapter(Context context, int resource, List<PostListVO> objects) {
         super(context, resource, objects);
         resourceID = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        PostTitleVO postTitle = getItem(position);
+        PostListVO postTitle = getItem(position);
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceID, null);

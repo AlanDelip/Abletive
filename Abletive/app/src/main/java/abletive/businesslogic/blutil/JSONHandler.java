@@ -1,4 +1,4 @@
-package httpservice;
+package abletive.businesslogic.blutil;
 
 import com.google.gson.Gson;
 
@@ -9,7 +9,9 @@ import abletive.po.TagPO;
 import abletive.po.TagPostPO;
 
 /**
- * Created by Alan on 2016/3/7.
+ * JSON字符串处理逻辑
+ *
+ * @author Alan
  */
 public class JSONHandler {
 

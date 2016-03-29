@@ -2,7 +2,9 @@ package abletive.businesslogic.blutil;
 
 /**
  * 用于URLConnection添加Parameter的工具类，弥补部分Apache包不能用的缺陷
- * Created by Alan on 2016/3/12.
+ *
+ * @author Alan
+ * @version 1.1
  */
 public class HttpBuilder {
 

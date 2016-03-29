@@ -31,7 +31,7 @@ import abletive.presentation.activity.SearchActivity;
 import abletive.presentation.activity.WebActivity;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import abletive.po.CategoryPO;
-import abletive.vo.PostTitleVO;
+import abletive.vo.PostListVO;
 import abletive.po.TagPO;
 import httpservice.HttpImpl;
 import abletive.presentation.widget.CategoryAdapter;
@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
     /**
      * 文章列表内容
      */
-    ArrayList<PostTitleVO> postTitleList;
+    ArrayList<PostListVO> postTitleList;
     ListView mListView;
     PostTitleAdapter postTitleAdapter;
     MaterialRefreshLayout materialRefreshLayout;
@@ -201,7 +201,7 @@ public class MainFragment extends Fragment {
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        PostTitleVO postTitle = (PostTitleVO) parent.getItemAtPosition(position);
+                        PostListVO postTitle = (PostListVO) parent.getItemAtPosition(position);
                         WebActivity.newInstance(getContext(), postTitle.getUrl(), postTitle.getTitle());
                     }
                 });
@@ -385,11 +385,11 @@ public class MainFragment extends Fragment {
         }
     }
 
-    class PostNextPageTask extends AsyncTask<Void, Void, ArrayList<PostTitleVO>> {
+    class PostNextPageTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
 
         @Override
-        protected ArrayList<PostTitleVO> doInBackground(Void... params) {
-            ArrayList<PostTitleVO> addedPostTitleList = null;
+        protected ArrayList<PostListVO> doInBackground(Void... params) {
+            ArrayList<PostListVO> addedPostTitleList = null;
             if (listViewType == ListViewType.MAIN) {
                 addedPostTitleList = new HttpImpl(getString(R.string.get_posts), page).getPostTitleList();
             } else if (listViewType == ListViewType.SEARCH) {
@@ -399,7 +399,7 @@ public class MainFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<PostTitleVO> addedList) {
+        protected void onPostExecute(ArrayList<PostListVO> addedList) {
             materialRefreshLayout.finishRefreshLoadMore();
             if (addedList != null) {
                 if (addedList.size() == 0) {
@@ -477,7 +477,7 @@ public class MainFragment extends Fragment {
         }
     }
 
-    class SearchTask extends AsyncTask<SearchType, Void, ArrayList<PostTitleVO>> {
+    class SearchTask extends AsyncTask<SearchType, Void, ArrayList<PostListVO>> {
         SweetAlertDialog progressDialog;
 
         @Override
@@ -487,7 +487,7 @@ public class MainFragment extends Fragment {
         }
 
         @Override
-        protected ArrayList<PostTitleVO> doInBackground(SearchType... searchType) {
+        protected ArrayList<PostListVO> doInBackground(SearchType... searchType) {
             if (searchType[0] == SearchType.ALL) {
                 return new HttpImpl(getString(R.string.get_search_results)).getResultPosts(currentQuery, searchPage);
             } else if (searchType[0] == SearchType.AUTHOR) {
@@ -498,7 +498,7 @@ public class MainFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<PostTitleVO> postTitleList) {
+        protected void onPostExecute(ArrayList<PostListVO> postTitleList) {
             progressDialog.dismiss();
             if (postTitleList != null) {
                 PostTitleAdapter searchPostAdapter = new PostTitleAdapter(getContext(), R.layout.post_title, postTitleList);

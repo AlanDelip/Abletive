@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import alandelip.abletivedemo.R;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import abletive.vo.PostTitleVO;
+import abletive.vo.PostListVO;
 import httpservice.HttpImpl;
 import abletive.presentation.widget.PostTitleAdapter;
 import abletive.presentation.uiutil.WidgetTool;
@@ -29,7 +29,7 @@ public class SearchActivity extends AppCompatActivity {
     private int id;
     private PostTitleAdapter postTitleAdapter;
     private ListView mListView;
-    private ArrayList<PostTitleVO> postList = new ArrayList<PostTitleVO>();
+    private ArrayList<PostListVO> postList = new ArrayList<PostListVO>();
 
     public static void newInstance(Context context, String keyWord, int id) {
         Intent intent = new Intent(context, SearchActivity.class);
@@ -72,7 +72,7 @@ public class SearchActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PostTitleVO postTitle = (PostTitleVO) parent.getItemAtPosition(position);
+                PostListVO postTitle = (PostListVO) parent.getItemAtPosition(position);
                 WebActivity.newInstance(SearchActivity.this, postTitle.getUrl(), postTitle.getTitle());
             }
         });
@@ -89,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
         page = 1;
     }
 
-    class InitTask extends AsyncTask<Void, Void, ArrayList<PostTitleVO>> {
+    class InitTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
 
         SweetAlertDialog progressDialog;
 
@@ -100,12 +100,12 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<PostTitleVO> doInBackground(Void... params) {
+        protected ArrayList<PostListVO> doInBackground(Void... params) {
             return new HttpImpl(getString(R.string.get_tag_posts)).getTagPost(id, 1);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<PostTitleVO> tagPostList) {
+        protected void onPostExecute(ArrayList<PostListVO> tagPostList) {
             progressDialog.dismiss();
             if (tagPostList != null) {
                 postList = tagPostList;
@@ -117,7 +117,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    class NextPageTask extends AsyncTask<Void, Void, ArrayList<PostTitleVO>> {
+    class NextPageTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
 
         @Override
         protected void onPreExecute() {
@@ -125,12 +125,12 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<PostTitleVO> doInBackground(Void... params) {
+        protected ArrayList<PostListVO> doInBackground(Void... params) {
             return new HttpImpl(getString(R.string.get_category_posts)).getTagPost(id, page);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<PostTitleVO> postTitleList) {
+        protected void onPostExecute(ArrayList<PostListVO> postTitleList) {
             if (postTitleList != null) {
                 if (postTitleList.size() == 0) {
                     Toast.makeText(SearchActivity.this, getString(R.string.reach_last), Toast.LENGTH_SHORT).show();
@@ -145,7 +145,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    class DatePostTask extends AsyncTask<Void, Void, ArrayList<PostTitleVO>> {
+    class DatePostTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
         SweetAlertDialog progressDialog;
 
         @Override
@@ -155,12 +155,12 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<PostTitleVO> doInBackground(Void... post) {
+        protected ArrayList<PostListVO> doInBackground(Void... post) {
             return new HttpImpl(getString(R.string.get_date_posts)).getDatePost(date, 1);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<PostTitleVO> postTitleList) {
+        protected void onPostExecute(ArrayList<PostListVO> postTitleList) {
             if (postTitleList != null) {
 
             }

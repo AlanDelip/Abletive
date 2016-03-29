@@ -3,10 +3,11 @@ package abletive.vo;
 import android.graphics.Bitmap;
 
 /**
- * 标题
- * Created by Alan on 2016/3/7.
+ * 文章标题
+ *
+ * @author Alan
  */
-public class PostTitleVO {
+public class PostListVO {
     String title;
     String author;
     Bitmap thumb;
@@ -26,7 +27,7 @@ public class PostTitleVO {
      * @param comments 评论数
      * @param url      url地址
      */
-    public PostTitleVO(String title, String author, Bitmap thumb, String category, String time, String views, int comments, String url) {
+    public PostListVO(String title, String author, Bitmap thumb, String category, String time, String views, int comments, String url) {
         this.title = title;
         this.author = author;
         this.thumb = thumb;
