@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.MainActivity"
+    tools:context="abletive.presentation.activity.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <com.cjj.MaterialRefreshLayout
@@ -15,7 +15,7 @@
         app:overlay="false"
         app:wave_show="false">
 
-        <widget.MListView
+        <abletive.presentation.widget.MListView
             android:id="@+id/posts_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

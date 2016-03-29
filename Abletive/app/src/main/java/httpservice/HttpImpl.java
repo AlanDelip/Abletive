@@ -16,12 +16,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import data.CategoryPO;
-import data.PostPO;
-import data.PostTitleVO;
-import data.SearchPO;
-import data.TagPO;
-import data.TagPostPO;
+import abletive.businesslogic.blutil.HttpBuilder;
+import abletive.businesslogic.blutil.InternetAccess;
+import abletive.po.CategoryPO;
+import abletive.po.PostPO;
+import abletive.vo.PostTitleVO;
+import abletive.po.SearchPO;
+import abletive.po.TagPO;
+import abletive.po.TagPostPO;
 
 /**
  * 负责网络传输的类
