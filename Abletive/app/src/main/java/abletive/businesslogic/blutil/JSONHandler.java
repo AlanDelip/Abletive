@@ -3,7 +3,8 @@ package abletive.businesslogic.blutil;
 import com.google.gson.Gson;
 
 import abletive.po.CategoryPO;
-import abletive.po.PostPO;
+import abletive.po.HttpPostContentPO;
+import abletive.po.HttpPostPO;
 import abletive.po.SearchPO;
 import abletive.po.TagPO;
 import abletive.po.TagPostPO;
@@ -15,9 +16,14 @@ import abletive.po.TagPostPO;
  */
 public class JSONHandler {
 
-    public static PostPO getPosts(String postJSONString) {
+    public static HttpPostPO getPosts(String postJSONString) {
         Gson gson = new Gson();
-        return gson.fromJson(postJSONString, PostPO.class);
+        return gson.fromJson(postJSONString, HttpPostPO.class);
+    }
+
+    public static HttpPostContentPO getPost(String postJSONString) {
+        Gson gson = new Gson();
+        return gson.fromJson(postJSONString, HttpPostContentPO.class);
     }
 
     public static CategoryPO getCategory(String categoryJSONString) {

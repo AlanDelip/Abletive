@@ -44,5 +44,8 @@
     <string name="get_author_posts">get_author_posts</string>
     <string name="get_search_results">get_search_results</string>
     <string name="get_post">get_post</string>
+    <string name="page">page</string>
+    <string name="cookie">cookie</string>
+    <string name="id">id</string>
 
 </resources>

@@ -1,5 +1,7 @@
 package abletive.businesslogic.blutil;
 
+import abletive.presentation.uiutil.MApplication;
+
 /**
  * 用于URLConnection添加Parameter的工具类，弥补部分Apache包不能用的缺陷
  *
@@ -12,6 +14,10 @@ public class HttpBuilder {
 
     public HttpBuilder(String url) {
         this.url = url;
+    }
+
+    public HttpBuilder(){
+        url = MApplication.getServerIP();
     }
 
     public HttpBuilder addParam(String key, String value) {

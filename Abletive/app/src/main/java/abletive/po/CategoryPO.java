@@ -10,7 +10,7 @@ public class CategoryPO {
     String title;
     String description;
     int parent;
-    int postCount;
+    int post_count;
 
     /**
      * @param id          分类唯一ID
@@ -18,15 +18,15 @@ public class CategoryPO {
      * @param title       分类标题
      * @param description 分类概述
      * @param parent      父类
-     * @param postCount   分类文章篇数
+     * @param post_count  分类文章篇数
      */
-    public CategoryPO(int id, String slug, String title, String description, int parent, int postCount) {
+    public CategoryPO(int id, String slug, String title, String description, int parent, int post_count) {
         this.id = id;
         this.slug = slug;
         this.title = title;
         this.description = description;
         this.parent = parent;
-        this.postCount = postCount;
+        this.post_count = post_count;
     }
 
     public int getId() {
@@ -69,11 +69,11 @@ public class CategoryPO {
         this.parent = parent;
     }
 
-    public int getPostCount() {
-        return postCount;
+    public int getPost_count() {
+        return post_count;
     }
 
-    public void setPostCount(int postCount) {
-        this.postCount = postCount;
+    public void setPost_count(int post_count) {
+        this.post_count = post_count;
     }
 }

@@ -20,7 +20,7 @@ import abletive.businesslogic.blutil.HttpBuilder;
 import abletive.businesslogic.blutil.InternetAccess;
 import abletive.businesslogic.blutil.JSONHandler;
 import abletive.po.CategoryPO;
-import abletive.po.PostPO;
+import abletive.po.HttpPostPO;
 import abletive.po.SearchPO;
 import abletive.po.TagPO;
 import abletive.po.TagPostPO;
@@ -71,14 +71,14 @@ public class HttpImpl {
                     result += content;
                 }
 
-                PostPO postPO = null;
+                HttpPostPO httpPostPO = null;
                 if (result.length() != 0) {
-                    postPO = JSONHandler.getPosts(result);
+                    httpPostPO = JSONHandler.getPosts(result);
                 }
 
                 ArrayList<PostListVO> postTitleList = null;
-                if (postPO != null && postPO.getStatus().equals("ok")) {
-                    postTitleList = PostTool.getPostTitle(postPO.toPostTitlePO());
+                if (httpPostPO != null && httpPostPO.getStatus().equals("ok")) {
+                    postTitleList = PostTool.getPostTitle(httpPostPO.toPostTitlePO());
                 }
 
                 return postTitleList;
@@ -306,11 +306,10 @@ public class HttpImpl {
 
 
     /**
-     * 设置默认连接方式
+     * 进行连接
      *
      * @param site 连接的url String
      */
-
     private boolean processConnection(String site) {
 
         try {
