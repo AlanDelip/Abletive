@@ -47,5 +47,7 @@
     <string name="page">page</string>
     <string name="cookie">cookie</string>
     <string name="id">id</string>
+    <string name="search">search</string>
+    <string name="date">date</string>
 
 </resources>

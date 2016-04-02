@@ -6,13 +6,13 @@ import java.util.ArrayList;
  * get_author_posts回复
  * Created by Alan on 2016/3/30.
  */
-public class HttpAuthorPO {
+public class HttpAuthorPostPO {
     int count;
     int pages;
     AuthorPO author;
     ArrayList<PostPO> posts;
 
-    public HttpAuthorPO(int count, int pages, AuthorPO author, ArrayList<PostPO> posts) {
+    public HttpAuthorPostPO(int count, int pages, AuthorPO author, ArrayList<PostPO> posts) {
         this.count = count;
         this.pages = pages;
         this.author = author;

@@ -2,9 +2,15 @@ package abletive.logicservice.internetblservice;
 
 import android.graphics.Bitmap;
 
-import abletive.businesslogic.postbl.PostFilter;
+import abletive.po.HttpAuthorPostPO;
+import abletive.po.HttpCategoryPO;
+import abletive.po.HttpCategoryPostPO;
+import abletive.po.HttpDatePostPO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
+import abletive.po.HttpSearchPO;
+import abletive.po.HttpTagPO;
+import abletive.po.HttpTagPostPO;
 
 /**
  * 文章相关网络逻辑接口
@@ -47,13 +53,63 @@ public interface PostHttpService {
     HttpPostContentPO getPost(String postID, String cookie);
 
     /**
-     * 获得搜索结果
+     * 获得关键字搜索结果
      *
-     * @param filter 过滤条件
-     * @param page   第几页
+     * @param page    第几页
+     * @param keyword 关键字
      * @return 搜索结果文章列表数组
      */
-    HttpPostPO getResult(PostFilter filter, int page);
+    HttpSearchPO getKeywordResult(int page, String keyword);
+
+    /**
+     * 获得标签列表
+     *
+     * @return 标签列表元素数据
+     */
+    HttpTagPO getTagList();
+
+    /**
+     * 获得某标签下的文章列表
+     *
+     * @param page  第几页
+     * @param tagID 标签ID
+     * @return 该标签下的文章列表
+     */
+    HttpTagPostPO getTagResult(int page, String tagID);
+
+    /**
+     * 获得类别列表
+     *
+     * @return 类别列表元素数据
+     */
+    HttpCategoryPO getCategoryList();
+
+    /**
+     * 获得某类别下的文章列表
+     *
+     * @param page       第几页
+     * @param categoryID 类别ID
+     * @return 该类别下的文章列表
+     */
+    HttpCategoryPostPO getCategoryResult(int page, String categoryID);
+
+    /**
+     * 获得某日期的文章列表
+     *
+     * @param page 第几页
+     * @param date 日期
+     * @return 该日期的文章列表
+     */
+    HttpDatePostPO getDateResult(int page, String date);
+
+    /**
+     * 获得某作者的文章列表
+     *
+     * @param page     第几页
+     * @param authorID 用户ID
+     * @return 该作者的文章列表
+     */
+    HttpAuthorPostPO getAuthorResult(int page, String authorID);
 
     /**
      * 获得文章简略图

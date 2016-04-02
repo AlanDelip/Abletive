@@ -1,36 +1,36 @@
 package abletive.vo;
 
-import android.graphics.Bitmap;
-
 /**
- * 文章标题
+ * 文章列表元素数据
  *
  * @author Alan
+ * @version 2.0
+ *          Created by Alan on 2016/3/30.
  */
 public class PostListVO {
     String title;
     String author;
-    Bitmap thumb;
+    String thumbUrl;
     String category;
     String time;
     String views;
-    int comments;
+    String comments;
     String url;
 
     /**
      * @param title    文章标题
      * @param author   作者
-     * @param thumb    文章缩略图
+     * @param thumbUrl    文章缩略图
      * @param category 文章所属目录
      * @param time     发布时间
      * @param views    浏览数
      * @param comments 评论数
      * @param url      url地址
      */
-    public PostListVO(String title, String author, Bitmap thumb, String category, String time, String views, int comments, String url) {
+    public PostListVO(String title, String author, String thumbUrl, String category, String time, String views, String comments, String url) {
         this.title = title;
         this.author = author;
-        this.thumb = thumb;
+        this.thumbUrl = thumbUrl;
         this.category = category;
         this.time = time;
         this.views = views;
@@ -47,20 +47,20 @@ public class PostListVO {
         this.category = category;
     }
 
-    public int getComments() {
+    public String getComments() {
         return comments;
     }
 
-    public void setComments(int comments) {
+    public void setComments(String comments) {
         this.comments = comments;
     }
 
-    public Bitmap getThumb() {
-        return thumb;
+    public String getThumbUrl() {
+        return thumbUrl;
     }
 
-    public void setThumb(Bitmap thumb) {
-        this.thumb = thumb;
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
     }
 
     public String getTitle() {

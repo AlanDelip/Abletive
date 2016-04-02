@@ -39,6 +39,20 @@ public class HttpConnection {
     }
 
     /**
+     * 获得JSON返回值
+     *
+     * @param site 请求网址
+     * @return String类型的JSON返回值
+     */
+    public String getResult(String site) {
+        InputStream inputStream = processConnection(site);
+        String result = transStream(inputStream);
+        closeConn();
+        closeStream(inputStream);
+        return result;
+    }
+
+    /**
      * 进行默认连接，连接超时3000ms
      *
      * @param site 连接的url String

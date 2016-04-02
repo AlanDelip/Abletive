@@ -9,10 +9,16 @@ import java.io.InputStream;
 import abletive.businesslogic.blutil.HttpBuilder;
 import abletive.businesslogic.blutil.HttpConnection;
 import abletive.businesslogic.blutil.JSONHandler;
-import abletive.businesslogic.postbl.PostFilter;
 import abletive.logicservice.internetblservice.PostHttpService;
+import abletive.po.HttpAuthorPostPO;
+import abletive.po.HttpCategoryPO;
+import abletive.po.HttpCategoryPostPO;
+import abletive.po.HttpDatePostPO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
+import abletive.po.HttpSearchPO;
+import abletive.po.HttpTagPO;
+import abletive.po.HttpTagPostPO;
 import abletive.presentation.uiutil.MApplication;
 import alandelip.abletivedemo.R;
 
@@ -52,10 +58,7 @@ public class PostHttpImpl implements PostHttpService {
                         .addParam(context.getString(R.string.cookie), cookie)
                         .build();
 
-        InputStream postInputStream = httpConnection.processConnection(request);
-        String result = httpConnection.transStream(postInputStream);
-        httpConnection.closeStream(postInputStream);
-        httpConnection.closeConn();
+        String result = httpConnection.getResult(request);
 
         HttpPostPO httpPostPO = null;
         if (result.length() != 0) {
@@ -73,10 +76,7 @@ public class PostHttpImpl implements PostHttpService {
                         .addParam(context.getString(R.string.cookie), cookie)
                         .build();
 
-        InputStream postInputStream = httpConnection.processConnection(request);
-        String result = httpConnection.transStream(postInputStream);
-        httpConnection.closeStream(postInputStream);
-        httpConnection.closeConn();
+        String result = httpConnection.getResult(request);
 
         HttpPostContentPO httpPostContentPO = null;
         if (result.length() != 0) {
@@ -92,8 +92,128 @@ public class PostHttpImpl implements PostHttpService {
     }
 
     @Override
-    public HttpPostPO getResult(PostFilter filter, int page) {
-        return null;
+    public HttpSearchPO getKeywordResult(int page, String keyword) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.get_search_results))
+                        .addParam(context.getString(R.string.search), keyword)
+                        .addParam(context.getString(R.string.page), page)
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpSearchPO httpSearchPO = null;
+        if (result.length() != 0) {
+            httpSearchPO = JSONHandler.getSearch(result);
+        }
+
+        return httpSearchPO;
+    }
+
+    @Override
+    public HttpTagPO getTagList() {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.get_tag_index))
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpTagPO httpTagPO = null;
+        if (result.length() != 0) {
+            httpTagPO = JSONHandler.getTag(result);
+        }
+
+        return httpTagPO;
+    }
+
+    @Override
+    public HttpTagPostPO getTagResult(int page, String tagID) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.get_tag_posts))
+                        .addParam(context.getString(R.string.page), page)
+                        .addParam(context.getString(R.string.id), tagID)
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpTagPostPO httpTagPostPO = null;
+        if (result.length() != 0) {
+            httpTagPostPO = JSONHandler.getTagPost(result);
+        }
+
+        return httpTagPostPO;
+    }
+
+    @Override
+    public HttpCategoryPO getCategoryList() {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.get_category_index))
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpCategoryPO httpCategoryPO = null;
+        if (result.length() != 0) {
+            httpCategoryPO = JSONHandler.getCategory(result);
+        }
+        return httpCategoryPO;
+    }
+
+    @Override
+    public HttpCategoryPostPO getCategoryResult(int page, String categoryID) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.get_category_posts))
+                        .addParam(context.getString(R.string.page), page)
+                        .addParam(context.getString(R.string.id), categoryID)
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpCategoryPostPO httpCategoryPostPO = null;
+        if (result.length() != 0) {
+            httpCategoryPostPO = JSONHandler.getCategoryPost(result);
+        }
+        return httpCategoryPostPO;
+    }
+
+    @Override
+    public HttpDatePostPO getDateResult(int page, String date) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.get_date_posts))
+                        .addParam(context.getString(R.string.page), page)
+                        .addParam(context.getString(R.string.date), date)
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpDatePostPO httpDatePostPO = null;
+        if (result.length() != 0) {
+            httpDatePostPO = JSONHandler.getDatePost(result);
+        }
+        return httpDatePostPO;
+    }
+
+    @Override
+    public HttpAuthorPostPO getAuthorResult(int page, String authorID) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.get_author_posts))
+                        .addParam(context.getString(R.string.page), page)
+                        .addParam(context.getString(R.string.id), authorID)
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpAuthorPostPO httpAuthorPostPO = null;
+        if (result.length() != 0) {
+            httpAuthorPostPO = JSONHandler.getAuthorPost(result);
+        }
+        return httpAuthorPostPO;
     }
 
     @Override

@@ -12,7 +12,6 @@ import abletive.po.CategoryPO;
 import abletive.po.CustomFieldsPO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
-import abletive.po.PostListTestVO;
 import abletive.po.PostPO;
 import abletive.po.ThumbnailImagePO;
 import abletive.vo.PostListVO;
@@ -41,7 +40,7 @@ public class PostImpl implements PostService {
     public ArrayList<PostListVO> getPostList(int page, String cookie) {
         HttpPostPO httpPostPO = postHttpBl.getPostList(page, cookie);
 
-        ArrayList<PostListTestVO> postList = new ArrayList<PostListTestVO>();
+        ArrayList<PostListVO> postList = new ArrayList<PostListVO>();
         ArrayList<PostPO> postPOList = httpPostPO.getPosts();
 
         for (PostPO postPO : postPOList) {
@@ -53,15 +52,13 @@ public class PostImpl implements PostService {
             String stringCommentCount = postPO.getComment_count() + "";
             String commentCount = stringCommentCount.substring(0, stringCommentCount.length() - 2);
 
-            PostListTestVO postListVO =
-                    new PostListTestVO(postPO.getTitle(), authorPO.getName(),
+            PostListVO postListVO =
+                    new PostListVO(postPO.getTitle(), authorPO.getName(),
                             thumbnailImagePO.getMedium().getUrl(), categoryPO.get(0).getTitle(),
                             postPO.getDate(), customFieldsPO.getViews() + "",
                             commentCount, postPO.getUrl());
             postList.add(postListVO);
         }
-
-        //TODO 修改PostListVO
         return postList;
     }
 
