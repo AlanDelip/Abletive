@@ -22,12 +22,12 @@ public class PostPO {
     ArrayList<TagPO> tags;
     AuthorPO author;
     ArrayList<String> comments;
-    double comment_count;
+    int comment_count;
     String comment_status;
     CustomFieldsPO custom_fields;
     ThumbnailImagePO thumbnail_image;
 
-    public PostPO(int id, String type, String slug, String url, String status, String title, String title_plain, String content, String excerpt, String date, ArrayList<CategoryPO> categories, ArrayList<TagPO> tags, AuthorPO author, ArrayList<String> comments, double comment_count, String comment_status, CustomFieldsPO custom_fields, ThumbnailImagePO thumbnail_image) {
+    public PostPO(int id, String type, String slug, String url, String status, String title, String title_plain, String content, String excerpt, String date, ArrayList<CategoryPO> categories, ArrayList<TagPO> tags, AuthorPO author, ArrayList<String> comments, int comment_count, String comment_status, CustomFieldsPO custom_fields, ThumbnailImagePO thumbnail_image) {
         this.id = id;
         this.type = type;
         this.slug = slug;
@@ -160,11 +160,11 @@ public class PostPO {
         this.comments = comments;
     }
 
-    public double getComment_count() {
+    public int getComment_count() {
         return comment_count;
     }
 
-    public void setComment_count(double comment_count) {
+    public void setComment_count(int comment_count) {
         this.comment_count = comment_count;
     }
 

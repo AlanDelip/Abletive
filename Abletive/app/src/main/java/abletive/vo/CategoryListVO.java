@@ -8,9 +8,9 @@ public class CategoryListVO {
     String title;
     String description;
     String parent;
-    int postCount;
+    String postCount;
 
-    public CategoryListVO(String title, String description, String parent, int postCount) {
+    public CategoryListVO(String title, String description, String parent, String postCount) {
         this.title = title;
         this.description = description;
         this.parent = parent;
@@ -41,11 +41,11 @@ public class CategoryListVO {
         this.parent = parent;
     }
 
-    public int getPostCount() {
+    public String getPostCount() {
         return postCount;
     }
 
-    public void setPostCount(int postCount) {
+    public void setPostCount(String postCount) {
         this.postCount = postCount;
     }
 }
