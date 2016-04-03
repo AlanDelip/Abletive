@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,15 +14,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import abletive.presentation.uiutil.WidgetTool;
+import abletive.presentation.widget.PostTitleAdapter;
+import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import abletive.vo.PostListVO;
 import httpservice.HttpImpl;
-import abletive.presentation.widget.PostTitleAdapter;
-import abletive.presentation.uiutil.WidgetTool;
 
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
+
     private static int page = 1;
     private String keyWord, date;
     private int id;
@@ -61,7 +61,6 @@ public class SearchActivity extends AppCompatActivity {
     private void initToolBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            Log.d(TAG, "initToolBar: ");
             actionBar.setTitle("搜索结果:" + keyWord);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -109,7 +108,7 @@ public class SearchActivity extends AppCompatActivity {
             progressDialog.dismiss();
             if (tagPostList != null) {
                 postList = tagPostList;
-                postTitleAdapter = new PostTitleAdapter(SearchActivity.this, R.layout.post_title, postList);
+                postTitleAdapter = new PostTitleAdapter(SearchActivity.this, R.layout.post_list, postList);
                 mListView.setAdapter(postTitleAdapter);
             } else {
                 Toast.makeText(SearchActivity.this, getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();

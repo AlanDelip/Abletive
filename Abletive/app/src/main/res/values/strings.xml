@@ -50,4 +50,7 @@
     <string name="search">search</string>
     <string name="date">date</string>
 
+    <!--Test-->
+    <string name="chinese_long_text">这是一条中文的测试，用于测试是否在结尾处会有长句子的隐藏效果，测试文字格式和其他一些设置到底对不对</string>
+    <string name="title_activity_tag">TagActivity</string>
 </resources>

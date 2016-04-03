@@ -11,61 +11,34 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="#2b71c1"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <ImageView
-                android:id="@+id/toolbar_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/studio" />
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:id="@+id/floating_search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:floatingSearch_dismissOnOutsideTouch="true"
+            app:floatingSearch_menu="@menu/search_bar"
+            app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
+            app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
+            app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
+            app:floatingSearch_searchHint="Search..."
+            app:floatingSearch_showSearchKey="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:showAsAction="always" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-            <com.arlib.floatingsearchview.FloatingSearchView
-                android:id="@+id/floating_search_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:floatingSearch_dismissOnOutsideTouch="true"
-                app:floatingSearch_menu="@menu/search_bar"
-                app:floatingSearch_searchHint="Search..."
-                app:floatingSearch_showSearchKey="true"
-                app:showAsAction="always"
-                app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
-                app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_menu_search"
-        app:backgroundTint="#cfcfcf"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"

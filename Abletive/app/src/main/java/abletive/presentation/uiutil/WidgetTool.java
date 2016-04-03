@@ -3,6 +3,8 @@ package abletive.presentation.uiutil;
 import android.content.Context;
 import android.graphics.Color;
 
+import java.util.ArrayList;
+
 import alandelip.abletivedemo.R;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -26,14 +28,31 @@ public class WidgetTool {
         return progressDialog;
     }
 
+
     public static String amplify(int date) {
         return amplify(date + "");
     }
 
+    /**
+     * 将日期补全为2位
+     *
+     * @param date 日期
+     * @return String补全的日期
+     */
     public static String amplify(String date) {
         if (date.length() == 1) {
             date = "0" + date;
         }
         return date;
+    }
+
+    /**
+     * 是否为无内容列表
+     *
+     * @param arrayList 列表
+     * @return 是否列表中无内容
+     */
+    public static boolean isEmpty(ArrayList<Object> arrayList) {
+        return (arrayList.size() == 0);
     }
 }

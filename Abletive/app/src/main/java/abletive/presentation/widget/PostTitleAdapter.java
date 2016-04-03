@@ -31,7 +31,7 @@ public class PostTitleAdapter extends ArrayAdapter<PostListVO> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        PostListVO postTitle = getItem(position);
+        PostListVO postListVO = getItem(position);
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceID, null);
@@ -40,25 +40,29 @@ public class PostTitleAdapter extends ArrayAdapter<PostListVO> {
         }
 
         ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
-        thumb.setImageBitmap(postTitle.getThumb());
+        thumb.setImageBitmap(ImageLibrary.default_title_thumb);
+        new ImageTask(thumb, postListVO.getThumbUrl()).execute();
 
         TextView title = (TextView) view.findViewById(R.id.title);
-        title.setText(postTitle.getTitle());
+        title.setText(postListVO.getTitle());
+
+        TextView description = (TextView) view.findViewById(R.id.description);
+        description.setText(postListVO.getDescription());
 
         TextView author = (TextView) view.findViewById(R.id.author);
-        author.setText(postTitle.getAuthor());
+        author.setText(postListVO.getAuthor());
 
         TextView time = (TextView) view.findViewById(R.id.time);
-        time.setText(postTitle.getTime());
+        time.setText(postListVO.getTime());
 
         TextView views = (TextView) view.findViewById(R.id.views);
-        views.setText(postTitle.getViews());
+        views.setText(postListVO.getViews());
 
         TextView comments = (TextView) view.findViewById(R.id.comments);
-        comments.setText(postTitle.getComments() + "");
+        comments.setText(postListVO.getComments());
 
         TextView category = (TextView) view.findViewById(R.id.category);
-        category.setText(postTitle.getCategory());
+        category.setText(postListVO.getCategory());
 
         return view;
     }
@@ -69,16 +73,30 @@ public class PostTitleAdapter extends ArrayAdapter<PostListVO> {
      * @author Alan
      * @version 1.0
      */
-    class ImageTask extends AsyncTask<String, Void, Bitmap> {
+    class ImageTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private ImageView imageView;
+        private String thumbUrl;
+
+        public ImageTask(ImageView imageView, String thumbUrl) {
+            this.imageView = imageView;
+            this.thumbUrl = thumbUrl;
+        }
 
         @Override
-        protected Bitmap doInBackground(String... thumbUrl) {
-            if (thumbUrl[0] != null) {
-                if (thumbUrl[0].length() == 0) {
-                    return new HttpImpl().getThumbnail(thumbUrl[0]);
+        protected Bitmap doInBackground(Void... param) {
+            if (thumbUrl != null) {
+                if (thumbUrl.length() != 0) {
+                    return new HttpImpl().getThumbnail(thumbUrl);
                 }
             }
             return ImageLibrary.default_title_thumb;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
+            notifyDataSetChanged();
         }
     }
 }

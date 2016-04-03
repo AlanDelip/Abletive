@@ -12,10 +12,10 @@
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:overlay="false"
+        app:overlay="true"
         app:wave_show="false">
 
-        <abletive.presentation.widget.MListView
+        <ListView
             android:id="@+id/posts_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
