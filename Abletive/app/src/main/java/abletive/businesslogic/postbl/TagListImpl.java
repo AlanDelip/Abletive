@@ -10,13 +10,13 @@ import abletive.po.HttpTagPO;
 import abletive.po.HttpTagPostPO;
 import abletive.po.PostPO;
 import abletive.po.TagPO;
+import abletive.vo.TypeListVO;
 import abletive.vo.PostListVO;
-import abletive.vo.TagListVO;
 
 /**
  * 标签搜索逻辑
  */
-public class TagListImpl implements ListService<TagListVO> {
+public class TagListImpl implements ListService {
 
     private PostHttpService postHttpBl;
 
@@ -32,15 +32,16 @@ public class TagListImpl implements ListService<TagListVO> {
     }
 
     @Override
-    public ArrayList<TagListVO> getList() {
+    public ArrayList<TypeListVO> getList() {
         HttpTagPO httpTagPO = postHttpBl.getTagList();
         ArrayList<TagPO> tagPOList = httpTagPO.getTags();
-        ArrayList<TagListVO> tagVOList = new ArrayList<>();
+        ArrayList<TypeListVO> tagVOList = new ArrayList<>();
         for (TagPO tagPO : tagPOList) {
-            TagListVO tagListVO =
-                    new TagListVO(tagPO.getTitle(),
+            TypeListVO tagListVO =
+                    new TypeListVO(tagPO.getId() + "",
+                            tagPO.getTitle(),
                             tagPO.getDescription(),
-                            tagPO.getPostCount());
+                            tagPO.getPostCount() + "");
             tagVOList.add(tagListVO);
         }
         return tagVOList;

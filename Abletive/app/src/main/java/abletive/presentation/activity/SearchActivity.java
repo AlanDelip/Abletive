@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import abletive.presentation.uiutil.WidgetTool;
-import abletive.presentation.widget.PostTitleAdapter;
+import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -27,11 +27,11 @@ public class SearchActivity extends AppCompatActivity {
     private static int page = 1;
     private String keyWord, date;
     private int id;
-    private PostTitleAdapter postTitleAdapter;
+    private PostListAdapter postListAdapter;
     private ListView mListView;
     private ArrayList<PostListVO> postList = new ArrayList<PostListVO>();
 
-    public static void newInstance(Context context, String keyWord, int id) {
+    public static void newInstance(Context context, String keyWord, String id) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra("keyWord", keyWord);
         intent.putExtra("id", id);
@@ -108,8 +108,8 @@ public class SearchActivity extends AppCompatActivity {
             progressDialog.dismiss();
             if (tagPostList != null) {
                 postList = tagPostList;
-                postTitleAdapter = new PostTitleAdapter(SearchActivity.this, R.layout.post_list, postList);
-                mListView.setAdapter(postTitleAdapter);
+                postListAdapter = new PostListAdapter(SearchActivity.this, R.layout.post_list, postList);
+                mListView.setAdapter(postListAdapter);
             } else {
                 Toast.makeText(SearchActivity.this, getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
             }
@@ -135,7 +135,7 @@ public class SearchActivity extends AppCompatActivity {
                     Toast.makeText(SearchActivity.this, getString(R.string.reach_last), Toast.LENGTH_SHORT).show();
                 } else {
                     postList.addAll(postTitleList);
-                    postTitleAdapter.notifyDataSetChanged();
+                    postListAdapter.notifyDataSetChanged();
                     page++;
                 }
             } else {

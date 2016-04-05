@@ -1,20 +1,28 @@
 package abletive.vo;
 
 /**
- * 类别元素
+ * 类别元素(TagListVO和CategoryListVO)
  * Created by Alan on 2016/4/1.
  */
-public class CategoryListVO {
+public class TypeListVO {
+    String id;
     String title;
     String description;
-    String parent;
     String postCount;
 
-    public CategoryListVO(String title, String description, String parent, String postCount) {
+    public TypeListVO(String id, String title, String description, String postCount) {
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.parent = parent;
         this.postCount = postCount;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -31,14 +39,6 @@ public class CategoryListVO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getParent() {
-        return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
     }
 
     public String getPostCount() {

@@ -9,24 +9,24 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import abletive.vo.TypeListVO;
 import alandelip.abletivedemo.R;
-import abletive.po.CategoryPO;
 
 /**
  * 类别列表适配器
  * Created by Alan on 2016/3/13.
  */
-public class CategoryAdapter extends ArrayAdapter<CategoryPO> {
+public class CategoryAdapter extends ArrayAdapter<TypeListVO> {
     int resourceID;
 
-    public CategoryAdapter(Context context, int resource, List<CategoryPO> objects) {
+    public CategoryAdapter(Context context, int resource, List<TypeListVO> objects) {
         super(context, resource, objects);
         resourceID = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CategoryPO categoryPO = getItem(position);
+        TypeListVO typeListVO = getItem(position);
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceID, null);
@@ -35,13 +35,13 @@ public class CategoryAdapter extends ArrayAdapter<CategoryPO> {
         }
 
         TextView tagTitle = (TextView) view.findViewById(R.id.title);
-        tagTitle.setText(categoryPO.getTitle());
+        tagTitle.setText(typeListVO.getTitle());
 
         TextView tagDescription = (TextView) view.findViewById(R.id.description);
-        tagDescription.setText(categoryPO.getDescription());
+        tagDescription.setText(typeListVO.getDescription());
 
         TextView postNum = (TextView) view.findViewById(R.id.post_num);
-        postNum.setText(categoryPO.getPost_count() + "");
+        postNum.setText(typeListVO.getPostCount());
 
         return view;
 

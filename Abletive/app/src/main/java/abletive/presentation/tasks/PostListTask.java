@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import abletive.businesslogic.postbl.PostImpl;
 import abletive.logicservice.postblservice.PostService;
-import abletive.presentation.widget.PostTitleAdapter;
+import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
 
@@ -56,7 +56,7 @@ public class PostListTask extends AsyncTask<Integer, Void, Void> {
     protected void onPostExecute(Void param) {
         refreshLayout.finishRefresh();
         if (postList != null) {
-            listview.setAdapter(new PostTitleAdapter(context, R.layout.post_list, postList));
+            listview.setAdapter(new PostListAdapter(context, R.layout.post_list, postList));
             page = 2;
         } else {
             Toast.makeText(context, context.getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();

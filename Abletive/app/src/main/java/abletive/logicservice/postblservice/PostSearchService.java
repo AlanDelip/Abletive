@@ -2,7 +2,7 @@ package abletive.logicservice.postblservice;
 
 import java.util.ArrayList;
 
-import abletive.vo.CategoryListVO;
+import abletive.vo.TypeListVO;
 import abletive.vo.PostListVO;
 import abletive.vo.TagListVO;
 
@@ -50,7 +50,7 @@ public interface PostSearchService {
      *
      * @return 类别元素数组
      */
-    ArrayList<CategoryListVO> getCategoryList();
+    ArrayList<TypeListVO> getCategoryList();
 
     /**
      * 获得某类别的文章列表

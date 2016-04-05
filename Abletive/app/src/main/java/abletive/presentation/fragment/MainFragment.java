@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 import abletive.presentation.tasks.PostListTask;
 import abletive.presentation.uiutil.WidgetTool;
-import abletive.presentation.widget.PostTitleAdapter;
+import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
 
@@ -43,7 +43,7 @@ public class MainFragment extends Fragment {
      */
     ArrayList<PostListVO> postList;
     ListView mListView;
-    PostTitleAdapter postListAdapter;
+    PostListAdapter postListAdapter;
     MaterialRefreshLayout refreshLayout;
     private int page = 1;
     //    private ListViewType listViewType = ListViewType.MAIN;

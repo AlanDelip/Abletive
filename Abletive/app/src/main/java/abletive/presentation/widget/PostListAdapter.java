@@ -21,10 +21,10 @@ import httpservice.HttpImpl;
  * 文章标题列表适配器
  * Created by Alan on 2016/3/7.
  */
-public class PostTitleAdapter extends ArrayAdapter<PostListVO> {
+public class PostListAdapter extends ArrayAdapter<PostListVO> {
     int resourceID;
 
-    public PostTitleAdapter(Context context, int resource, List<PostListVO> objects) {
+    public PostListAdapter(Context context, int resource, List<PostListVO> objects) {
         super(context, resource, objects);
         resourceID = resource;
     }

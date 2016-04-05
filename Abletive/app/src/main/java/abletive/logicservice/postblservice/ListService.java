@@ -2,12 +2,13 @@ package abletive.logicservice.postblservice;
 
 import java.util.ArrayList;
 
+import abletive.vo.TypeListVO;
 import abletive.vo.PostListVO;
 
 /**
  * 列表接口
  */
-public interface ListService<T> {
+public interface ListService {
     /**
      * 获得结果列表
      *
@@ -18,9 +19,9 @@ public interface ListService<T> {
     ArrayList<PostListVO> getResultList(int page, String param);
 
     /**
-     * 获得列表
+     * 获得类别列表
      *
      * @return 列表
      */
-    ArrayList<T> getList();
+    ArrayList<TypeListVO> getList();
 }

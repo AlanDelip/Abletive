@@ -8,12 +8,13 @@ import abletive.logicservice.internetblservice.PostHttpService;
 import abletive.logicservice.postblservice.ListService;
 import abletive.po.HttpDatePostPO;
 import abletive.po.PostPO;
+import abletive.vo.TypeListVO;
 import abletive.vo.PostListVO;
 
 /**
  * 日期文章列表搜索逻辑
  */
-public class DateListImpl implements ListService<PostListVO> {
+public class DateListImpl implements ListService {
     private PostHttpService postHttpBl;
 
     public DateListImpl() {
@@ -28,7 +29,8 @@ public class DateListImpl implements ListService<PostListVO> {
     }
 
     @Override
-    public ArrayList<PostListVO> getList() {
+    public ArrayList<TypeListVO> getList() {
         return null;
     }
+
 }

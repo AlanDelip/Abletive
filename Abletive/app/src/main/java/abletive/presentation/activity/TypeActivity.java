@@ -1,5 +1,7 @@
 package abletive.presentation.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,22 +12,25 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import abletive.businesslogic.postbl.CategoryListImpl;
-import abletive.businesslogic.postbl.TagListImpl;
+import abletive.businesslogic.blutil.ClientLogic;
 import abletive.logicservice.postblservice.ListService;
-import abletive.po.CategoryPO;
-import abletive.po.TagPO;
 import abletive.presentation.widget.CategoryAdapter;
-import abletive.presentation.widget.TagTitleAdapter;
+import abletive.vo.TypeListVO;
 import alandelip.abletivedemo.R;
 
 public class TypeActivity extends AppCompatActivity {
 
-    ListService listService;
-    ListView listView;
-    ArrayAdapter adapter;
-    ArrayList list;
-    String type;
+    /**
+     * @param context     上下文
+     * @param list        类别列表
+     * @param listService 列表服务
+     */
+    public static void newInstance(Context context, ArrayList<TypeListVO> list, ListService listService) {
+        Intent intent = new Intent(context, TypeActivity.class);
+        ClientLogic.getInstance().setTypeList(list);
+        ClientLogic.getInstance().setListService(listService);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,37 +42,19 @@ public class TypeActivity extends AppCompatActivity {
     }
 
     private void initListView() {
-        listView = (ListView) findViewById(R.id.result_list);
-        type = getIntent().getStringExtra("type");
-        switch (type) {
-            case "tag":
-                listService = new TagListImpl();
-                list = new ArrayList<TagPO>();
-                adapter = new TagTitleAdapter(TypeActivity.this, R.layout.tag_item, list);
-                break;
-            case "category":
-                listService = new CategoryListImpl();
-                list = new ArrayList<CategoryPO>();
-                adapter = new CategoryAdapter(TypeActivity.this, R.layout.tag_item, list);
-                break;
-        }
-        list = listService.getList();
+        ListView listView = (ListView) findViewById(R.id.result_list);
+
+        ListService listService = ClientLogic.getInstance().getListService();
+        ArrayList<TypeListVO> list = listService.getList();
+        ArrayAdapter adapter = new CategoryAdapter(TypeActivity.this, R.layout.tag_item, list);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (type) {
-                    case "tag":
-                        TagPO tagPO = (TagPO) parent.getItemAtPosition(position);
-                        SearchActivity.newInstance(TypeActivity.this, tagPO.getTitle(), tagPO.getId());
-                        break;
-                    case "category":
-                        CategoryPO categoryPO = (CategoryPO) parent.getItemAtPosition(position);
-                        SearchActivity.newInstance(TypeActivity.this, categoryPO.getTitle(), categoryPO.getId());
-                        break;
-                }
+                TypeListVO typeListVO = (TypeListVO) parent.getItemAtPosition(position);
+                SearchActivity.newInstance(TypeActivity.this, typeListVO.getTitle(), typeListVO.getId());
             }
         });
     }

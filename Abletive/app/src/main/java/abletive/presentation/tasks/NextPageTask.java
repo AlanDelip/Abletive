@@ -23,7 +23,7 @@ import alandelip.abletivedemo.R;
 public class NextPageTask extends AsyncTask<Integer, Void, ArrayList<PostListVO>> {
 
     Context context;
-    ListService<?> listService;
+    ListService listService;
     ListView listView;
     ArrayList<PostListVO> postList;
     ArrayAdapter adapter;

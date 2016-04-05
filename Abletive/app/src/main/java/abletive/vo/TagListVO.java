@@ -7,9 +7,9 @@ package abletive.vo;
 public class TagListVO {
     String title;
     String description;
-    int postCount;
+    String postCount;
 
-    public TagListVO(String title, String description, int postCount) {
+    public TagListVO(String title, String description, String postCount) {
         this.title = title;
         this.description = description;
         this.postCount = postCount;
@@ -31,11 +31,11 @@ public class TagListVO {
         this.description = description;
     }
 
-    public int getPostCount() {
+    public String getPostCount() {
         return postCount;
     }
 
-    public void setPostCount(int postCount) {
+    public void setPostCount(String postCount) {
         this.postCount = postCount;
     }
 }

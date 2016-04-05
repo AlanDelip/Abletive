@@ -8,12 +8,13 @@ import abletive.logicservice.internetblservice.PostHttpService;
 import abletive.logicservice.postblservice.ListService;
 import abletive.po.HttpSearchPO;
 import abletive.po.PostPO;
+import abletive.vo.TypeListVO;
 import abletive.vo.PostListVO;
 
 /**
  * 文章搜索逻辑
  */
-public class PostListImpl implements ListService<PostListVO> {
+public class PostListImpl implements ListService {
 
     private PostHttpService postHttpBl;
 
@@ -29,7 +30,8 @@ public class PostListImpl implements ListService<PostListVO> {
     }
 
     @Override
-    public ArrayList<PostListVO> getList() {
+    public ArrayList<TypeListVO> getList() {
         return null;
     }
+
 }

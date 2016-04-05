@@ -1,0 +1,54 @@
+package abletive.presentation.tasks;
+
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import abletive.logicservice.postblservice.ListService;
+import abletive.presentation.activity.TypeActivity;
+import abletive.presentation.uiutil.WidgetTool;
+import abletive.vo.TypeListVO;
+import alandelip.abletivedemo.R;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+/**
+ * 类别和标签的列表任务
+ *
+ * @author Alan
+ * @version 1.0
+ */
+public class CategoryTask extends AsyncTask<Void, Void, ArrayList<TypeListVO>> {
+
+    Context context;
+    ListService listService;
+    SweetAlertDialog dialog;
+
+    public CategoryTask(Context context, ListService listService) {
+        this.context = context;
+        this.listService = listService;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = WidgetTool.getDefaultDialog(context);
+        dialog.show();
+    }
+
+    @Override
+    protected ArrayList<TypeListVO> doInBackground(Void... params) {
+        return listService.getList();
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<TypeListVO> list) {
+        dialog.dismiss();
+        if (list.size() != 0) {
+            //打开类别活动
+            TypeActivity.newInstance(context, list, listService);
+        } else {
+            Toast.makeText(context, context.getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
+        }
+    }
+}

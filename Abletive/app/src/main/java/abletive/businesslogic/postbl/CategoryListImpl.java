@@ -10,13 +10,13 @@ import abletive.po.CategoryPO;
 import abletive.po.HttpCategoryPO;
 import abletive.po.HttpCategoryPostPO;
 import abletive.po.PostPO;
-import abletive.vo.CategoryListVO;
+import abletive.vo.TypeListVO;
 import abletive.vo.PostListVO;
 
 /**
  * 类别搜索逻辑
  */
-public class CategoryListImpl implements ListService<CategoryListVO> {
+public class CategoryListImpl implements ListService {
     private PostHttpService postHttpBl;
 
     public CategoryListImpl() {
@@ -31,17 +31,17 @@ public class CategoryListImpl implements ListService<CategoryListVO> {
     }
 
     @Override
-    public ArrayList<CategoryListVO> getList() {
+    public ArrayList<TypeListVO> getList() {
         HttpCategoryPO httpCategoryPO = postHttpBl.getCategoryList();
         ArrayList<CategoryPO> categoryPOList = httpCategoryPO.getCategories();
-        ArrayList<CategoryListVO> categoryVOList = new ArrayList<>();
+        ArrayList<TypeListVO> categoryVOList = new ArrayList<>();
         for (CategoryPO categoryPO : categoryPOList) {
-            CategoryListVO categoryListVO =
-                    new CategoryListVO(categoryPO.getTitle(),
+            TypeListVO typeListVO =
+                    new TypeListVO(categoryPO.getId() + "",
+                            categoryPO.getTitle(),
                             categoryPO.getDescription(),
-                            categoryPO.getParent() + "",
                             categoryPO.getPost_count() + "");
-            categoryVOList.add(categoryListVO);
+            categoryVOList.add(typeListVO);
         }
         return categoryVOList;
     }
