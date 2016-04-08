@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import alandelip.abletivedemo.R;
 import abletive.presentation.fragment.BBSFragment;
 import abletive.presentation.fragment.MainFragment;
 import abletive.presentation.fragment.MessageFragment;
 import abletive.presentation.fragment.UserFragment;
+import alandelip.abletivedemo.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     .setBackgroundResource(R.color.menu_background);
         }
     }
+
 
     /**
      * 给每个Tab按钮设置图标和文字

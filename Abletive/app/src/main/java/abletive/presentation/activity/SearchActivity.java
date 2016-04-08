@@ -5,43 +5,51 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
+
 import java.util.ArrayList;
 
-import abletive.presentation.uiutil.WidgetTool;
+import abletive.businesslogic.blutil.ClientLogic;
+import abletive.logicservice.postblservice.ListService;
+import abletive.presentation.tasks.NextPageTask;
 import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import httpservice.HttpImpl;
 
+/**
+ * 搜索结果活动（具体标签、类别、日期、作者文章）
+ */
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
 
-    private static int page = 1;
-    private String keyWord, date;
-    private int id;
+    private int page = 1;
+    private String keyWord, id;
+    private ListService listBl;
     private PostListAdapter postListAdapter;
     private ListView mListView;
     private ArrayList<PostListVO> postList = new ArrayList<PostListVO>();
+    private MaterialRefreshLayout refreshLayout;
 
-    public static void newInstance(Context context, String keyWord, String id) {
+    /**
+     *
+     * @param context 上下文
+     * @param keyWord 关键字
+     * @param id 标识标签或者类别的ID，在搜索关键字的时候传入keyword相同内容
+     * @param listService 列表接口
+     */
+    public static void newInstance(Context context, String keyWord, String id, ListService listService) {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra("keyWord", keyWord);
         intent.putExtra("id", id);
-        context.startActivity(intent);
-        ((Activity) context).overridePendingTransition(R.anim.in_from_bottom, R.anim.out_to_top);
-    }
-
-    public static void newInstance(Context context, String date) {
-        Intent intent = new Intent(context, SearchActivity.class);
-        intent.putExtra("date", date);
+        ClientLogic.getInstance().setListService(listService);
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.in_from_bottom, R.anim.out_to_top);
     }
@@ -50,19 +58,24 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
         keyWord = getIntent().getStringExtra("keyWord");
-        date = getIntent().getStringExtra("date");
-        id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getStringExtra("id");
+        listBl = ClientLogic.getInstance().getListService();
 
         initToolBar();
         initListView();
+        initRefreshLayout();
     }
 
     private void initToolBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("搜索结果:" + keyWord);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.launch_logo);
+        toolbar.setTitle("搜索结果:" + keyWord);
+        toolbar.setSubtitle(getString(R.string.app_sub));
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -71,97 +84,54 @@ public class SearchActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PostListVO postTitle = (PostListVO) parent.getItemAtPosition(position);
-                WebActivity.newInstance(SearchActivity.this, postTitle.getUrl(), postTitle.getTitle());
+                PostListVO postListVO = (PostListVO) parent.getItemAtPosition(position);
+                WebActivity.newInstance(SearchActivity.this, postListVO.getUrl(), postListVO.getTitle());
             }
         });
-        if (date != null && date.length() != 0) {
-            new DatePostTask().execute();
-        } else {
-            new InitTask().execute();
-        }
+        new InitTask().execute();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        page = 1;
+    private void initRefreshLayout() {
+        refreshLayout = (MaterialRefreshLayout) findViewById(R.id.refresh);
+        refreshLayout.setLoadMore(true);
+        refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                new InitTask().execute();
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                new NextPageTask(SearchActivity.this, id, mListView, postListAdapter, postList, refreshLayout, listBl)
+                        .execute(page);
+            }
+        });
     }
 
+    /**
+     * 初始化搜索列表，显示第一页
+     */
     class InitTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
-
-        SweetAlertDialog progressDialog;
-
         @Override
         protected void onPreExecute() {
-            progressDialog = WidgetTool.getDefaultDialog(SearchActivity.this);
-            progressDialog.show();
+            refreshLayout.autoRefresh();
         }
 
         @Override
         protected ArrayList<PostListVO> doInBackground(Void... params) {
-            return new HttpImpl(getString(R.string.get_tag_posts)).getTagPost(id, 1);
+            return listBl.getResultList(1, id);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<PostListVO> tagPostList) {
-            progressDialog.dismiss();
-            if (tagPostList != null) {
-                postList = tagPostList;
-                postListAdapter = new PostListAdapter(SearchActivity.this, R.layout.post_list, postList);
+        protected void onPostExecute(ArrayList<PostListVO> postList) {
+            refreshLayout.finishRefresh();
+            if (postList != null) {
+                SearchActivity.this.postList = postList;
+                postListAdapter = new PostListAdapter(SearchActivity.this, R.layout.post_list, SearchActivity.this.postList);
                 mListView.setAdapter(postListAdapter);
+                page = 2;
             } else {
                 Toast.makeText(SearchActivity.this, getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    class NextPageTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
-
-        @Override
-        protected void onPreExecute() {
-            //TODO 上拉显示更多
-        }
-
-        @Override
-        protected ArrayList<PostListVO> doInBackground(Void... params) {
-            return new HttpImpl(getString(R.string.get_category_posts)).getTagPost(id, page);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<PostListVO> postTitleList) {
-            if (postTitleList != null) {
-                if (postTitleList.size() == 0) {
-                    Toast.makeText(SearchActivity.this, getString(R.string.reach_last), Toast.LENGTH_SHORT).show();
-                } else {
-                    postList.addAll(postTitleList);
-                    postListAdapter.notifyDataSetChanged();
-                    page++;
-                }
-            } else {
-                Toast.makeText(SearchActivity.this, getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    class DatePostTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
-        SweetAlertDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = WidgetTool.getDefaultDialog(SearchActivity.this);
-            progressDialog.show();
-        }
-
-        @Override
-        protected ArrayList<PostListVO> doInBackground(Void... post) {
-            return new HttpImpl(getString(R.string.get_date_posts)).getDatePost(date, 1);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<PostListVO> postTitleList) {
-            if (postTitleList != null) {
-
             }
         }
     }

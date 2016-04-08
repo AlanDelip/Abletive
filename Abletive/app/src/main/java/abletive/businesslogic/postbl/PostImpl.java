@@ -48,7 +48,6 @@ public class PostImpl implements PostService {
             ArrayList<CategoryPO> categoryPO = postPO.getCategories();
             CustomFieldsPO customFieldsPO = postPO.getCustom_fields();
             ThumbnailImagePO thumbnailImagePO = postPO.getThumbnail_image();
-            //TODO API返回的是一个double类型的数，ex:103.0
             String stringCommentCount = postPO.getComment_count() + "";
             String commentCount = stringCommentCount.substring(0, stringCommentCount.length() - 2);
 

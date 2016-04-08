@@ -44,7 +44,7 @@ public class TypeActivity extends AppCompatActivity {
     private void initListView() {
         ListView listView = (ListView) findViewById(R.id.result_list);
 
-        ListService listService = ClientLogic.getInstance().getListService();
+        final ListService listService = ClientLogic.getInstance().getListService();
         ArrayList<TypeListVO> list = listService.getList();
         ArrayAdapter adapter = new CategoryAdapter(TypeActivity.this, R.layout.tag_item, list);
         listView.setAdapter(adapter);
@@ -54,7 +54,7 @@ public class TypeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TypeListVO typeListVO = (TypeListVO) parent.getItemAtPosition(position);
-                SearchActivity.newInstance(TypeActivity.this, typeListVO.getTitle(), typeListVO.getId());
+                SearchActivity.newInstance(TypeActivity.this, typeListVO.getTitle(), typeListVO.getId(), listService);
             }
         });
     }

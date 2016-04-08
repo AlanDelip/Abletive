@@ -9,4 +9,5 @@
     <color name="menu_background">#212121</color>
     <color name="domain_color">#313131</color>
     <color name="focus_color">#fbff02</color>
+    <color name="edit_background">#64000000</color>
 </resources>

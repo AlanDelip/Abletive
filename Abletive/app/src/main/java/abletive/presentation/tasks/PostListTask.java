@@ -9,8 +9,7 @@ import com.cjj.MaterialRefreshLayout;
 
 import java.util.ArrayList;
 
-import abletive.businesslogic.postbl.PostImpl;
-import abletive.logicservice.postblservice.PostService;
+import abletive.logicservice.postblservice.ListService;
 import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
@@ -27,17 +26,18 @@ public class PostListTask extends AsyncTask<Integer, Void, Void> {
     Context context;
     ListView listview;
     MaterialRefreshLayout refreshLayout;
-    PostService postBl;
+    ListService listBl;
     ArrayList<PostListVO> postList;
     int page;
+    String param;
 
-    public PostListTask(Context context, ListView listview, ArrayList<PostListVO> postList, MaterialRefreshLayout refreshLayout) {
+    public PostListTask(Context context, ListView listview, ArrayList<PostListVO> postList, MaterialRefreshLayout refreshLayout,String param,ListService listService) {
         this.context = context;
         this.postList = postList;
         this.listview = listview;
         this.refreshLayout = refreshLayout;
-
-        postBl = new PostImpl();
+        this.listBl = listService;
+        this.param = param;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class PostListTask extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected Void doInBackground(Integer... page) {
-        postList = postBl.getPostList(1, "");
+        postList = listBl.getResultList(1, param);
         this.page = page[0];
         return null;
     }
@@ -57,7 +57,7 @@ public class PostListTask extends AsyncTask<Integer, Void, Void> {
         refreshLayout.finishRefresh();
         if (postList != null) {
             listview.setAdapter(new PostListAdapter(context, R.layout.post_list, postList));
-            page = 2;
+            page = 2;//将页码设置成第二页
         } else {
             Toast.makeText(context, context.getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
         }

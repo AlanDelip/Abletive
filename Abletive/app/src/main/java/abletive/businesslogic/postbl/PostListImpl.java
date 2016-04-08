@@ -2,36 +2,31 @@ package abletive.businesslogic.postbl;
 
 import java.util.ArrayList;
 
-import abletive.businesslogic.blutil.PostTransformer;
-import abletive.businesslogic.internetbl.PostHttpImpl;
-import abletive.logicservice.internetblservice.PostHttpService;
 import abletive.logicservice.postblservice.ListService;
-import abletive.po.HttpSearchPO;
-import abletive.po.PostPO;
-import abletive.vo.TypeListVO;
+import abletive.logicservice.postblservice.PostService;
 import abletive.vo.PostListVO;
+import abletive.vo.TypeListVO;
 
 /**
- * 文章搜索逻辑
+ * 获得主页文章列表
+ * @author Alan
+ * @version 1.0
  */
 public class PostListImpl implements ListService {
 
-    private PostHttpService postHttpBl;
+    private PostService postBl;
 
     public PostListImpl() {
-        postHttpBl = new PostHttpImpl();
+        postBl = new PostImpl();
     }
 
     @Override
-    public ArrayList<PostListVO> getResultList(int page, String keyword) {
-        HttpSearchPO httpSearchPO = postHttpBl.getKeywordResult(page, keyword);
-        ArrayList<PostPO> posts = httpSearchPO.getPosts();
-        return PostTransformer.getPostList(posts);
+    public ArrayList<PostListVO> getResultList(int page, String cookie) {
+        return postBl.getPostList(page,cookie);
     }
 
     @Override
     public ArrayList<TypeListVO> getList() {
         return null;
     }
-
 }
