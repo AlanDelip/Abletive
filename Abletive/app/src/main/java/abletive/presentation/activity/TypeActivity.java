@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import abletive.businesslogic.blutil.ClientLogic;
 import abletive.logicservice.postblservice.ListService;
-import abletive.presentation.widget.CategoryAdapter;
+import abletive.presentation.widget.TypeAdapter;
 import abletive.vo.TypeListVO;
 import alandelip.abletivedemo.R;
 
@@ -46,7 +46,7 @@ public class TypeActivity extends AppCompatActivity {
 
         final ListService listService = ClientLogic.getInstance().getListService();
         ArrayList<TypeListVO> list = listService.getList();
-        ArrayAdapter adapter = new CategoryAdapter(TypeActivity.this, R.layout.tag_item, list);
+        ArrayAdapter adapter = new TypeAdapter(TypeActivity.this, R.layout.tag_item, list);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

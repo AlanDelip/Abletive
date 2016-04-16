@@ -15,7 +15,7 @@ import java.util.List;
 import abletive.presentation.uiutil.ImageLibrary;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
-import httpservice.HttpImpl;
+//import httpservice.HttpImpl;
 
 /**
  * 文章标题列表适配器
@@ -87,7 +87,7 @@ public class PostListAdapter extends ArrayAdapter<PostListVO> {
         protected Bitmap doInBackground(Void... param) {
             if (thumbUrl != null) {
                 if (thumbUrl.length() != 0) {
-                    return new HttpImpl().getThumbnail(thumbUrl);
+//                    return new HttpImpl().getThumbnail(thumbUrl);
                 }
             }
             return ImageLibrary.default_title_thumb;

@@ -13,13 +13,13 @@ import abletive.vo.TypeListVO;
 import alandelip.abletivedemo.R;
 
 /**
- * 类别列表适配器
+ * 类别、标签列表适配器
  * Created by Alan on 2016/3/13.
  */
-public class CategoryAdapter extends ArrayAdapter<TypeListVO> {
+public class TypeAdapter extends ArrayAdapter<TypeListVO> {
     int resourceID;
 
-    public CategoryAdapter(Context context, int resource, List<TypeListVO> objects) {
+    public TypeAdapter(Context context, int resource, List<TypeListVO> objects) {
         super(context, resource, objects);
         resourceID = resource;
     }

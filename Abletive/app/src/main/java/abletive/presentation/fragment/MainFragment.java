@@ -1,12 +1,11 @@
 package abletive.presentation.fragment;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +45,7 @@ import alandelip.abletivedemo.R;
  * 主界面碎片
  *
  * @author Alan
- * @version 1.0
+ * @version 2.0 实现了网络任务的分离调用
  */
 public class MainFragment extends Fragment {
 
@@ -73,6 +72,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -84,9 +84,9 @@ public class MainFragment extends Fragment {
 
         initToolBar();
 
-        initRefreshLayout();
+//        initRefreshLayout();
 
-        initListView();
+//        initListView();
 
         initSearchView();
 
@@ -160,22 +160,13 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         String date = year + "-" + WidgetTool.amplify(monthOfYear);
+                        ListService dateListBl = new DateListImpl();
+                        Toast.makeText(getContext(), fabDate.getLabelText(), Toast.LENGTH_SHORT).show();
+                        fabMenu.close(true);
+                        SearchActivity.newInstance(getContext(),date,date,dateListBl);
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
-                datePickerDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                    @Override
-                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        if (keyCode == DialogInterface.BUTTON_POSITIVE) {
-                            ListService dateListBl = new DateListImpl();
-                            ArrayList<TypeListVO> typeVOList = dateListBl.getList();
-                            Toast.makeText(getContext(), fabDate.getLabelText(), Toast.LENGTH_SHORT).show();
-                            fabMenu.close(true);
-                            TypeActivity.newInstance(getContext(), typeVOList, dateListBl);
-                        }
-                        return true;
-                    }
-                });
             }
         });
     }

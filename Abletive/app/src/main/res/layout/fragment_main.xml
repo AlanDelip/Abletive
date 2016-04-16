@@ -7,24 +7,30 @@
     android:fitsSystemWindows="true"
     tools:context="abletive.presentation.fragment.MainFragment">
 
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
 
         <com.arlib.floatingsearchview.FloatingSearchView
             android:id="@+id/floating_search_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/app_bar"
             android:visibility="gone"
             app:floatingSearch_dismissOnOutsideTouch="true"
             app:floatingSearch_menu="@menu/search_bar"
@@ -35,8 +41,7 @@
             app:floatingSearch_showSearchKey="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:showAsAction="always" />
-
-    </android.support.design.widget.AppBarLayout>
+    </RelativeLayout>
 
     <include layout="@layout/content_main" />
 

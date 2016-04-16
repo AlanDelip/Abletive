@@ -42,7 +42,7 @@ public class PostListTask extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-        refreshLayout.autoRefresh();
+//        refreshLayout.autoRefresh
     }
 
     @Override

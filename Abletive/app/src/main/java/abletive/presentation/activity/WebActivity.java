@@ -42,6 +42,7 @@ public class WebActivity extends AppCompatActivity {
         ActionBar actionBar;
         if ((actionBar = getSupportActionBar()) != null) {
             actionBar.setTitle(title);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         webView = (WebView) findViewById(R.id.webView);
