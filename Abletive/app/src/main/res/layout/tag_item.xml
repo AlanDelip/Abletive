@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/domain_color"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -10,12 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="夜店电音"
-        android:textSize="25sp" />
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_gravity="right"
@@ -27,7 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/title"
-        android:text="夜店里的电子音乐，令人神魂颠倒" />
+        android:text="夜店里的电子音乐，令人神魂颠倒"
+        android:textColor="@color/light_gray" />
 
     <TextView
         android:id="@+id/post_num_text"
@@ -35,8 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/description"
-        android:layout_marginTop="28dp"
-        android:text="文章总数" />
+        android:layout_marginTop="10dp"
+        android:text="文章总数"
+        android:textColor="@android:color/holo_orange_light" />
 
     <TextView
         android:id="@+id/post_num"
@@ -45,5 +50,6 @@
         android:layout_alignBottom="@+id/post_num_text"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/post_num_text"
-        android:text="312" />
+        android:text="312"
+        android:textColor="@android:color/holo_orange_light" />
 </RelativeLayout>

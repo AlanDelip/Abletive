@@ -36,6 +36,15 @@ public interface PostHttpService {
     HttpPostPO getPostList(int page, String cookie);
 
     /**
+     * 获得文章列表
+     * @param page 第几页
+     * @param cookie 用户登录cookie
+     * @param ignoreStickyPosts 是否忽略置顶文章
+     * @return 文章列表数组
+     */
+    HttpPostPO getPostList(int page,String cookie,boolean ignoreStickyPosts);
+
+    /**
      * 获得文章内容
      *
      * @param postID 文章ID

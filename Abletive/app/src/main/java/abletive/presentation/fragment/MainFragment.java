@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,15 +31,18 @@ import abletive.businesslogic.postbl.KeywordListImpl;
 import abletive.businesslogic.postbl.PostListImpl;
 import abletive.businesslogic.postbl.TagListImpl;
 import abletive.logicservice.postblservice.ListService;
+import abletive.presentation.activity.PostActivity;
 import abletive.presentation.activity.SearchActivity;
 import abletive.presentation.activity.TypeActivity;
 import abletive.presentation.tasks.NextPageTask;
 import abletive.presentation.tasks.PostListTask;
+import abletive.presentation.tasks.StickyPostTask;
 import abletive.presentation.uiutil.WidgetTool;
+import abletive.presentation.widget.ImagePagerAdapter;
 import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
-import abletive.vo.TypeListVO;
 import alandelip.abletivedemo.R;
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
 /**
  * 主界面碎片
@@ -51,17 +54,15 @@ public class MainFragment extends Fragment {
 
     private static final String TAG = "Abletive";
 
-    /**
-     * 本Fragment依附的Activity的contentView
-     */
-    View currentView;
-    ArrayList<PostListVO> postList;
-    ListView mListView;
-    PostListAdapter postListAdapter;
-    MaterialRefreshLayout refreshLayout;
-    int page = 1;
-    String currentQuery;
-    FloatingSearchView mSearchView;
+    private View currentView;
+    private ArrayList<PostListVO> postList, stickyPostList;
+    private ListView mListView;
+    private PostListAdapter postListAdapter;
+    private MaterialRefreshLayout refreshLayout;
+    private int page = 1;
+    private String currentQuery;
+    private FloatingSearchView mSearchView;
+    private AutoScrollViewPager viewPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,6 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -84,9 +84,11 @@ public class MainFragment extends Fragment {
 
         initToolBar();
 
-//        initRefreshLayout();
+        initRefreshLayout();
 
-//        initListView();
+        initListView();
+
+        initViewPager();
 
         initSearchView();
 
@@ -99,11 +101,8 @@ public class MainFragment extends Fragment {
      */
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) currentView.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.launch_logo);
-        toolbar.setTitle(getString(R.string.app_name));
-        toolbar.setSubtitle(getString(R.string.app_sub));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
+        setHasOptionsMenu(true);
     }
 
     /**
@@ -130,10 +129,9 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ListService tagListBl = new TagListImpl();
-                ArrayList<TypeListVO> typeVOList = tagListBl.getList();
                 Toast.makeText(getContext(), fabTag.getLabelText(), Toast.LENGTH_SHORT).show();
                 fabMenu.close(true);
-                TypeActivity.newInstance(getContext(), typeVOList, tagListBl);
+                TypeActivity.newInstance(getContext(), tagListBl);
             }
         });
 
@@ -143,10 +141,9 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ListService categoryListBl = new CategoryListImpl();
-                ArrayList<TypeListVO> typeVOList = categoryListBl.getList();
                 Toast.makeText(getContext(), fabCategory.getLabelText(), Toast.LENGTH_SHORT).show();
                 fabMenu.close(true);
-                TypeActivity.newInstance(getContext(), typeVOList, categoryListBl);
+                TypeActivity.newInstance(getContext(), categoryListBl);
             }
         });
 
@@ -159,11 +156,11 @@ public class MainFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String date = year + "-" + WidgetTool.amplify(monthOfYear);
+                        String date = year + "-" + WidgetTool.amplify(monthOfYear + 1);
                         ListService dateListBl = new DateListImpl();
                         Toast.makeText(getContext(), fabDate.getLabelText(), Toast.LENGTH_SHORT).show();
                         fabMenu.close(true);
-                        SearchActivity.newInstance(getContext(),date,date,dateListBl);
+                        SearchActivity.newInstance(getContext(), date, date, dateListBl);
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -178,7 +175,56 @@ public class MainFragment extends Fragment {
     private void initListView() {
         mListView = (ListView) currentView.findViewById(R.id.posts_list);
         //TODO 用户登录后的cookie
-        new PostListTask(getContext(), mListView, postList, refreshLayout, "", new PostListImpl()).execute(page);
+        final PostListTask postListTask
+                = new PostListTask(getContext(), refreshLayout, "", new PostListImpl());
+        postListTask.setPostListCallBack(new PostListTask.PostListCallBack() {
+            @Override
+            public void setPostList(ArrayList<PostListVO> callBackPostList) {
+                if (callBackPostList != null) {
+                    postList = callBackPostList;
+                }
+            }
+
+            @Override
+            public void increasePage() {
+                page = 2;
+            }
+
+            @Override
+            public void setAdapter() {
+                postListAdapter = new PostListAdapter(getContext(),
+                        R.layout.postlist_item,
+                        postList);
+                mListView.setAdapter(postListAdapter);
+            }
+        });
+        postListTask.execute();
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PostListVO selectedPostListVO = (PostListVO) parent.getItemAtPosition(position);
+                PostActivity.newInstance(getContext(), selectedPostListVO.toHashMap());
+            }
+        });
+    }
+
+    /**
+     * 初始化ViewPager，默认获得置顶帖
+     */
+    private void initViewPager() {
+        viewPager = (AutoScrollViewPager) currentView.findViewById(R.id.viewpager);
+
+        StickyPostTask stickyPostTask = new StickyPostTask();
+        stickyPostTask.setStickyPostCallBack(new StickyPostTask.StickyPostCallBack() {
+            @Override
+            public void refreshStickyPost(ArrayList<PostListVO> stickyPosts) {
+                stickyPostList = stickyPosts;
+                viewPager.setAdapter(new ImagePagerAdapter(getContext(), stickyPostList));
+                viewPager.setInterval(4000);
+                viewPager.startAutoScroll();
+            }
+        });
+        stickyPostTask.execute();
     }
 
 
@@ -193,13 +239,45 @@ public class MainFragment extends Fragment {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
                 //TODO 用户登录后的cookie
-                new PostListTask(getContext(), mListView, postList, refreshLayout, "", new PostListImpl()).execute(page);
+                final PostListTask postListTask
+                        = new PostListTask(getContext(), refreshLayout, "", new PostListImpl());
+                postListTask.setPostListCallBack(new PostListTask.PostListCallBack() {
+                    @Override
+                    public void setPostList(ArrayList<PostListVO> callBackPostList) {
+                        postList = callBackPostList;
+                    }
+
+                    @Override
+                    public void increasePage() {
+                        page = 2;
+                    }
+
+                    @Override
+                    public void setAdapter() {
+                        postListAdapter = new PostListAdapter(getContext(), R.layout.postlist_item, postList);
+                        mListView.setAdapter(postListAdapter);
+                    }
+                });
+                postListTask.execute();
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
                 //TODO 加载下一页时，文章cookie未传入
-                new NextPageTask(getContext(), "", mListView, postListAdapter, postList, refreshLayout, new PostListImpl()).execute(page);
+                NextPageTask nextPageTask
+                        = new NextPageTask(getContext(), "", mListView, postListAdapter, postList, refreshLayout, new PostListImpl());
+                nextPageTask.setNextPageCallBack(new NextPageTask.NextPageCallBack() {
+                    @Override
+                    public void setPostList(ArrayList<PostListVO> nextPagePostList) {
+                        postList = nextPagePostList;
+                    }
+
+                    @Override
+                    public void increasePage() {
+                        page++;
+                    }
+                });
+                nextPageTask.execute(page);
             }
         });
     }
@@ -211,7 +289,12 @@ public class MainFragment extends Fragment {
     private void initSearchView() {
         //搜索框
         mSearchView = (FloatingSearchView) currentView.findViewById(R.id.floating_search_view);
-        mSearchView.setDismissOnOutsideClick(true);
+        mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
+            @Override
+            public void onHomeClicked() {
+                mSearchView.setVisibility(View.GONE);
+            }
+        });
 
         //<监听>根据输入的字符提前检索
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
@@ -219,6 +302,15 @@ public class MainFragment extends Fragment {
             public void onSearchTextChanged(String oldQuery, String newQuery) {
                 currentQuery = mSearchView.getQuery();
                 //TODO 根据输入字符自动检索
+            }
+        });
+
+        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+                if (item.getItemId() == R.id.action_search) {
+                    SearchActivity.newInstance(getContext(), currentQuery, currentQuery, new KeywordListImpl());
+                }
             }
         });
 
@@ -232,7 +324,6 @@ public class MainFragment extends Fragment {
                 SearchActivity.newInstance(getContext(), currentQuery, currentQuery, new KeywordListImpl());
             }
         });
-
     }
 
     @Override
@@ -244,7 +335,11 @@ public class MainFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_search) {
-            mSearchView.setVisibility(View.VISIBLE);
+            if (!mSearchView.isActivated()) {
+                mSearchView.setVisibility(View.VISIBLE);
+            } else {
+                mSearchView.setVisibility(View.GONE);
+            }
         }
         return true;
     }

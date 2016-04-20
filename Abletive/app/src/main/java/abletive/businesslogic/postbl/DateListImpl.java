@@ -24,6 +24,9 @@ public class DateListImpl implements ListService {
     @Override
     public ArrayList<PostListVO> getResultList(int page, String date) {
         HttpDatePostPO httpDatePostPO = postHttpBl.getDateResult(page, date);
+        if(httpDatePostPO==null){
+            return null;
+        }
         ArrayList<PostPO> posts = httpDatePostPO.getPosts();
         return PostTransformer.getPostList(posts);
     }

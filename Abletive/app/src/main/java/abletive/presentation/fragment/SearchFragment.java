@@ -12,13 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
 
 import java.util.ArrayList;
 
 import abletive.businesslogic.blutil.ClientLogic;
 import abletive.logicservice.postblservice.ListService;
-import abletive.presentation.tasks.NextPageTask;
 import abletive.presentation.tasks.PostListTask;
 import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
@@ -86,7 +84,6 @@ public class SearchFragment extends Fragment {
         Toolbar toolbar = (Toolbar) currentView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.launch_logo);
         toolbar.setTitle("搜索结果:" + keyWord);
-        toolbar.setSubtitle(getString(R.string.app_sub));
         parentActivity.setSupportActionBar(toolbar);
         if (parentActivity.getSupportActionBar() != null) {
             parentActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,25 +99,26 @@ public class SearchFragment extends Fragment {
 //                PostVO postVO = new PostVO(postListVO.getTitle(),)
             }
         });
-        new PostListTask(getContext(), mListView, postList, refreshLayout, id, listService).execute(page);
+        new PostListTask(getContext(), refreshLayout, id, listService).execute();
+        page = 2;
     }
 
     private void initRefreshLayout() {
         refreshLayout = (MaterialRefreshLayout) currentView.findViewById(R.id.refresh);
-        refreshLayout.setLoadMore(true);
-        refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-            @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                page = 1;
-                new PostListTask(getContext(), mListView, postList, refreshLayout, id, listService).execute(page);
-            }
-
-            @Override
-            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                new NextPageTask(getContext(), id, mListView, adpater, postList, refreshLayout, listService)
-                        .execute(page);
-            }
-        });
+//        refreshLayout.setLoadMore(true);
+//        refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+//            @Override
+//            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+//                new PostListTask(getContext(), mListView, postList, refreshLayout, id, listService).execute();
+//                page = 2;
+//            }
+//
+//            @Override
+//            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+//                new NextPageTask(getContext(), id, mListView, adpater, postList, refreshLayout, listService)
+//                        .execute(page);
+//            }
+//        });
     }
 
     @Override

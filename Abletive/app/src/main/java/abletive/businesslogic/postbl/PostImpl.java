@@ -4,16 +4,13 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
+import abletive.businesslogic.blutil.PostTransformer;
 import abletive.businesslogic.internetbl.PostHttpImpl;
 import abletive.logicservice.internetblservice.PostHttpService;
 import abletive.logicservice.postblservice.PostService;
-import abletive.po.AuthorPO;
-import abletive.po.CategoryPO;
-import abletive.po.CustomFieldsPO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
 import abletive.po.PostPO;
-import abletive.po.ThumbnailImagePO;
 import abletive.vo.PostListVO;
 import abletive.vo.PostVO;
 
@@ -39,24 +36,14 @@ public class PostImpl implements PostService {
     @Override
     public ArrayList<PostListVO> getPostList(int page, String cookie) {
         HttpPostPO httpPostPO = postHttpBl.getPostList(page, cookie);
-
+        if (httpPostPO == null) {
+            return null;
+        }
         ArrayList<PostListVO> postList = new ArrayList<PostListVO>();
         ArrayList<PostPO> postPOList = httpPostPO.getPosts();
 
         for (PostPO postPO : postPOList) {
-            AuthorPO authorPO = postPO.getAuthor();
-            ArrayList<CategoryPO> categoryPO = postPO.getCategories();
-            CustomFieldsPO customFieldsPO = postPO.getCustom_fields();
-            ThumbnailImagePO thumbnailImagePO = postPO.getThumbnail_image();
-            String stringCommentCount = postPO.getComment_count() + "";
-            String commentCount = stringCommentCount.substring(0, stringCommentCount.length() - 2);
-
-            PostListVO postListVO =
-                    new PostListVO(postPO.getTitle(), postPO.getExcerpt(), authorPO.getName(),
-                            thumbnailImagePO.getMedium().getUrl(), categoryPO.get(0).getTitle(),
-                            postPO.getDate(), customFieldsPO.getViews() + "",
-                            commentCount, postPO.getUrl());
-            postList.add(postListVO);
+            postList.add(PostTransformer.getPost(postPO));
         }
         return postList;
     }
@@ -64,8 +51,31 @@ public class PostImpl implements PostService {
     @Override
     public PostVO getPost(String postID, String cookie) {
         HttpPostContentPO httpPostContentPO = postHttpBl.getPost(postID, cookie);
-        //TODO PostVO需要哪些东西
-        return null;
+        PostPO postPO = httpPostContentPO.getPost();
+        return new PostVO(postPO.getTitle_plain(),
+                postPO.getCustom_fields().getViews() + "",
+                postPO.getComment_count() + "",
+                postPO.getCategories().get(0).getTitle(),
+                postPO.getDate(),
+                postPO.getContent(),
+                postPO.getCustom_fields().getUm_post_likes() + "",
+                postPO.getCustom_fields().getUm_post_collects() + "");
+    }
+
+    @Override
+    public ArrayList<PostListVO> getStickyPosts() {
+        HttpPostPO httpPostPO = postHttpBl.getPostList(1, "", false);
+        if (httpPostPO == null) {
+            return null;
+        }
+        ArrayList<PostListVO> postList = new ArrayList<PostListVO>();
+        ArrayList<PostPO> postPOList = httpPostPO.getPosts();
+
+        for (int i = 0; i < 5; i++) {
+            PostPO postPO = postPOList.get(i);
+            postList.add(PostTransformer.getPost(postPO));
+        }
+        return postList;
     }
 
     @Override

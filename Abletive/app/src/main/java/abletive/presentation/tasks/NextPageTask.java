@@ -28,8 +28,8 @@ public class NextPageTask extends AsyncTask<Integer, Void, ArrayList<PostListVO>
     ArrayList<PostListVO> postList;
     ArrayAdapter adapter;
     MaterialRefreshLayout refreshLayout;
-    int page;
     String param;
+    NextPageCallBack nextPageCallBack;
 
     /**
      * @param context       上下文
@@ -52,7 +52,6 @@ public class NextPageTask extends AsyncTask<Integer, Void, ArrayList<PostListVO>
 
     @Override
     protected ArrayList<PostListVO> doInBackground(Integer... page) {
-        this.page = page[0];
         return listService.getResultList(page[0], param);
     }
 
@@ -63,11 +62,26 @@ public class NextPageTask extends AsyncTask<Integer, Void, ArrayList<PostListVO>
             if (addedList.size() == 0) {
                 Toast.makeText(context, context.getString(R.string.reach_last), Toast.LENGTH_SHORT).show();
             } else {
+                if (postList == null) {
+                    return;
+                }
                 postList.addAll(addedList);
+                nextPageCallBack.setPostList(postList);
+                nextPageCallBack.increasePage();
                 adapter.notifyDataSetChanged();
             }
         } else {
             Toast.makeText(context, context.getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setNextPageCallBack(NextPageCallBack nextPageCallBack) {
+        this.nextPageCallBack = nextPageCallBack;
+    }
+
+    public interface NextPageCallBack {
+        void setPostList(ArrayList<PostListVO> nextPagePostList);
+
+        void increasePage();
     }
 }

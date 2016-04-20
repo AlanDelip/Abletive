@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -14,14 +13,14 @@ import android.widget.TextView;
 import abletive.presentation.fragment.BBSFragment;
 import abletive.presentation.fragment.MainFragment;
 import abletive.presentation.fragment.MessageFragment;
-import abletive.presentation.fragment.SearchFragment;
 import abletive.presentation.fragment.UserFragment;
-import abletive.vo.PostVO;
 import alandelip.abletivedemo.R;
+import cn.trinea.android.common.service.impl.ImageCache;
+import cn.trinea.android.common.util.CacheManager;
 
-public class MainActivity extends AppCompatActivity implements SearchFragment.OnSearchResultClickedListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final ImageCache IMAGE_CACHE = CacheManager.getImageCache();
     private static final String TAG = "Abletive";
-
     /**
      * 文章界面碎片
      */
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     /**
      * 导航布局
      */
-    private View mainLayout,messageLayout,bbsLayout,userLayout;
+    private View mainLayout, messageLayout, bbsLayout, userLayout;
 
     /**
      * 导航栏图片
@@ -61,21 +60,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
      * 用于对Fragment进行管理
      */
     private FragmentManager fragmentManager;
-
-    /**
-     * 布局填充器
-     */
-    private LayoutInflater mLayoutInflater;
-
-    /**
-     * 碎片类
-     */
-    private Class[] mFragmentArray = {MainFragment.class, MessageFragment.class, BBSFragment.class, UserFragment.class};
-
-    /**
-     * 选修卡文字
-     */
-    private String[] mTextArray = {"文章", "消息", "社区", "我"};
 
     /**
      * 选项卡图标
@@ -95,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         fragmentManager = getSupportFragmentManager();
         //默认加载文章界面
         setTabSelection(0);
-//        initTabHost();
     }
 
     /**
@@ -118,50 +101,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         messageLayout.setOnClickListener(this);
         bbsLayout.setOnClickListener(this);
         userLayout.setOnClickListener(this);
-    }
-
-    /**
-     * 初始化Tabhost进行碎片显示
-     */
-//    private void initTabHost() {
-//
-//        mLayoutInflater = LayoutInflater.from(this);
-//        final FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-//        mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-//        // 得到fragment的个数
-//        int count = mFragmentArray.length;
-//        for (int i = 0; i < count; i++) {
-//            // 给每个Tab按钮设置图标、文字和内容
-//            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(mTextArray[i])
-//                    .setIndicator(getTabItemView(i));
-//            // 将Tab按钮添加进Tab选项卡中
-//            mTabHost.addTab(tabSpec, mFragmentArray[i], null);
-//            // 设置Tab分割线
-//            mTabHost.getTabWidget().setDividerDrawable(null);
-//            // 设置Tab按钮的背景
-//            mTabHost.getTabWidget().getChildAt(i)
-//                    .setBackgroundResource(R.color.menu_background);
-//        }
-//    }
-
-
-    /**
-     * 给每个Tab按钮设置图标和文字
-     */
-    private View getTabItemView(int index) {
-
-        View view = mLayoutInflater.inflate(R.layout.tab_item_view, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.tab_image);
-        imageView.setImageResource(mImageArray[index]);
-        TextView textView = (TextView) view.findViewById(R.id.tab_text);
-        textView.setText(mTextArray[index]);
-
-        return view;
-    }
-
-    @Override
-    public void jumpToWebFragment(PostVO postVO) {
-        //TODO 跳转至？
     }
 
     @Override

@@ -10,13 +10,11 @@
         android:layout_height="match_parent"
         android:background="@color/gray" />
 
-    <com.cjj.MaterialRefreshLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.cjj.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:overlay="true"
-        app:wave_show="false">
+        app:overlay="false">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -33,7 +31,7 @@
                     android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome_text"
@@ -41,18 +39,18 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView"
+                        android:layout_below="@+id/title"
                         android:text="New Text"
                         android:textColor="@color/white" />
 
                     <WebView
-                        android:id="@+id/webView"
+                        android:id="@+id/webview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView2"
+                        android:layout_below="@+id/author"
                         android:layout_marginTop="20dp" />
 
                 </RelativeLayout>

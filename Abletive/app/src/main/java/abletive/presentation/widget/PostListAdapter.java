@@ -1,8 +1,6 @@
 package abletive.presentation.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import abletive.presentation.activity.MainActivity;
 import abletive.presentation.uiutil.ImageLibrary;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
@@ -38,16 +37,20 @@ public class PostListAdapter extends ArrayAdapter<PostListVO> {
         } else {
             view = convertView;
         }
-
         ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
         thumb.setImageBitmap(ImageLibrary.default_title_thumb);
-        new ImageTask(thumb, postListVO.getThumbUrl()).execute();
+        MainActivity.IMAGE_CACHE.get(postListVO.getThumbUrl(), thumb);
 
         TextView title = (TextView) view.findViewById(R.id.title);
         title.setText(postListVO.getTitle());
 
         TextView description = (TextView) view.findViewById(R.id.description);
-        description.setText(postListVO.getDescription());
+        String descriptionText = postListVO.getDescription();
+        if (descriptionText != null) {
+            if (descriptionText.length() >= 3) {
+                description.setText(postListVO.getDescription().substring(3));
+            }
+        }
 
         TextView author = (TextView) view.findViewById(R.id.author);
         author.setText(postListVO.getAuthor());
@@ -63,40 +66,40 @@ public class PostListAdapter extends ArrayAdapter<PostListVO> {
 
         TextView category = (TextView) view.findViewById(R.id.category);
         category.setText(postListVO.getCategory());
-
         return view;
     }
 
-    /**
-     * 异步获取图片
-     *
-     * @author Alan
-     * @version 1.0
-     */
-    class ImageTask extends AsyncTask<Void, Void, Bitmap> {
-
-        private ImageView imageView;
-        private String thumbUrl;
-
-        public ImageTask(ImageView imageView, String thumbUrl) {
-            this.imageView = imageView;
-            this.thumbUrl = thumbUrl;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... param) {
-            if (thumbUrl != null) {
-                if (thumbUrl.length() != 0) {
-//                    return new HttpImpl().getThumbnail(thumbUrl);
-                }
-            }
-            return ImageLibrary.default_title_thumb;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            imageView.setImageBitmap(bitmap);
-            notifyDataSetChanged();
-        }
-    }
+//    /**
+//     * 异步获取图片
+//     *
+//     * @author Alan
+//     * @version 1.0
+//     */
+//    class ImageTask extends AsyncTask<Void, Void, Bitmap> {
+//
+//        private ImageView imageView;
+//        private String thumbUrl;
+//        private PostService postBl;
+//
+//        public ImageTask(ImageView imageView, String thumbUrl) {
+//            this.imageView = imageView;
+//            this.thumbUrl = thumbUrl;
+//            postBl = new PostImpl();
+//        }
+//
+//        @Override
+//        protected Bitmap doInBackground(Void... param) {
+//            if (thumbUrl != null) {
+//                if (thumbUrl.length() != 0) {
+//                    return postBl.getThumbnail(thumbUrl);
+//                }
+//            }
+//            return ImageLibrary.default_title_thumb;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Bitmap bitmap) {
+//            imageView.setImageBitmap(bitmap);
+//        }
+//    }
 }

@@ -83,9 +83,6 @@ public class BBSFragment extends Fragment {
      */
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.launch_logo);
-        toolbar.setTitle(R.string.title_activity_bbs);
-        toolbar.setSubtitle(getString(R.string.app_sub));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 

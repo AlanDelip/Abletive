@@ -1,6 +1,7 @@
 package abletive.po;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * 文章内容对象，文章列表不包含content
@@ -21,13 +22,13 @@ public class PostPO {
     ArrayList<CategoryPO> categories;
     ArrayList<TagPO> tags;
     AuthorPO author;
-    ArrayList<String> comments;
+    ArrayList<Map<Object, Object>> comments;
     int comment_count;
     String comment_status;
     CustomFieldsPO custom_fields;
-    ThumbnailImagePO thumbnail_image;
+    ThumbnailImagePO thumbnail_images;
 
-    public PostPO(int id, String type, String slug, String url, String status, String title, String title_plain, String content, String excerpt, String date, ArrayList<CategoryPO> categories, ArrayList<TagPO> tags, AuthorPO author, ArrayList<String> comments, int comment_count, String comment_status, CustomFieldsPO custom_fields, ThumbnailImagePO thumbnail_image) {
+    public PostPO(int id, String type, String slug, String url, String status, String title, String title_plain, String content, String excerpt, String date, ArrayList<CategoryPO> categories, ArrayList<TagPO> tags, AuthorPO author, ArrayList<Map<Object, Object>> comments, int comment_count, String comment_status, CustomFieldsPO custom_fields, ThumbnailImagePO thumbnail_images) {
         this.id = id;
         this.type = type;
         this.slug = slug;
@@ -45,7 +46,7 @@ public class PostPO {
         this.comment_count = comment_count;
         this.comment_status = comment_status;
         this.custom_fields = custom_fields;
-        this.thumbnail_image = thumbnail_image;
+        this.thumbnail_images = thumbnail_images;
     }
 
     public int getId() {
@@ -152,11 +153,11 @@ public class PostPO {
         this.author = author;
     }
 
-    public ArrayList<String> getComments() {
+    public ArrayList<Map<Object, Object>> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<String> comments) {
+    public void setComments(ArrayList<Map<Object, Object>> comments) {
         this.comments = comments;
     }
 
@@ -185,10 +186,10 @@ public class PostPO {
     }
 
     public ThumbnailImagePO getThumbnail_image() {
-        return thumbnail_image;
+        return thumbnail_images;
     }
 
-    public void setThumbnail_image(ThumbnailImagePO thumbnail_image) {
-        this.thumbnail_image = thumbnail_image;
+    public void setThumbnail_image(ThumbnailImagePO thumbnail_images) {
+        this.thumbnail_images = thumbnail_images;
     }
 }

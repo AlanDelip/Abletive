@@ -4,21 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/domain_color"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="abletive.presentation.fragment.MainFragment"
     tools:showIn="@layout/fragment_main">
+
+    <ImageView
+        android:id="@+id/post_background"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:src="@drawable/launch_logo" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/post_background"
+        android:gravity="center"
+        android:text="文章列表加载中..."
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <com.cjj.MaterialRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:overlay="true"
-        app:wave_show="false">
+        app:overlay="false">
 
-        <ListView
-            android:id="@+id/posts_list"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="#c6c6c6" />
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+                <abletive.presentation.widget.MListView
+                    android:id="@+id/posts_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/viewpager"
+                    android:divider="#c6c6c6" />
+            </RelativeLayout>
+        </ScrollView>
     </com.cjj.MaterialRefreshLayout>
 </RelativeLayout>
 

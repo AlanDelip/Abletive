@@ -32,6 +32,8 @@
     <string name="none_login">登录或注册享受更多功能</string>
     <string name="welcome_text">欢迎回来</string>
     <string name="default_user_name">Alan.Delip</string>
+    <string name="no_login">未登录</string>
+    <string name="sign_up">签到</string>
 
     <!--Internet Handle-->
     <string name="internet_failure">连接失败</string>
@@ -49,6 +51,7 @@
     <string name="get_post">get_post</string>
     <string name="page">page</string>
     <string name="cookie">cookie</string>
+    <string name="ignore_sticky_posts">ignore_sticky_posts</string>
     <string name="id">id</string>
     <string name="search">search</string>
     <string name="date">date</string>
@@ -59,4 +62,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_log">LogActivity</string>
 </resources>

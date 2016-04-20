@@ -48,6 +48,13 @@ public interface PostService {
     PostVO getPost(String postID, String cookie);
 
     /**
+     * 获得置顶文章
+     *
+     * @return 制定文章数组
+     */
+    ArrayList<PostListVO> getStickyPosts();
+
+    /**
      * 获得文章简略图
      *
      * @param thumbnailUrl 简略图url

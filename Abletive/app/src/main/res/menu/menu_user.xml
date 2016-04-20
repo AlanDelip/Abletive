@@ -4,8 +4,14 @@
     tools:context="abletive.presentation.fragment.UserFragment">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
         android:icon="@drawable/setting"
+        android:orderInCategory="1"
         android:title="@string/action_settings"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/sign_up"
+        android:icon="@drawable/favicon"
+        android:orderInCategory="0"
+        android:title="@string/sign_up"
         app:showAsAction="ifRoom" />
 </menu>

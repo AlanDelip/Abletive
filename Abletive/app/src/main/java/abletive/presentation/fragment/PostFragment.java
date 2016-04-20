@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+
 import alandelip.abletivedemo.R;
 
 /**
@@ -21,14 +23,9 @@ import alandelip.abletivedemo.R;
  * create an instance of this fragment.
  */
 public class PostFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_ID = "id";
-    private static final String ARG_COOKIE = "cookie";
+    private static final String ARG_DATAMAP = "datamap";
 
-    private String id;
-    private String cookie;
-
+    private HashMap<String, String> data;
     private View currentView;
     private AppCompatActivity parentActivity;
 
@@ -41,15 +38,13 @@ public class PostFragment extends Fragment {
     /**
      * 文章详细内容的界面碎片
      *
-     * @param id     Parameter 1.
-     * @param cookie Parameter 2.
+     * @param data 包含标题，作者，查看量，评论量，点赞，收藏等
      * @return A new instance of fragment PostFragment.
      */
-    public static PostFragment newInstance(String id, String cookie) {
+    public static PostFragment newInstance(HashMap<String, String> data) {
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ID, id);
-        args.putString(ARG_COOKIE, cookie);
+        args.putSerializable(ARG_DATAMAP, data);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,17 +53,16 @@ public class PostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            id = getArguments().getString(ARG_ID);
-            cookie = getArguments().getString(ARG_COOKIE);
+            data = (HashMap<String, String>) getArguments().getSerializable(ARG_DATAMAP);
         }
     }
 
     private void initActionBar() {
+        setHasOptionsMenu(true);
         ActionBar actionBar;
-//        if ((actionBar = parentActivity.getSupportActionBar()) != null) {
-//            actionBar.setTitle(title);
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//        }
+        if ((actionBar = parentActivity.getSupportActionBar()) != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override

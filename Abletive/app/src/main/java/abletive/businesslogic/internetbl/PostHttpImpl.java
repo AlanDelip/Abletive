@@ -3,6 +3,7 @@ package abletive.businesslogic.internetbl;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.InputStream;
 
@@ -28,7 +29,7 @@ import alandelip.abletivedemo.R;
  * @author Alan
  */
 public class PostHttpImpl implements PostHttpService {
-
+    private final static String TAG = "Abletive";
     /**
      * http连接工具
      */
@@ -51,18 +52,26 @@ public class PostHttpImpl implements PostHttpService {
 
     @Override
     public HttpPostPO getPostList(int page, String cookie) {
+        return getPostList(page, cookie, true);
+    }
+
+    @Override
+    public HttpPostPO getPostList(int page, String cookie, boolean ignoreStickyPosts) {
         String request =
                 new HttpBuilder()
                         .addField(context.getString(R.string.get_posts))
                         .addParam(context.getString(R.string.page), page)
                         .addParam(context.getString(R.string.cookie), cookie)
+                        .addParam(context.getString(R.string.ignore_sticky_posts), ignoreStickyPosts + "")
                         .build();
 
         String result = httpConnection.getResult(request);
 
         HttpPostPO httpPostPO = null;
-        if (result.length() != 0) {
-            httpPostPO = JSONHandler.getPosts(result);
+        if (result != null) {
+            if (result.length() != 0) {
+                httpPostPO = JSONHandler.getPosts(result);
+            }
         }
         return httpPostPO;
     }
@@ -190,7 +199,7 @@ public class PostHttpImpl implements PostHttpService {
                         .build();
 
         String result = httpConnection.getResult(request);
-
+        Log.d(TAG, "getDateResult: " + request);
         HttpDatePostPO httpDatePostPO = null;
         if (result.length() != 0) {
             httpDatePostPO = JSONHandler.getDatePost(result);

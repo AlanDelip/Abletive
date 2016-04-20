@@ -1,27 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="abletive.presentation.activity.WebActivity">
+    tools:context="abletive.presentation.activity.PostActivity">
 
     <ImageView
         android:id="@+id/post_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray" />
+        android:layout_below="@+id/app_bar"
+        android:background="@color/gray"
+        android:scaleType="centerCrop"
+        android:src="@drawable/launch_logo" />
 
-    <com.cjj.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/refresh"
+    <!--<ImageView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/white"-->
+    <!--android:alpha="0.3"/>-->
+
+    <android.support.design.widget.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/menu_background"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/toolbar_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.5"
+                    android:background="@color/domain_color" />
+
+                <ImageView
+                    android:id="@+id/toolbar_navigation"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/launch_logo" />
+
+                <TextView
+                    android:id="@+id/toolbar_text"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/toolbar_navigation"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/welcome_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/webview_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:overlay="true"
-        app:wave_show="false">
+        android:layout_below="@+id/app_bar">
 
-        <RelativeLayout
+        <com.cjj.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:overlay="false">
 
             <ScrollView
                 android:id="@+id/scrollView"
@@ -30,45 +89,52 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="5dp">
+                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/textView"
+                    <!--<TextView-->
+                    <!--android:id="@+id/title"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="8dp"-->
+                    <!--android:text="@string/welcome_text"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="24sp"-->
+                    <!--android:textStyle="bold" />-->
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/author"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/title"-->
+                    <!--android:padding="8dp"-->
+                    <!--android:text="New Text"-->
+                    <!--android:textColor="@color/white" />-->
+
+                    <abletive.presentation.widget.VideoEnabledWebView
+                        android:id="@+id/webview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/welcome_text"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView"
-                        android:text="New Text"
-                        android:textColor="@color/white" />
-
-                    <WebView
-                        android:id="@+id/webView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView2"
-                        android:layout_marginTop="20dp" />
-
+                        android:layout_height="wrap_content" />
                 </RelativeLayout>
 
             </ScrollView>
 
+        </com.cjj.MaterialRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/post_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/comment_area"
                 android:background="@color/edit_background"
-                android:paddingLeft="5dp"
+                android:padding="5dp"
                 android:text="回复：3人   点赞：5人"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/comment_area"
@@ -82,7 +148,7 @@
                 android:paddingLeft="5dp"
                 android:paddingTop="10dp"
                 android:textColorHint="@color/white"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/comment_confirm"
@@ -91,15 +157,12 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:background="@color/edit_background"
-                android:paddingBottom="10dp"
-                android:paddingRight="5dp"
-                android:paddingTop="10dp"
+                android:padding="10dp"
                 android:text="发表"
                 android:textColor="@color/light_gray"
-                android:textSize="20sp" />
-
+                android:textSize="18sp" />
         </RelativeLayout>
 
-    </com.cjj.MaterialRefreshLayout>
+    </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

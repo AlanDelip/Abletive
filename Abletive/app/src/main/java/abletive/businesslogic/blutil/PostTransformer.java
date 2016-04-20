@@ -2,7 +2,12 @@ package abletive.businesslogic.blutil;
 
 import java.util.ArrayList;
 
+import abletive.po.AuthorPO;
+import abletive.po.CategoryPO;
+import abletive.po.CustomFieldsPO;
+import abletive.po.ImagePO;
 import abletive.po.PostPO;
+import abletive.po.ThumbnailImagePO;
 import abletive.vo.PostListVO;
 
 /**
@@ -21,17 +26,43 @@ public class PostTransformer {
     public static ArrayList<PostListVO> getPostList(ArrayList<PostPO> postPOList) {
         ArrayList<PostListVO> postVOList = new ArrayList<>();
         for (PostPO post : postPOList) {
-            PostListVO postListVO =
-                    new PostListVO(post.getTitle_plain(), post.getExcerpt(),
-                            post.getAuthor().getName(),
-                            post.getThumbnail_image().getMedium().getUrl(),
-                            post.getCategories().get(0).getTitle(),
-                            post.getDate(),
-                            post.getCustom_fields().getViews() + "",
-                            post.getComment_count() + "",
-                            post.getUrl());
+            PostListVO postListVO = getPost(post);
             postVOList.add(postListVO);
         }
         return postVOList;
+    }
+
+    /**
+     * 根据文章数据PostPO获得文章展示PostListVO
+     *
+     * @param postPO 文章数据
+     * @return 文章展示
+     */
+    public static PostListVO getPost(PostPO postPO) {
+        AuthorPO authorPO = postPO.getAuthor();
+        ArrayList<CategoryPO> categoryPO = postPO.getCategories();
+        CustomFieldsPO customFieldsPO = postPO.getCustom_fields();
+        ThumbnailImagePO thumbnailImagePO = postPO.getThumbnail_image();
+        String stringCommentCount = postPO.getComment_count() + "";
+
+        //默认图片
+        String imageUrl = "";
+        if (thumbnailImagePO != null) {
+            ImagePO mediumImage = thumbnailImagePO.getMedium();
+            //判断获得的数据是否有误
+            if (mediumImage == null) {
+                mediumImage = thumbnailImagePO.getThumbnail();
+                if (mediumImage != null) {
+                    imageUrl = mediumImage.getUrl();
+                }
+            } else {
+                imageUrl = mediumImage.getUrl();
+            }
+        }
+        return new PostListVO(postPO.getId() + "", postPO.getTitle_plain(),
+                postPO.getExcerpt(), authorPO.getName(),
+                imageUrl, categoryPO.get(0).getTitle(),
+                postPO.getDate(), customFieldsPO.getViews() + "",
+                stringCommentCount, postPO.getUrl());
     }
 }

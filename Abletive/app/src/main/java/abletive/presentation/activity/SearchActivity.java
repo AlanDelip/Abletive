@@ -39,10 +39,9 @@ public class SearchActivity extends AppCompatActivity {
     private MaterialRefreshLayout refreshLayout;
 
     /**
-     *
-     * @param context 上下文
-     * @param keyWord 关键字
-     * @param id 标识标签或者类别的ID，在搜索关键字的时候传入keyword相同内容
+     * @param context     上下文
+     * @param keyWord     关键字
+     * @param id          标识标签或者类别的ID，在搜索关键字的时候传入keyword相同内容
      * @param listService 列表接口
      */
     public static void newInstance(Context context, String keyWord, String id, ListService listService) {
@@ -70,9 +69,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.launch_logo);
         toolbar.setTitle("搜索结果:" + keyWord);
-        toolbar.setSubtitle(getString(R.string.app_sub));
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,7 +82,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PostListVO postListVO = (PostListVO) parent.getItemAtPosition(position);
-                WebActivity.newInstance(SearchActivity.this, postListVO.getUrl(), postListVO.getTitle());
+                PostActivity.newInstance(SearchActivity.this, postListVO.toHashMap());
             }
         });
         new InitTask().execute();
@@ -102,8 +99,19 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                new NextPageTask(SearchActivity.this, id, mListView, postListAdapter, postList, refreshLayout, listBl)
-                        .execute(page);
+                NextPageTask nextPageTask = new NextPageTask(SearchActivity.this, id, mListView, postListAdapter, postList, refreshLayout, listBl);
+                nextPageTask.setNextPageCallBack(new NextPageTask.NextPageCallBack() {
+                    @Override
+                    public void setPostList(ArrayList<PostListVO> nextPagePostList) {
+                        postList = nextPagePostList;
+                    }
+
+                    @Override
+                    public void increasePage() {
+                        page++;
+                    }
+                });
+                nextPageTask.execute(page);
             }
         });
     }
@@ -112,10 +120,6 @@ public class SearchActivity extends AppCompatActivity {
      * 初始化搜索列表，显示第一页
      */
     class InitTask extends AsyncTask<Void, Void, ArrayList<PostListVO>> {
-        @Override
-        protected void onPreExecute() {
-            refreshLayout.autoRefresh();
-        }
 
         @Override
         protected ArrayList<PostListVO> doInBackground(Void... params) {
@@ -127,7 +131,7 @@ public class SearchActivity extends AppCompatActivity {
             refreshLayout.finishRefresh();
             if (postList != null) {
                 SearchActivity.this.postList = postList;
-                postListAdapter = new PostListAdapter(SearchActivity.this, R.layout.post_list, SearchActivity.this.postList);
+                postListAdapter = new PostListAdapter(SearchActivity.this, R.layout.postlist_item, SearchActivity.this.postList);
                 mListView.setAdapter(postListAdapter);
                 page = 2;
             } else {

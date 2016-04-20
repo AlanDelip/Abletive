@@ -27,7 +27,7 @@ public class HttpConnection {
 
         try {
             URL url = new URL(site);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setConnectTimeout(timeout);
 
             return httpURLConnection.getInputStream();
@@ -92,6 +92,9 @@ public class HttpConnection {
      * @return String
      */
     public String transStream(InputStream inputStream) {
+        if(inputStream==null){
+            return null;
+        }
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String content, result = "";
         try {

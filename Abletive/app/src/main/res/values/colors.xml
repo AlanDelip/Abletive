@@ -10,4 +10,5 @@
     <color name="domain_color">#313131</color>
     <color name="focus_color">#fbff02</color>
     <color name="edit_background">#64000000</color>
+    <color name="yellow">#ffee00</color>
 </resources>

@@ -7,7 +7,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import abletive.logicservice.postblservice.ListService;
-import abletive.presentation.activity.TypeActivity;
 import abletive.presentation.uiutil.WidgetTool;
 import abletive.vo.TypeListVO;
 import alandelip.abletivedemo.R;
@@ -19,13 +18,14 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * @author Alan
  * @version 1.0
  */
-public class CategoryTask extends AsyncTask<Void, Void, ArrayList<TypeListVO>> {
+public class TypeTask extends AsyncTask<Void, Void, ArrayList<TypeListVO>> {
 
     Context context;
     ListService listService;
     SweetAlertDialog dialog;
+    TypeTaskCallBack typeTaskCallBack;
 
-    public CategoryTask(Context context, ListService listService) {
+    public TypeTask(Context context, ListService listService) {
         this.context = context;
         this.listService = listService;
     }
@@ -46,9 +46,17 @@ public class CategoryTask extends AsyncTask<Void, Void, ArrayList<TypeListVO>> {
         dialog.dismiss();
         if (list.size() != 0) {
             //打开类别活动
-            TypeActivity.newInstance(context, list, listService);
+            typeTaskCallBack.setTypeList(list);
         } else {
             Toast.makeText(context, context.getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setTypeTaskCallBack(TypeTaskCallBack typeTaskCallBack) {
+        this.typeTaskCallBack = typeTaskCallBack;
+    }
+
+    public interface TypeTaskCallBack {
+        void setTypeList(ArrayList<TypeListVO> typeList);
     }
 }
