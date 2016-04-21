@@ -11,4 +11,6 @@
     <color name="focus_color">#fbff02</color>
     <color name="edit_background">#64000000</color>
     <color name="yellow">#ffee00</color>
+    <color name="dkred">#cb3939</color>
+    <color name="orange">#f9bb02</color>
 </resources>

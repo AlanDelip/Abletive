@@ -1,7 +1,8 @@
 <resources>
     <!--General-->
     <string name="app_name">Abletive音乐社区</string>
-    <string name="app_sub">abletive.com</string>
+    <string name="app_sub_lower">abletive.com</string>
+    <string name="app_sub_upper">ABLETIVE.COM</string>
     <string name="action_settings">Settings</string>
 
     <!--Loading-->
@@ -20,6 +21,8 @@
 
     <!--Post-->
     <string name="post">文章</string>
+    <string name="portrait">竖屏模式</string>
+    <string name="landscape">横屏模式</string>
 
     <!--Message-->
     <string name="title_activity_message">消息</string>
@@ -34,6 +37,11 @@
     <string name="default_user_name">Alan.Delip</string>
     <string name="no_login">未登录</string>
     <string name="sign_up">签到</string>
+    <string name="user_name">您的用户名</string>
+    <string name="user_password">您的密码</string>
+    <string name="login">登录</string>
+    <string name="no_account">还没有帐号？赶紧注册</string>
+    <string name="forget_password">忘记密码？</string>
 
     <!--Internet Handle-->
     <string name="internet_failure">连接失败</string>
@@ -55,12 +63,63 @@
     <string name="id">id</string>
     <string name="search">search</string>
     <string name="date">date</string>
+    <string name="generate_auth_cookie">generate_auth_cookie</string>
+    <string name="auth">auth</string>
+    <string name="user">user</string>
+    <string name="register">register</string>
+    <string name="get_currentuserinfo">get_currentuserinfo</string>
+    <string name="get_userinfo">get_userinfo</string>
+    <string name="get_avatar">get_avatar</string>
+    <string name="get_personal_page_detail">get_personal_page_detail</string>
+    <string name="get_follow_list">get_follow_list</string>
+    <string name="daily_checkin">daily_checkin</string>
+    <string name="follow_act">follow_act</string>
+    <string name="get_comment_list">get_comment_list</string>
+    <string name="like_post">like_post</string>
+    <string name="collect">collect</string>
+    <string name="get_user_profile">get_user_profile</string>
+    <string name="update_user_avatar">update_user_avatar</string>
+    <string name="membership">membership</string>
+    <string name="get_collection_list">get_collection_list</string>
+    <string name="get_credit_list">get_credit_list</string>
+    <string name="respond">respond</string>
+    <string name="submit_comment">submit_comment</string>
+    <string name="get_notifications">get_notifications</string>
+    <string name="get_inbox">get_inbox</string>
+    <string name="chat_messages">chat_messages</string>
+    <string name="send_private_message">send_private_message</string>
+    <string name="get_credit_ranks">get_credit_ranks</string>
+    <string name="payment_succeeded">payment_succeeded</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="user_pass">user_pass</string>
+    <string name="email">email</string>
+    <string name="display_name">display_name</string>
+    <string name="nonce">nonce</string>
+    <string name="controller">controller</string>
+    <string name="method">method</string>
+    <string name="user_id">user_id</string>
+    <string name="current_user_id">current_user_id</string>
+    <string name="type">type</string>
+    <string name="followed">followed</string>
+    <string name="act">act</string>
+    <string name="pid">pid</string>
+    <string name="post_id">post_id</string>
+    <string name="avatar">avatar</string>
+    <string name="fromUserID">fromUserID</string>
+    <string name="passphrase">passphrase</string>
+    <string name="content">content</string>
+    <string name="limit">limit</string>
+    <string name="vip_type">vip_type</string>
+    <string name="api">api</string>
+    <string name="get_nonce">get_nonce</string>
+    <string name="ok">ok</string>
 
     <!--Test-->
     <string name="chinese_long_text">这是一条中文的测试，用于测试是否在结尾处会有长句子的隐藏效果，测试文字格式和其他一些设置到底对不对</string>
-    <string name="title_activity_tag">TagActivity</string>
+    <string name="title_activity_tag">标签</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_log">LogActivity</string>
+    <string name="title_activity_log">登录</string>
 </resources>

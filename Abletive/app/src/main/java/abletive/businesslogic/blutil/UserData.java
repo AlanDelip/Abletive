@@ -1,5 +1,7 @@
 package abletive.businesslogic.blutil;
 
+import abletive.vo.UserVO;
+
 /**
  * 用户模块的信息存储（单例模式）
  * Created by Alan on 2016/4/20.
@@ -15,6 +17,11 @@ public class UserData {
      * 是否已经登录，初始化为未登录
      */
     private boolean isLogin = false;
+
+    /**
+     * 目前加载的用户信息
+     */
+    private UserVO userVO;
 
     private UserData() {
     }
@@ -37,5 +44,13 @@ public class UserData {
 
     public void setIsLogin(boolean isLogin) {
         this.isLogin = isLogin;
+    }
+
+    public UserVO getUserVO() {
+        return userVO;
+    }
+
+    public void setUserVO(UserVO userVO) {
+        this.userVO = userVO;
     }
 }

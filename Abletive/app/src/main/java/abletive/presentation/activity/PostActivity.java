@@ -3,21 +3,21 @@ package abletive.presentation.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
@@ -26,8 +26,6 @@ import java.util.HashMap;
 
 import abletive.presentation.tasks.ImageTask;
 import abletive.presentation.tasks.PostTask;
-import abletive.presentation.widget.VideoEnabledWebChromeClient;
-import abletive.presentation.widget.VideoEnabledWebView;
 import abletive.vo.PostVO;
 import alandelip.abletivedemo.R;
 import jp.wasabeef.blurry.Blurry;
@@ -36,13 +34,16 @@ public class PostActivity extends AppCompatActivity {
 
     private static final String ARG_DATAMAP = "datamap";
     private HashMap<String, String> data;
-    private VideoEnabledWebView webView;
+    private WebView webView;
     private PostVO postVO;
     private MaterialRefreshLayout materialRefreshLayout;
     private String id, title, author, views, thumbUrl, comments, url;
     private Toolbar toolbar;
+    private EditText mCommentText;
     private TextView postInfoText;
-    private VideoEnabledWebChromeClient webChromeClient;
+    private View bottomView;
+//    private VideoEnabledWebChromeClient webChromeClient;
+//    private View mCustomView;
 
     /**
      * @param context 启动活动的上下文
@@ -115,73 +116,121 @@ public class PostActivity extends AppCompatActivity {
 
         });
         imageTask.execute();
+
+        bottomView = findViewById(R.id.bottom);
     }
 
     /**
      * 初始化浏览器
      */
     private void initWebview() {
-        webView = (VideoEnabledWebView) findViewById(R.id.webview);
+        webView = (WebView) findViewById(R.id.webview);
         //支持js
-//        WebSettings settings = webView.getSettings();
-//        settings.setJavaScriptEnabled(true);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
 //        settings.setDefaultTextEncodingName("utf-8");
 //        settings.setDisplayZoomControls(false);
 //        settings.setUseWideViewPort(true);
 //        settings.setLoadWithOverviewMode(true);
 
-        ViewGroup webViewBackground = (ViewGroup) findViewById(R.id.webview_background);
+//        final FrameLayout webViewBackground = (FrameLayout) findViewById(R.id.webview_background);
+//        webChromeClient = new VideoEnabledWebChromeClient(webView, webViewBackground, null, webView) // See all available constructors...
+//        {
+//            // Subscribe to standard events, such as onProgressChanged()...
+//            @Override
+//            public void onProgressChanged(WebView view, int progress) {
+//                // Your code...
+//            }
+//        };
+//
+//        webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback() {
+//            @Override
+//            public void toggledFullscreen(boolean fullscreen) {
+//                // Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
+//                if (fullscreen) {
+//                    Log.d("Abletive", "toggledFullscreen: ");
+//                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//                    attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+//                    attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+//                    getWindow().setAttributes(attrs);
+//                    if (android.os.Build.VERSION.SDK_INT >= 14) {
+//                        //noinspection all
+//                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+//                    }
+//                } else {
+//                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+//                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+//                    getWindow().setAttributes(attrs);
+//                    if (android.os.Build.VERSION.SDK_INT >= 14) {
+//                        //noinspection all
+//                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+//                    }
+//                }
+//            }
+//        });
+//        webView.setWebChromeClient(webChromeClient);
+//        webView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                view.loadUrl(url);
+//                return true;
+//            }
+//        });
 
-        webChromeClient = new VideoEnabledWebChromeClient(webView, webViewBackground, null, webView) // See all available constructors...
-        {
-            // Subscribe to standard events, such as onProgressChanged()...
-            @Override
-            public void onProgressChanged(WebView view, int progress) {
-                // Your code...
-            }
-        };
-
-        webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback() {
-            @Override
-            public void toggledFullscreen(boolean fullscreen) {
-                // Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
-                if (fullscreen) {
-                    Log.d("Abletive", "toggledFullscreen: ");
-                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
-                    attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                    attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-                    getWindow().setAttributes(attrs);
-                    if (android.os.Build.VERSION.SDK_INT >= 14) {
-                        //noinspection all
-                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-                    }
-                } else {
-                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
-                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-                    getWindow().setAttributes(attrs);
-                    if (android.os.Build.VERSION.SDK_INT >= 14) {
-                        //noinspection all
-                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-                    }
-                }
-            }
-        });
-        webView.setWebChromeClient(webChromeClient);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+//        webView.setWebChromeClient(new WebChromeClient() {
+//
+//            private CustomViewCallback mCustomViewCallback;
+//            private int mOriginalOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+//
+//            @Override
+//            public void onShowCustomView(View view, CustomViewCallback callback) {
+//                onShowCustomView(view, mOriginalOrientation, callback);
+//            }
+//
+//            public void onShowCustomView(View view, int requestedOrientation, CustomViewCallback callback) {
+//                if (mCustomView != null) {
+//                    callback.onCustomViewHidden();
+//                    return;
+//                }
+//                webViewBackground.addView(view);
+//                mCustomView = view;
+//                mCustomViewCallback = callback;
+//                mOriginalOrientation = getRequestedOrientation();
+//                webView.setVisibility(View.GONE);
+//                webViewBackground.setVisibility(View.VISIBLE);
+//                webViewBackground.bringToFront();
+//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                Log.d("Abletive", "onShowCustomView: ");
+//            }
+//
+//            public void onHideCustomView() {
+//                webView.setVisibility(View.VISIBLE);
+//                if (mCustomView == null) {
+//                    return;
+//                }
+//                mCustomView.setVisibility(View.GONE);
+//                webViewBackground.removeView(mCustomView);
+//                mCustomView = null;
+//                webViewBackground.setVisibility(View.GONE);
+//                try {
+//                    mCustomViewCallback.onCustomViewHidden();
+//                } catch (Exception e) {
+//                }
+//                // Show the content view.
+//
+//                setRequestedOrientation(mOriginalOrientation);
+//            }
+//        });
     }
 
     /**
      * 初始化文字内容
      */
     private void initText() {
-        final EditText mCommentText = (EditText) findViewById(R.id.comment_area);
+        mCommentText = (EditText) findViewById(R.id.comment_area);
+        postInfoText = (TextView) findViewById(R.id.post_info);
         TextView mCommentButton = (TextView) findViewById(R.id.comment_confirm);
         mCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,10 +239,6 @@ public class PostActivity extends AppCompatActivity {
                 //TODO 发表评论并且刷新
             }
         });
-        mCommentText.clearFocus();
-
-        postInfoText = (TextView) findViewById(R.id.post_info);
-
     }
 
     /**
@@ -206,8 +251,8 @@ public class PostActivity extends AppCompatActivity {
             public void setPost(PostVO postVO) {
                 PostActivity.this.postVO = postVO;
 //                webView.loadData(postVO.getContentHtml(), "text/html;charset=utf-8", null);
-                webView.loadUrl("http://www.youku.com");
-                postInfoText.setText("点赞:" + postVO.getLikesNum() + "    收藏:" + postVO.getCollectsNum());
+                webView.loadUrl(url);
+                postInfoText.setText("点赞:" + postVO.getLikesNum() + "     收藏:" + postVO.getCollectsNum());
                 materialRefreshLayout.finishRefresh();
             }
         });
@@ -226,16 +271,26 @@ public class PostActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Notify the VideoEnabledWebChromeClient, and handle it ourselves if it doesn't handle it
-        if (!webChromeClient.onBackPressed()) {
-            if (webView.canGoBack()) {
-                webView.goBack();
-            } else {
-                // Standard back button implementation (for example this could close the app)
-                super.onBackPressed();
-                overridePendingTransition(R.anim.in_from_top, R.anim.out_to_bottom);
-            }
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            webView.destroy();
+            // Standard back button implementation (for example this could close the app)
+            super.onBackPressed();
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_USER) {
+            bottomView.setVisibility(View.GONE);
+            toolbar.setVisibility(View.GONE);
+            Toast.makeText(PostActivity.this, getString(R.string.landscape), Toast.LENGTH_SHORT).show();
+        } else {
+            bottomView.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(View.VISIBLE);
+            Toast.makeText(PostActivity.this, getString(R.string.portrait), Toast.LENGTH_SHORT).show();
+        }
+        super.onConfigurationChanged(newConfig);
+    }
 }

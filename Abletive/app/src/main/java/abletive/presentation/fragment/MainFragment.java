@@ -192,10 +192,10 @@ public class MainFragment extends Fragment {
 
             @Override
             public void setAdapter() {
-                postListAdapter = new PostListAdapter(getContext(),
-                        R.layout.postlist_item,
-                        postList);
-                mListView.setAdapter(postListAdapter);
+                if (postList != null) {
+                    postListAdapter = new PostListAdapter(getContext(), R.layout.postlist_item, postList);
+                    mListView.setAdapter(postListAdapter);
+                }
             }
         });
         postListTask.execute();
@@ -254,8 +254,10 @@ public class MainFragment extends Fragment {
 
                     @Override
                     public void setAdapter() {
-                        postListAdapter = new PostListAdapter(getContext(), R.layout.postlist_item, postList);
-                        mListView.setAdapter(postListAdapter);
+                        if (postList != null) {
+                            postListAdapter = new PostListAdapter(getContext(), R.layout.postlist_item, postList);
+                            mListView.setAdapter(postListAdapter);
+                        }
                     }
                 });
                 postListTask.execute();

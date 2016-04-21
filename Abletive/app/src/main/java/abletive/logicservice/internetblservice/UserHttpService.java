@@ -1,5 +1,7 @@
 package abletive.logicservice.internetblservice;
 
+import abletive.po.HttpSignupPO;
+import abletive.po.HttpUserPO;
 import abletive.po.UserPO;
 import abletive.vo.SignupVO;
 
@@ -16,7 +18,7 @@ public interface UserHttpService {
      * @param password 密码
      * @return 用户数据
      */
-    UserPO signin(String userID, String password);
+    HttpUserPO signin(String userID, String password);
 
     /**
      * 注册
@@ -24,5 +26,13 @@ public interface UserHttpService {
      * @param signupVO 注册信息
      * @return 用户数据
      */
-    UserPO signup(SignupVO signupVO);
+    HttpSignupPO signup(SignupVO signupVO);
+
+    /**
+     * 获取指定用户信息
+     *
+     * @param userID 用户ID
+     * @return 用户信息
+     */
+    UserPO getUserInfo(String userID);
 }

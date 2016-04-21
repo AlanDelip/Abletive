@@ -16,7 +16,7 @@ public class HttpBuilder {
         this.url = url;
     }
 
-    public HttpBuilder(){
+    public HttpBuilder() {
         url = MApplication.getServerIP();
     }
 
@@ -30,7 +30,15 @@ public class HttpBuilder {
     }
 
     public HttpBuilder addField(String field) {
-        url += field + "/?";
+        return addField(field, true);
+    }
+
+    public HttpBuilder addField(String field, boolean isEnd) {
+        if (isEnd) {
+            url += field + "/?";
+        } else {
+            url += field + "/";
+        }
         return this;
     }
 

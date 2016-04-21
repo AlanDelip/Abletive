@@ -3,7 +3,6 @@ package abletive.businesslogic.internetbl;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import java.io.InputStream;
 
@@ -199,7 +198,6 @@ public class PostHttpImpl implements PostHttpService {
                         .build();
 
         String result = httpConnection.getResult(request);
-        Log.d(TAG, "getDateResult: " + request);
         HttpDatePostPO httpDatePostPO = null;
         if (result.length() != 0) {
             httpDatePostPO = JSONHandler.getDatePost(result);

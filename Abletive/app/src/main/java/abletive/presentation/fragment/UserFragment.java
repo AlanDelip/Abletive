@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import abletive.businesslogic.blutil.UserData;
+import abletive.presentation.activity.LogActivity;
 import alandelip.abletivedemo.R;
 
 /**
@@ -79,6 +80,8 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO 跳转至登录界面
+//                Toast.makeText(getContext(), getString(R.string.no_login), Toast.LENGTH_SHORT).show();
+                LogActivity.newInstance(getContext());
             }
         });
     }

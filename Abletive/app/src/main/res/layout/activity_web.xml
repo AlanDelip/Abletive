@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     tools:context="abletive.presentation.activity.PostActivity">
 
-    <ImageView
-        android:id="@+id/post_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar"
-        android:background="@color/gray"
-        android:scaleType="centerCrop"
-        android:src="@drawable/launch_logo" />
+    <!--<ImageView-->
+    <!--android:id="@+id/post_background"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/app_bar"-->
+    <!--android:background="@color/gray"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:src="@drawable/launch_logo" />-->
 
     <!--<ImageView-->
     <!--android:layout_width="match_parent"-->
@@ -71,7 +71,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
-        android:id="@+id/webview_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar">
@@ -164,5 +163,12 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/webview_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:visibility="gone" />
 
 </RelativeLayout>
