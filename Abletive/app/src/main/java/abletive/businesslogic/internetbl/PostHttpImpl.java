@@ -217,8 +217,10 @@ public class PostHttpImpl implements PostHttpService {
         String result = httpConnection.getResult(request);
 
         HttpAuthorPostPO httpAuthorPostPO = null;
-        if (result.length() != 0) {
-            httpAuthorPostPO = JSONHandler.getAuthorPost(result);
+        if (result != null) {
+            if (result.length() != 0) {
+                httpAuthorPostPO = JSONHandler.getAuthorPost(result);
+            }
         }
         return httpAuthorPostPO;
     }
@@ -229,5 +231,26 @@ public class PostHttpImpl implements PostHttpService {
         InputStream inputStream = httpConnection.processConnection(thumbnailUrl);
         thumb = BitmapFactory.decodeStream(inputStream);
         return thumb;
+    }
+
+    @Override
+    public int like(String postID, String userID) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.user), false)
+                        .addField(context.getString(R.string.like_post))
+                        .addParam(context.getString(R.string.pid), postID)
+                        .addParam(context.getString(R.string.user_id), userID)
+                        .build();
+
+        String result = httpConnection.getResult(request);
+
+        int credit = 0;
+        if(result!=null){
+            if (result.length() != 0) {
+                credit = JSONHandler.getCredit(result);
+            }
+        }
+        return credit;
     }
 }

@@ -8,12 +8,9 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,13 +25,14 @@ import abletive.presentation.tasks.ImageTask;
 import abletive.presentation.tasks.PostTask;
 import abletive.vo.PostVO;
 import alandelip.abletivedemo.R;
+import im.delight.android.webview.AdvancedWebView;
 import jp.wasabeef.blurry.Blurry;
 
 public class PostActivity extends AppCompatActivity {
-
+    private static final String TAG = "Abletive";
     private static final String ARG_DATAMAP = "datamap";
     private HashMap<String, String> data;
-    private WebView webView;
+    private AdvancedWebView mWebView;
     private PostVO postVO;
     private MaterialRefreshLayout materialRefreshLayout;
     private String id, title, author, views, thumbUrl, comments, url;
@@ -42,8 +40,6 @@ public class PostActivity extends AppCompatActivity {
     private EditText mCommentText;
     private TextView postInfoText;
     private View bottomView;
-//    private VideoEnabledWebChromeClient webChromeClient;
-//    private View mCustomView;
 
     /**
      * @param context 启动活动的上下文
@@ -97,23 +93,25 @@ public class PostActivity extends AppCompatActivity {
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final ImageView toolbarBackground = (ImageView) findViewById(R.id.toolbar_background);
         ImageView toolbarImage = (ImageView) findViewById(R.id.toolbar_navigation);
-        TextView toolbarText = (TextView) findViewById(R.id.toolbar_text);
-        toolbarText.setText(title);
+        final TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title),
+                toolbarAuthor = (TextView) findViewById(R.id.toolbar_author);
+
+        toolbarTitle.setText(title);
+        toolbarAuthor.setText(author);
+
         ImageTask imageTask = new ImageTask(thumbUrl);
         imageTask.setImageTaskCallBack(new ImageTask.ImageTaskCallBack() {
             @Override
             public void setImage(Bitmap image) {
-                toolbarBackground.setImageBitmap(image);
-                Blurry.with(PostActivity.this)
-                        .radius(20)
-                        .sampling(8)
-                        .async()
-                        .capture(toolbarBackground)
-                        .into(toolbarBackground);
+                Palette palette = Palette.from(image).generate();
+                Palette.Swatch muteSwatch = palette.getDarkMutedSwatch();
+                if (muteSwatch != null) {
+                    toolbar.setBackgroundColor(muteSwatch.getRgb());
+                    toolbarTitle.setTextColor(muteSwatch.getTitleTextColor());
+                    toolbarAuthor.setTextColor(muteSwatch.getBodyTextColor());
+                }
             }
-
         });
         imageTask.execute();
 
@@ -124,105 +122,24 @@ public class PostActivity extends AppCompatActivity {
      * 初始化浏览器
      */
     private void initWebview() {
-        webView = (WebView) findViewById(R.id.webview);
-        //支持js
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-//        settings.setDefaultTextEncodingName("utf-8");
-//        settings.setDisplayZoomControls(false);
-//        settings.setUseWideViewPort(true);
-//        settings.setLoadWithOverviewMode(true);
+        mWebView = (AdvancedWebView) findViewById(R.id.webview);
+        final ImageView webViewBackGround = (ImageView) findViewById(R.id.webview_background);
+        ImageTask imageTask = new ImageTask(thumbUrl);
+        imageTask.setImageTaskCallBack(new ImageTask.ImageTaskCallBack() {
+            @Override
+            public void setImage(Bitmap image) {
+                webViewBackGround.setImageBitmap(image);
+                Blurry.with(PostActivity.this)
+                        .radius(20)
+                        .sampling(8)
+                        .async()
+                        .capture(webViewBackGround)
+                        .into(webViewBackGround);
+            }
 
-//        final FrameLayout webViewBackground = (FrameLayout) findViewById(R.id.webview_background);
-//        webChromeClient = new VideoEnabledWebChromeClient(webView, webViewBackground, null, webView) // See all available constructors...
-//        {
-//            // Subscribe to standard events, such as onProgressChanged()...
-//            @Override
-//            public void onProgressChanged(WebView view, int progress) {
-//                // Your code...
-//            }
-//        };
-//
-//        webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback() {
-//            @Override
-//            public void toggledFullscreen(boolean fullscreen) {
-//                // Your code to handle the full-screen change, for example showing and hiding the title bar. Example:
-//                if (fullscreen) {
-//                    Log.d("Abletive", "toggledFullscreen: ");
-//                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
-//                    attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-//                    attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-//                    getWindow().setAttributes(attrs);
-//                    if (android.os.Build.VERSION.SDK_INT >= 14) {
-//                        //noinspection all
-//                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-//                    }
-//                } else {
-//                    WindowManager.LayoutParams attrs = getWindow().getAttributes();
-//                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-//                    attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-//                    getWindow().setAttributes(attrs);
-//                    if (android.os.Build.VERSION.SDK_INT >= 14) {
-//                        //noinspection all
-//                        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-//                    }
-//                }
-//            }
-//        });
-//        webView.setWebChromeClient(webChromeClient);
-//        webView.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-//                return true;
-//            }
-//        });
+        });
+        imageTask.execute();
 
-//        webView.setWebChromeClient(new WebChromeClient() {
-//
-//            private CustomViewCallback mCustomViewCallback;
-//            private int mOriginalOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-//
-//            @Override
-//            public void onShowCustomView(View view, CustomViewCallback callback) {
-//                onShowCustomView(view, mOriginalOrientation, callback);
-//            }
-//
-//            public void onShowCustomView(View view, int requestedOrientation, CustomViewCallback callback) {
-//                if (mCustomView != null) {
-//                    callback.onCustomViewHidden();
-//                    return;
-//                }
-//                webViewBackground.addView(view);
-//                mCustomView = view;
-//                mCustomViewCallback = callback;
-//                mOriginalOrientation = getRequestedOrientation();
-//                webView.setVisibility(View.GONE);
-//                webViewBackground.setVisibility(View.VISIBLE);
-//                webViewBackground.bringToFront();
-//                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//                Log.d("Abletive", "onShowCustomView: ");
-//            }
-//
-//            public void onHideCustomView() {
-//                webView.setVisibility(View.VISIBLE);
-//                if (mCustomView == null) {
-//                    return;
-//                }
-//                mCustomView.setVisibility(View.GONE);
-//                webViewBackground.removeView(mCustomView);
-//                mCustomView = null;
-//                webViewBackground.setVisibility(View.GONE);
-//                try {
-//                    mCustomViewCallback.onCustomViewHidden();
-//                } catch (Exception e) {
-//                }
-//                // Show the content view.
-//
-//                setRequestedOrientation(mOriginalOrientation);
-//            }
-//        });
     }
 
     /**
@@ -250,8 +167,8 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void setPost(PostVO postVO) {
                 PostActivity.this.postVO = postVO;
-//                webView.loadData(postVO.getContentHtml(), "text/html;charset=utf-8", null);
-                webView.loadUrl(url);
+//                mWebView.loadData(postVO.getContentHtml(), "text/html;charset=utf-8", null);
+                mWebView.loadUrl(url);
                 postInfoText.setText("点赞:" + postVO.getLikesNum() + "     收藏:" + postVO.getCollectsNum());
                 materialRefreshLayout.finishRefresh();
             }
@@ -260,24 +177,11 @@ public class PostActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            webView.destroy();
-            // Standard back button implementation (for example this could close the app)
-            super.onBackPressed();
+        if (!mWebView.onBackPressed()) {
+            return;
         }
+        super.onBackPressed();
     }
 
     @Override
@@ -292,5 +196,29 @@ public class PostActivity extends AppCompatActivity {
             Toast.makeText(PostActivity.this, getString(R.string.portrait), Toast.LENGTH_SHORT).show();
         }
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mWebView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mWebView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mWebView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        mWebView.onActivityResult(requestCode, resultCode, intent);
     }
 }

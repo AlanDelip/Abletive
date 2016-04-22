@@ -10,9 +10,17 @@
     tools:showIn="@layout/fragment_main">
 
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/studio"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
         android:id="@+id/post_background"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
         android:src="@drawable/launch_logo" />
 
     <TextView
@@ -20,10 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/post_background"
         android:gravity="center"
-        android:text="文章列表加载中..."
+        android:text="@string/post_wait"
         android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textSize="18sp" />
 
     <com.cjj.MaterialRefreshLayout
         android:id="@+id/refresh"

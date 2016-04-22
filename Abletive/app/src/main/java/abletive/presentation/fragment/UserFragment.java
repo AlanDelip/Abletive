@@ -1,8 +1,10 @@
 package abletive.presentation.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,12 +12,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import abletive.businesslogic.blutil.UserData;
 import abletive.presentation.activity.LogActivity;
+import abletive.presentation.activity.MainActivity;
+import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
+import cn.trinea.android.common.entity.FailedReason;
+import cn.trinea.android.common.service.impl.ImageMemoryCache;
+import jp.wasabeef.blurry.Blurry;
 
 /**
  * 用户界面碎片
@@ -23,8 +32,10 @@ import alandelip.abletivedemo.R;
 public class UserFragment extends Fragment {
 
     private View currentView;
+    private UserVO userVO;
     private UserData userData;
     private TextView userName;
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,23 +55,24 @@ public class UserFragment extends Fragment {
 
         currentView = getView();
         userData = UserData.getInstance();
+        userVO = userData.getUserVO();
 
-        initToolBar();
+        if (toolbar == null) {
+            initToolBar();
+        }
         //如果登录就显示用户信息，否则显示请登录信息
         if (userData.isLogin()) {
             initUserData();
         } else {
             initLoginData();
         }
-
-//        initViewPager();
     }
 
     /**
      * 初始化标头
      */
     private void initToolBar() {
-        Toolbar toolbar = (Toolbar) currentView.findViewById(R.id.toolbar);
+        toolbar = (Toolbar) currentView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
     }
@@ -79,8 +91,7 @@ public class UserFragment extends Fragment {
         loginInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转至登录界面
-//                Toast.makeText(getContext(), getString(R.string.no_login), Toast.LENGTH_SHORT).show();
+                //跳转至登录界面
                 LogActivity.newInstance(getContext());
             }
         });
@@ -90,65 +101,92 @@ public class UserFragment extends Fragment {
      * 初始化用户信息显示
      */
     private void initUserData() {
+        //设置用户名
+        userName = (TextView) currentView.findViewById(R.id.user_nickname);
+        userName.setText(userVO.getNickname());
 
+        //设置个人资料和我的收藏按钮
+        final Button personalInfoButton = (Button) currentView.findViewById(R.id.personal_info),
+                collectionsButton = (Button) currentView.findViewById(R.id.collections);
+        personalInfoButton.setVisibility(View.VISIBLE);
+        collectionsButton.setVisibility(View.VISIBLE);
+
+        TextView loginInfo = (TextView) currentView.findViewById(R.id.log_info);
+        //设置登录提醒不可见
+        loginInfo.setVisibility(View.GONE);
+
+        //设置头像和背景
+        final ImageView mHeaderBackground = (ImageView) currentView.findViewById(R.id.header_background);
+        final ImageView mAvatarView = (ImageView) currentView.findViewById(R.id.user_avatar);
+        MainActivity.IMAGE_CACHE.get(userVO.getAvatarUrl(), mAvatarView);
+        MainActivity.IMAGE_CACHE.setOnImageCallbackListener(new ImageMemoryCache.OnImageCallbackListener() {
+            @Override
+            public void onPreGet(String imageUrl, View view) {
+            }
+
+            @Override
+            public void onGetNotInCache(String imageUrl, View view) {
+            }
+
+            @Override
+            public void onGetSuccess(String imageUrl, Bitmap loadedImage, View view, boolean isInCache) {
+                if (imageUrl.equals(userVO.getAvatarUrl())) {
+                    //设置头像和背景
+                    mHeaderBackground.setImageBitmap(loadedImage);
+                    mHeaderBackground.setAlpha(Float.valueOf("0.8"));
+                    Blurry.with(getContext())
+                            .radius(20)
+                            .sampling(8)
+                            .async()
+                            .capture(mHeaderBackground)
+                            .into(mHeaderBackground);
+                    mAvatarView.setImageBitmap(loadedImage);
+                    //设置个人资料和收藏按钮配色
+                    Palette palette = Palette.from(loadedImage).generate();
+                    Palette.Swatch muteDark = palette.getDarkMutedSwatch(),
+                            vibrantDark = palette.getDarkVibrantSwatch();
+                    if (muteDark != null) {
+                        personalInfoButton.setTextColor(muteDark.getTitleTextColor());
+                        collectionsButton.setTextColor(muteDark.getTitleTextColor());
+                    } else if (vibrantDark != null) {
+                        personalInfoButton.setTextColor(vibrantDark.getTitleTextColor());
+                        collectionsButton.setTextColor(vibrantDark.getTitleTextColor());
+                    }
+                }
+            }
+
+            @Override
+            public void onGetFailed(String imageUrl, Bitmap loadedImage, View view, FailedReason failedReason) {
+            }
+        });
+
+        //设置列表
+        ImageView mPersonalPage = (ImageView) currentView.findViewById(R.id.personal_page),
+                mMyMember = (ImageView) currentView.findViewById(R.id.my_member),
+                mScanMatrix = (ImageView) currentView.findViewById(R.id.scan_matrix),
+                mMyMatrix = (ImageView) currentView.findViewById(R.id.my_matrix),
+                arrow1 = (ImageView) currentView.findViewById(R.id.arrow1),
+                arrow2 = (ImageView) currentView.findViewById(R.id.arrow2),
+                arrow3 = (ImageView) currentView.findViewById(R.id.arrow3),
+                arrow4 = (ImageView) currentView.findViewById(R.id.arrow4);
+        TextView mPersonalPageText = (TextView) currentView.findViewById(R.id.personal_page_text),
+                mMyMemberText = (TextView) currentView.findViewById(R.id.my_member_text),
+                mMyMatrixText = (TextView) currentView.findViewById(R.id.my_matrix_text),
+                mScanMatrixText = (TextView) currentView.findViewById(R.id.scan_matrix_text);
+        mPersonalPage.setVisibility(View.VISIBLE);
+        mMyMatrix.setVisibility(View.VISIBLE);
+        mScanMatrix.setVisibility(View.VISIBLE);
+        mMyMember.setVisibility(View.VISIBLE);
+        arrow1.setVisibility(View.VISIBLE);
+        arrow2.setVisibility(View.VISIBLE);
+        arrow3.setVisibility(View.VISIBLE);
+        arrow4.setVisibility(View.VISIBLE);
+        mPersonalPageText.setVisibility(View.VISIBLE);
+        mMyMemberText.setVisibility(View.VISIBLE);
+        mMyMatrixText.setVisibility(View.VISIBLE);
+        mScanMatrixText.setVisibility(View.VISIBLE);
     }
 
-    private void initViewPager() {
-//        final MaterialViewPager mViewPager = (MaterialViewPager) getView().findViewById(R.id.materialViewPager);
-
-//        Toolbar toolbar = mViewPager.getToolbar();
-//        if (toolbar != null) {
-//            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-//            toolbar.setTitle(null);
-//            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-//            if (actionBar != null) {
-//                actionBar.setDisplayHomeAsUpEnabled(false);
-//                actionBar.setDisplayShowHomeEnabled(false);
-//                actionBar.setDisplayShowTitleEnabled(true);
-//                actionBar.setDisplayUseLogoEnabled(false);
-//            }
-//        }
-//
-//        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
-
-//            @Override
-//            public Fragment getItem(int position) {
-//                return RecyclerViewFragment.newInstance();
-//            }
-//
-//            @Override
-//            public int getCount() {
-//                return 4;
-//            }
-//
-//            @Override
-//            public CharSequence getPageTitle(int position) {
-//                switch (position % 4) {
-//                    case 0:
-//                        return "个人档案";
-//                    case 1:
-//                        return "社区贡献";
-//                    case 2:
-//                        return "个人作品";
-//                    case 3:
-//                        return "关注者";
-//                }
-//                return "";
-//            }
-//        });
-//
-//        ImageView userLogo = (ImageView) mViewPager.getChildAt(0).findViewById(R.id.user_logo);
-//        userLogo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //TODO: 实现头像和背景的自定义更改
-//                Toast.makeText(getContext(), "it work!!!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        mViewPager.getPagerTitleStrip().setTextColor(Color.WHITE);
-//        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -160,7 +198,7 @@ public class UserFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.sign_up) {
             //TODO 签到
-            Toast.makeText(getContext(), getString(R.string.sign_up), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.sign), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_settings) {
             //TODO 设置
             Toast.makeText(getContext(), getString(R.string.action_settings), Toast.LENGTH_SHORT).show();

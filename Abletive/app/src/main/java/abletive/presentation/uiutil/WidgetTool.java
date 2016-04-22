@@ -21,9 +21,13 @@ public class WidgetTool {
      * @return 默认的ProgressDialog
      */
     public static SweetAlertDialog getDefaultDialog(Context context) {
+        return getDialog(context, context.getString(R.string.loading));
+    }
+
+    public static SweetAlertDialog getDialog(Context context, String content) {
         SweetAlertDialog progressDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        progressDialog.setTitleText(context.getString(R.string.loading));
+        progressDialog.setTitleText(content);
         progressDialog.setCancelable(true);
         return progressDialog;
     }

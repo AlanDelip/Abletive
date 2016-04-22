@@ -61,15 +61,9 @@ public class LogActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void login(String username, String password) {
-                    //TODO 登录后续处理
-                    Toast.makeText(LogActivity.this, username + "-" + password + " 登录", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
                 public void signUp() {
-                    //TODO
-                    Toast.makeText(LogActivity.this, "注册", Toast.LENGTH_SHORT).show();
+                    //显示注册界面
+                    showSignupFragment();
                 }
 
                 @Override
@@ -80,7 +74,6 @@ public class LogActivity extends AppCompatActivity {
             });
             transaction.add(R.id.content, loginFragment);
         }
-        transaction.setCustomAnimations(R.anim.scale_down, R.anim.scale_up);
         transaction.commit();
 
     }
@@ -101,12 +94,25 @@ public class LogActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         hideLoginFragment(transaction);
         if (signupFragment != null) {
+//            transaction.setCustomAnimations(R.anim.popup_enter,R.anim.popup_exit);
+//            transaction.replace(R.id.content,signupFragment);
             transaction.show(signupFragment);
         } else {
             signupFragment = new SignupFragment();
+            signupFragment.setSignupCallBack(new SignupFragment.SignupCallBack() {
+                @Override
+                public void closeSignup() {
+                    showLoginFragment();
+                }
+
+                @Override
+                public void signUp() {
+                    //注册完成后续
+                    finish();
+                }
+            });
             transaction.add(R.id.content, signupFragment);
         }
-        transaction.setCustomAnimations(R.anim.scale_down, R.anim.scale_up);
         transaction.commit();
     }
 

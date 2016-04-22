@@ -60,6 +60,7 @@ public class MainFragment extends Fragment {
     private PostListAdapter postListAdapter;
     private MaterialRefreshLayout refreshLayout;
     private int page = 1;
+    private boolean isLoaded = false;
     private String currentQuery;
     private FloatingSearchView mSearchView;
     private AutoScrollViewPager viewPager;
@@ -80,19 +81,17 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        currentView = getView();
-
-        initToolBar();
-
-        initRefreshLayout();
-
-        initListView();
-
-        initViewPager();
-
-        initSearchView();
-
-        initFAB();
+        //如果加载过就不需要重新加载
+        if (!isLoaded) {
+            isLoaded = true;
+            currentView = getView();
+            initToolBar();
+            initRefreshLayout();
+            initListView();
+            initViewPager();
+            initSearchView();
+            initFAB();
+        }
     }
 
     /**

@@ -43,7 +43,7 @@ public class TypeTask extends AsyncTask<Void, Void, ArrayList<TypeListVO>> {
 
     @Override
     protected void onPostExecute(ArrayList<TypeListVO> list) {
-        dialog.dismiss();
+        dialog.dismissWithAnimation();
         if (list.size() != 0) {
             //打开类别活动
             typeTaskCallBack.setTypeList(list);

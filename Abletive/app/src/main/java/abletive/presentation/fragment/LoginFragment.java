@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import abletive.presentation.tasks.LoginTask;
 import alandelip.abletivedemo.R;
 
 /**
@@ -57,9 +58,16 @@ public class LoginFragment extends Fragment {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 登录+关闭
-                loginCallback.login(mUsernameEdit.getText().toString(),
+                //登录+后续处理
+                LoginTask loginTask = new LoginTask(getContext(), mUsernameEdit.getText().toString(),
                         mPasswordEdit.getText().toString());
+                loginTask.setLoginCallBack(new LoginTask.LoginCallBack() {
+                    @Override
+                    public void login() {
+                        loginCallback.closeLogin();
+                    }
+                });
+                loginTask.execute();
             }
         });
 
@@ -67,7 +75,7 @@ public class LoginFragment extends Fragment {
         mSignText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转至注册界面
+                //跳转至注册界面
                 loginCallback.signUp();
             }
         });
@@ -97,11 +105,6 @@ public class LoginFragment extends Fragment {
          * 关闭登录Activity
          */
         void closeLogin();
-
-        /**
-         * 登录后续处理
-         */
-        void login(String username, String password);
 
         /**
          * 跳转至注册界面

@@ -39,7 +39,9 @@ dependencies {
     compile 'org.jsoup:jsoup:1.6.3'
     compile 'com.github.clans:fab:1.6.2'
     compile 'com.github.arimorty:floatingsearchview:1.1.2'
-    compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'jp.wasabeef:blurry:2.0.0'
     compile 'cn.trinea.android.common:trinea-android-common:4.2.15'
+    compile 'com.github.delight-im:Android-AdvancedWebView:v2.1.0'
+    compile 'com.github.florent37:glidepalette:1.0.6'
+    compile 'org.honorato.multistatetogglebutton:multistatetogglebutton:0.2.1'
 }

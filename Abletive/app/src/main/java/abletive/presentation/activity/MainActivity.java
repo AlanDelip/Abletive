@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import abletive.presentation.fragment.BBSFragment;
 import abletive.presentation.fragment.MainFragment;
@@ -62,12 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FragmentManager fragmentManager;
 
     /**
-     * 选项卡图标
+     * 判断是否退出
      */
-    private int[] mImageArray = {R.drawable.menu_post,
-            R.drawable.menu_chat,
-            R.drawable.menu_community,
-            R.drawable.menu_me};
+    private boolean isExit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +212,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (bbsFragment != null) {
             transaction.hide(bbsFragment);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitBy2Click();
+    }
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (!isExit) {
+            isExit = true; // 准备退出
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 1500); // 如果1.5秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            super.onBackPressed();
         }
     }
 }

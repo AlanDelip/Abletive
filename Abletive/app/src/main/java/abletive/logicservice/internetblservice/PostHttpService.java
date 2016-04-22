@@ -127,4 +127,12 @@ public interface PostHttpService {
      * @return 文章简略图
      */
     Bitmap getThumbnail(String thumbnailUrl);
+
+    /**
+     * 点赞文章动作
+     * @param postID 文章ID
+     * @param userID 用户ID
+     * @return 点赞成功获得的积分
+     */
+    int like(String postID,String userID);
 }
