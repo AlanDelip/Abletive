@@ -29,6 +29,8 @@ public class HttpConnection {
             URL url = new URL(site);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setConnectTimeout(timeout);
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.connect();
 
             return httpURLConnection.getInputStream();
 
@@ -53,13 +55,13 @@ public class HttpConnection {
     }
 
     /**
-     * 进行默认连接，连接超时3000ms
+     * 进行默认连接，连接超时10000ms
      *
      * @param site 连接的url String
      * @return InputStream
      */
     public InputStream processConnection(String site) {
-        return processConnection(site, 3000);
+        return processConnection(site, 10000);
     }
 
     /**

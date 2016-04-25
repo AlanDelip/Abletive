@@ -25,6 +25,7 @@ import com.github.clans.fab.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import abletive.businesslogic.blutil.UserData;
 import abletive.businesslogic.postbl.CategoryListImpl;
 import abletive.businesslogic.postbl.DateListImpl;
 import abletive.businesslogic.postbl.KeywordListImpl;
@@ -42,6 +43,7 @@ import abletive.presentation.widget.ImagePagerAdapter;
 import abletive.presentation.widget.PostListAdapter;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
 /**
@@ -64,6 +66,7 @@ public class MainFragment extends Fragment {
     private String currentQuery;
     private FloatingSearchView mSearchView;
     private AutoScrollViewPager viewPager;
+    private SweetAlertDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,9 @@ public class MainFragment extends Fragment {
 
         //如果加载过就不需要重新加载
         if (!isLoaded) {
+            progressDialog = WidgetTool.getDialog(getContext(), "文章加载中...");
+            progressDialog.show();
+            //设置已经加载
             isLoaded = true;
             currentView = getView();
             initToolBar();
@@ -173,14 +179,18 @@ public class MainFragment extends Fragment {
      */
     private void initListView() {
         mListView = (ListView) currentView.findViewById(R.id.posts_list);
-        //TODO 用户登录后的cookie
         final PostListTask postListTask
-                = new PostListTask(getContext(), refreshLayout, "", new PostListImpl());
+                = new PostListTask(getContext(), refreshLayout,
+                UserData.getInstance().getCookie(),
+                new PostListImpl());
         postListTask.setPostListCallBack(new PostListTask.PostListCallBack() {
             @Override
             public void setPostList(ArrayList<PostListVO> callBackPostList) {
                 if (callBackPostList != null) {
                     postList = callBackPostList;
+                    if (progressDialog != null) {
+                        progressDialog.dismissWithAnimation();
+                    }
                 }
             }
 
@@ -237,36 +247,15 @@ public class MainFragment extends Fragment {
         refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                //TODO 用户登录后的cookie
-                final PostListTask postListTask
-                        = new PostListTask(getContext(), refreshLayout, "", new PostListImpl());
-                postListTask.setPostListCallBack(new PostListTask.PostListCallBack() {
-                    @Override
-                    public void setPostList(ArrayList<PostListVO> callBackPostList) {
-                        postList = callBackPostList;
-                    }
-
-                    @Override
-                    public void increasePage() {
-                        page = 2;
-                    }
-
-                    @Override
-                    public void setAdapter() {
-                        if (postList != null) {
-                            postListAdapter = new PostListAdapter(getContext(), R.layout.postlist_item, postList);
-                            mListView.setAdapter(postListAdapter);
-                        }
-                    }
-                });
-                postListTask.execute();
+                initListView();
+                initViewPager();
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                //TODO 加载下一页时，文章cookie未传入
                 NextPageTask nextPageTask
-                        = new NextPageTask(getContext(), "", mListView, postListAdapter, postList, refreshLayout, new PostListImpl());
+                        = new NextPageTask(getContext(), UserData.getInstance().getCookie(),
+                        mListView, postListAdapter, postList, refreshLayout, new PostListImpl());
                 nextPageTask.setNextPageCallBack(new NextPageTask.NextPageCallBack() {
                     @Override
                     public void setPostList(ArrayList<PostListVO> nextPagePostList) {

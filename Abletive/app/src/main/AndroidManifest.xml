@@ -45,6 +45,10 @@
             android:label="@string/title_activity_log"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.PersonInfoActivity"
+            android:label="@string/title_activity_person_info"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

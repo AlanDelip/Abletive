@@ -21,6 +21,7 @@ import com.cjj.MaterialRefreshListener;
 
 import java.util.HashMap;
 
+import abletive.businesslogic.blutil.UserData;
 import abletive.presentation.tasks.ImageTask;
 import abletive.presentation.tasks.PostTask;
 import abletive.vo.PostVO;
@@ -162,7 +163,7 @@ public class PostActivity extends AppCompatActivity {
      * 获取文章内容（HTML），并显示
      */
     private void fetchContent() {
-        PostTask postTask = new PostTask(id, "");
+        PostTask postTask = new PostTask(id, UserData.getInstance().getCookie());
         postTask.setPostTaskCallBack(new PostTask.PostTaskCallBack() {
             @Override
             public void setPost(PostVO postVO) {

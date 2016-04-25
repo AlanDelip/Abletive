@@ -12,7 +12,7 @@
         android:id="@+id/header_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/personal_info"
+        android:layout_alignBottom="@+id/button_group"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@color/dkred"
@@ -27,8 +27,8 @@
 
     <abletive.presentation.widget.RoundImageView
         android:id="@+id/user_avatar"
-        android:layout_width="105dp"
-        android:layout_height="105dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:scaleType="centerCrop"
@@ -58,173 +58,173 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/personal_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/button_group"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/user_nickname"
         android:layout_centerHorizontal="true"
-        android:background="@color/transparent"
-        android:paddingRight="120dp"
-        android:text="@string/personal_info"
-        android:textColor="@color/white"
-        android:visibility="invisible" />
+        android:visibility="invisible">
 
-    <Button
-        android:id="@+id/collections"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/personal_info"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:alpha="0.8"
+            android:background="@color/azure"
+            android:text="@string/personal_info"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/collections"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:alpha="0.8"
+            android:background="@color/azure"
+            android:text="@string/collections"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/user_info_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/header_background"
-        android:layout_centerHorizontal="true"
-        android:background="@color/transparent"
-        android:paddingLeft="120dp"
-        android:text="@string/collections"
-        android:textColor="@color/white"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:id="@+id/personal_page"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
         android:layout_below="@+id/header_background"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/log_info"
-        android:src="@drawable/account"
-        android:visibility="gone" />
+        android:visibility="gone">
 
-    <ImageView
-        android:id="@+id/my_member"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_below="@+id/personal_page"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/account"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/personal_page"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/account" />
 
-    <ImageView
-        android:id="@+id/scan_matrix"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_below="@+id/my_member"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="23dp"
-        android:src="@drawable/account"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/my_member"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/personal_page"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/account" />
 
-    <ImageView
-        android:id="@+id/my_matrix"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_below="@+id/scan_matrix"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/account"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/scan_matrix"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/my_member"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="23dp"
+            android:src="@drawable/account" />
 
-    <TextView
-        android:id="@+id/personal_page_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/personal_page"
-        android:layout_alignTop="@+id/personal_page"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/personal_page"
-        android:gravity="center|start"
-        android:text="@string/personal_page"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/my_matrix"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/scan_matrix"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/account" />
 
-    <TextView
-        android:id="@+id/my_member_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/my_member"
-        android:layout_alignTop="@+id/my_member"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/my_member"
-        android:gravity="start|center"
-        android:text="@string/my_member"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/personal_page_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/personal_page"
+            android:layout_alignTop="@+id/personal_page"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/personal_page"
+            android:gravity="center|start"
+            android:text="@string/personal_page"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/scan_matrix_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/scan_matrix"
-        android:layout_alignTop="@+id/scan_matrix"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/scan_matrix"
-        android:gravity="center|start"
-        android:text="@string/scan_matrix"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/my_member_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/my_member"
+            android:layout_alignTop="@+id/my_member"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/my_member"
+            android:gravity="start|center"
+            android:text="@string/my_member"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/my_matrix_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/my_matrix"
-        android:layout_alignTop="@+id/my_matrix"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/my_matrix"
-        android:gravity="center|start"
-        android:text="@string/my_matrix"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/scan_matrix_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/scan_matrix"
+            android:layout_alignTop="@+id/scan_matrix"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/scan_matrix"
+            android:gravity="center|start"
+            android:text="@string/scan_matrix"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/arrow1"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignBottom="@+id/personal_page_text"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/personal_page_text"
-        android:layout_marginEnd="10dp"
-        android:src="@android:drawable/ic_media_play"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/my_matrix_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/my_matrix"
+            android:layout_alignTop="@+id/my_matrix"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/my_matrix"
+            android:gravity="center|start"
+            android:text="@string/my_matrix"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/arrow2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignBottom="@+id/my_member"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/my_member"
-        android:layout_marginEnd="10dp"
-        android:src="@android:drawable/ic_media_play"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/personal_page_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/personal_page_text"
+            android:layout_marginEnd="10dp"
+            android:src="@android:drawable/ic_media_play" />
 
-    <ImageView
-        android:id="@+id/arrow3"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignBottom="@+id/scan_matrix"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/scan_matrix"
-        android:layout_marginEnd="10dp"
-        android:src="@android:drawable/ic_media_play"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/arrow2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/my_member"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/my_member"
+            android:layout_marginEnd="10dp"
+            android:src="@android:drawable/ic_media_play" />
 
-    <ImageView
-        android:id="@+id/arrow4"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignBottom="@+id/my_matrix"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/my_matrix"
-        android:layout_marginEnd="10dp"
-        android:src="@android:drawable/ic_media_play"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/arrow3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/scan_matrix"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/scan_matrix"
+            android:layout_marginEnd="10dp"
+            android:src="@android:drawable/ic_media_play" />
+
+        <ImageView
+            android:id="@+id/arrow4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/my_matrix"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/my_matrix"
+            android:layout_marginEnd="10dp"
+            android:src="@android:drawable/ic_media_play" />
+    </RelativeLayout>
+
 
 </RelativeLayout>

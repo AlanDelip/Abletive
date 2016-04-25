@@ -51,6 +51,9 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
         if (userVO != null) {
             userData.setIsLogin(true);
             userData.setUserVO(userVO);
+            userData.setUserID(userVO.getId());
+            //cookie暂时用不了
+            userData.setCookie("");
             loginCallBack.login();
         } else {
             Toast.makeText(context, context.getString(R.string.login_fail), Toast.LENGTH_SHORT).show();

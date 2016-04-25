@@ -20,10 +20,9 @@ import android.widget.Toast;
 import abletive.businesslogic.blutil.UserData;
 import abletive.presentation.activity.LogActivity;
 import abletive.presentation.activity.MainActivity;
+import abletive.presentation.activity.PersonInfoActivity;
 import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
-import cn.trinea.android.common.entity.FailedReason;
-import cn.trinea.android.common.service.impl.ImageMemoryCache;
 import jp.wasabeef.blurry.Blurry;
 
 /**
@@ -36,6 +35,9 @@ public class UserFragment extends Fragment {
     private UserData userData;
     private TextView userName;
     private Toolbar toolbar;
+    private Button personalInfoButton;
+    private Button collectionsButton;
+    private ImageView mAvatarView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,15 +59,49 @@ public class UserFragment extends Fragment {
         userData = UserData.getInstance();
         userVO = userData.getUserVO();
 
+        //如果没有渲染过toolbar就初始化
         if (toolbar == null) {
             initToolBar();
         }
+        initButton();
+
         //如果登录就显示用户信息，否则显示请登录信息
         if (userData.isLogin()) {
             initUserData();
         } else {
             initLoginData();
         }
+
+
+    }
+
+    private void initButton() {
+        personalInfoButton = (Button) currentView.findViewById(R.id.personal_info);
+        collectionsButton = (Button) currentView.findViewById(R.id.collections);
+        personalInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userData.isLogin()) {
+                    PersonInfoActivity.newInstance(getContext());
+                }
+            }
+        });
+        collectionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 跳转至收藏界面
+            }
+        });
+
+        mAvatarView = (ImageView) currentView.findViewById(R.id.user_avatar);
+        mAvatarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!userData.isLogin()) {
+                    LogActivity.newInstance(getContext());
+                }
+            }
+        });
     }
 
     /**
@@ -84,6 +120,24 @@ public class UserFragment extends Fragment {
         userName = (TextView) currentView.findViewById(R.id.user_nickname);
         //设置显示用户名为“未登录”
         userName.setText(R.string.no_login);
+
+        //设置个人资料和我的收藏按钮不可见
+        View buttonGroup = currentView.findViewById(R.id.button_group);
+        buttonGroup.setVisibility(View.INVISIBLE);
+
+        //设置默认背景
+        ImageView mHeaderBackground = (ImageView) currentView.findViewById(R.id.header_background);
+        mHeaderBackground.setImageBitmap(null);
+        mHeaderBackground.setAlpha(1f);
+        mHeaderBackground.setBackgroundColor(getResources().getColor(R.color.dkred));
+
+        //设置默认头像
+        ImageView mAvatarView = (ImageView) currentView.findViewById(R.id.user_avatar);
+        mAvatarView.setImageResource(R.drawable.launch_logo);
+
+        //设置列表
+        View userInfoLayout = currentView.findViewById(R.id.user_info_group);
+        userInfoLayout.setVisibility(View.GONE);
 
         TextView loginInfo = (TextView) currentView.findViewById(R.id.log_info);
         //设置登录提醒可见
@@ -106,10 +160,8 @@ public class UserFragment extends Fragment {
         userName.setText(userVO.getNickname());
 
         //设置个人资料和我的收藏按钮
-        final Button personalInfoButton = (Button) currentView.findViewById(R.id.personal_info),
-                collectionsButton = (Button) currentView.findViewById(R.id.collections);
-        personalInfoButton.setVisibility(View.VISIBLE);
-        collectionsButton.setVisibility(View.VISIBLE);
+        View buttonGroup = currentView.findViewById(R.id.button_group);
+        buttonGroup.setVisibility(View.VISIBLE);
 
         TextView loginInfo = (TextView) currentView.findViewById(R.id.log_info);
         //设置登录提醒不可见
@@ -119,72 +171,34 @@ public class UserFragment extends Fragment {
         final ImageView mHeaderBackground = (ImageView) currentView.findViewById(R.id.header_background);
         final ImageView mAvatarView = (ImageView) currentView.findViewById(R.id.user_avatar);
         MainActivity.IMAGE_CACHE.get(userVO.getAvatarUrl(), mAvatarView);
-        MainActivity.IMAGE_CACHE.setOnImageCallbackListener(new ImageMemoryCache.OnImageCallbackListener() {
-            @Override
-            public void onPreGet(String imageUrl, View view) {
-            }
-
-            @Override
-            public void onGetNotInCache(String imageUrl, View view) {
-            }
-
-            @Override
-            public void onGetSuccess(String imageUrl, Bitmap loadedImage, View view, boolean isInCache) {
-                if (imageUrl.equals(userVO.getAvatarUrl())) {
-                    //设置头像和背景
-                    mHeaderBackground.setImageBitmap(loadedImage);
-                    mHeaderBackground.setAlpha(Float.valueOf("0.8"));
-                    Blurry.with(getContext())
-                            .radius(20)
-                            .sampling(8)
-                            .async()
-                            .capture(mHeaderBackground)
-                            .into(mHeaderBackground);
-                    mAvatarView.setImageBitmap(loadedImage);
-                    //设置个人资料和收藏按钮配色
-                    Palette palette = Palette.from(loadedImage).generate();
-                    Palette.Swatch muteDark = palette.getDarkMutedSwatch(),
-                            vibrantDark = palette.getDarkVibrantSwatch();
-                    if (muteDark != null) {
-                        personalInfoButton.setTextColor(muteDark.getTitleTextColor());
-                        collectionsButton.setTextColor(muteDark.getTitleTextColor());
-                    } else if (vibrantDark != null) {
-                        personalInfoButton.setTextColor(vibrantDark.getTitleTextColor());
-                        collectionsButton.setTextColor(vibrantDark.getTitleTextColor());
-                    }
-                }
-            }
-
-            @Override
-            public void onGetFailed(String imageUrl, Bitmap loadedImage, View view, FailedReason failedReason) {
-            }
-        });
+        Bitmap loadedImage = MainActivity.IMAGE_CACHE.get(userVO.getAvatarUrl()).getData();
+        mHeaderBackground.setImageBitmap(loadedImage);
+        mHeaderBackground.setAlpha(Float.valueOf("0.8"));
+        Blurry.with(getContext())
+                .radius(20)
+                .sampling(8)
+                .async()
+                .capture(mHeaderBackground)
+                .into(mHeaderBackground);
+        //设置个人资料和收藏按钮配色
+        Palette palette = Palette.from(loadedImage).generate();
+        Palette.Swatch muteLight = palette.getLightMutedSwatch(),
+                vibrantLight = palette.getLightVibrantSwatch();
+        if (muteLight != null) {
+            personalInfoButton.setBackgroundColor(muteLight.getRgb());
+            personalInfoButton.setTextColor(muteLight.getTitleTextColor());
+            collectionsButton.setBackgroundColor(muteLight.getRgb());
+            collectionsButton.setTextColor(muteLight.getTitleTextColor());
+        } else if (vibrantLight != null) {
+            personalInfoButton.setBackgroundColor(vibrantLight.getRgb());
+            personalInfoButton.setTextColor(vibrantLight.getTitleTextColor());
+            collectionsButton.setBackgroundColor(vibrantLight.getRgb());
+            collectionsButton.setTextColor(vibrantLight.getTitleTextColor());
+        }
 
         //设置列表
-        ImageView mPersonalPage = (ImageView) currentView.findViewById(R.id.personal_page),
-                mMyMember = (ImageView) currentView.findViewById(R.id.my_member),
-                mScanMatrix = (ImageView) currentView.findViewById(R.id.scan_matrix),
-                mMyMatrix = (ImageView) currentView.findViewById(R.id.my_matrix),
-                arrow1 = (ImageView) currentView.findViewById(R.id.arrow1),
-                arrow2 = (ImageView) currentView.findViewById(R.id.arrow2),
-                arrow3 = (ImageView) currentView.findViewById(R.id.arrow3),
-                arrow4 = (ImageView) currentView.findViewById(R.id.arrow4);
-        TextView mPersonalPageText = (TextView) currentView.findViewById(R.id.personal_page_text),
-                mMyMemberText = (TextView) currentView.findViewById(R.id.my_member_text),
-                mMyMatrixText = (TextView) currentView.findViewById(R.id.my_matrix_text),
-                mScanMatrixText = (TextView) currentView.findViewById(R.id.scan_matrix_text);
-        mPersonalPage.setVisibility(View.VISIBLE);
-        mMyMatrix.setVisibility(View.VISIBLE);
-        mScanMatrix.setVisibility(View.VISIBLE);
-        mMyMember.setVisibility(View.VISIBLE);
-        arrow1.setVisibility(View.VISIBLE);
-        arrow2.setVisibility(View.VISIBLE);
-        arrow3.setVisibility(View.VISIBLE);
-        arrow4.setVisibility(View.VISIBLE);
-        mPersonalPageText.setVisibility(View.VISIBLE);
-        mMyMemberText.setVisibility(View.VISIBLE);
-        mMyMatrixText.setVisibility(View.VISIBLE);
-        mScanMatrixText.setVisibility(View.VISIBLE);
+        View userInfoLayout = currentView.findViewById(R.id.user_info_group);
+        userInfoLayout.setVisibility(View.VISIBLE);
     }
 
 

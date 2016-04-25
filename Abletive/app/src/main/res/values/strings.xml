@@ -70,6 +70,23 @@
     <string name="my_member">我的会员</string>
     <string name="scan_matrix">扫二维码</string>
     <string name="my_matrix">我的名片</string>
+    <string name="avatar_text">头像</string>
+    <string name="public_info">公开信息</string>
+    <string name="private_info">私人信息</string>
+    <string name="gender">性别</string>
+    <string name="displayname">昵称</string>
+    <string name="personal_description">个人介绍</string>
+    <string name="weibo_text">微博</string>
+    <string name="qq_text">QQ</string>
+    <string name="community_info">社交信息</string>
+    <string name="see_only">只有您自己可见</string>
+    <string name="modify_password">修改密码</string>
+    <string name="sign_out">注销</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="public_reminder">他人可以在您的个人主页看到以上内容</string>
+    <string name="login_username">登录用户名</string>
+    <string name="email_text">邮箱</string>
 
     <!--Internet Handle-->
     <string name="internet_failure">连接失败</string>
@@ -152,4 +169,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_log">登录</string>
+    <string name="title_activity_person_info">PersonInfoActivity</string>
 </resources>

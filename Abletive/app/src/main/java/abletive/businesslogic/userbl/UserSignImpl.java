@@ -35,12 +35,14 @@ public class UserSignImpl implements UserSignService {
         HttpUserPO httpUserPO = userBl.signin(userID, password);
         UserVO userVO = null;
         //如果返回status不为ok直接返回null
-        if (httpUserPO.getStatus().equals(MApplication.getContext().getString(R.string.ok))) {
-            userVO = UserTransformer.getUserVO(httpUserPO);
-            //设置已经登录
-            userData.setIsLogin(true);
-            //设置登录的用户信息
-            userData.setUserVO(userVO);
+        if (httpUserPO != null) {
+            if (httpUserPO.getStatus().equals(MApplication.getContext().getString(R.string.ok))) {
+                userVO = UserTransformer.getUserVO(httpUserPO);
+                //设置已经登录
+                userData.setIsLogin(true);
+                //设置登录的用户信息
+                userData.setUserVO(userVO);
+            }
         }
         return userVO;
     }

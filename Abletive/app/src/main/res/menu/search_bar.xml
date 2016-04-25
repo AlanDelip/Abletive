@@ -5,7 +5,7 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/search"
         android:orderInCategory="1"
         android:title="@string/search_icon"
         app:showAsAction="always" />

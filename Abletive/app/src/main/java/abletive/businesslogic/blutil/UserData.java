@@ -10,9 +10,15 @@ public class UserData {
 
     private static UserData userData = new UserData();
     /**
-     * 用户名
+     * 用户登录后的cookie
      */
-    private String userName;
+    private String cookie;
+
+    /**
+     * 当前登录的userID
+     */
+    private String userID;
+
     /**
      * 是否已经登录，初始化为未登录
      */
@@ -30,12 +36,20 @@ public class UserData {
         return userData;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getCookie() {
+        return cookie;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public boolean isLogin() {

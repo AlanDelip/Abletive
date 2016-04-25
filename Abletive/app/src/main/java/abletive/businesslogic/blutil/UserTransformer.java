@@ -40,7 +40,7 @@ public class UserTransformer {
             weibo = socialInfoPO.getWeibo();
         }
 
-        return new UserVO(userPO.getId() + "", userPO.getNickname(), httpUserPO.getCookie(), gender,
+        return new UserVO(userPO.getId() + "", userPO.getUsername(), userPO.getNickname(), httpUserPO.getCookie(), gender,
                 userPO.getEmail(), userPO.getUrl(), userPO.getDescription(), userPO.getRegistered(),
                 avatarUrl, qq, weibo);
     }
@@ -59,7 +59,7 @@ public class UserTransformer {
             avatarUrl = fetchImg(avatarUrl);
         }
         PublicInfoPO publicInfoPO = userPO.getPublic_info();
-        String gender = "";
+        String gender = "未设置";
         if (publicInfoPO != null) {
             gender = publicInfoPO.getGender();
         }
@@ -70,7 +70,7 @@ public class UserTransformer {
             weibo = socialInfoPO.getWeibo();
         }
 
-        return new UserVO(userPO.getId() + "", userPO.getNickname(), cookie, gender,
+        return new UserVO(userPO.getId() + "", userPO.getUsername(), userPO.getNickname(), cookie, gender,
                 userPO.getEmail(), userPO.getUrl(), userPO.getDescription(), userPO.getRegistered(),
                 avatarUrl, qq, weibo);
     }

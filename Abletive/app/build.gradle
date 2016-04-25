@@ -44,4 +44,5 @@ dependencies {
     compile 'com.github.delight-im:Android-AdvancedWebView:v2.1.0'
     compile 'com.github.florent37:glidepalette:1.0.6'
     compile 'org.honorato.multistatetogglebutton:multistatetogglebutton:0.2.1'
+    compile 'org.greenrobot:greendao:2.2.0'
 }

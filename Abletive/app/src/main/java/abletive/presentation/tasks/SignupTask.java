@@ -52,6 +52,9 @@ public class SignupTask extends AsyncTask<Void, Void, Void> {
         if (userVO != null) {
             userData.setIsLogin(true);
             userData.setUserVO(userVO);
+            userData.setUserID(userVO.getId());
+            //cookie暂时用不到
+            userData.setCookie("");
             signupCallBack.signup();
         } else {
             Toast.makeText(context, context.getString(R.string.multiple_usernames), Toast.LENGTH_SHORT).show();

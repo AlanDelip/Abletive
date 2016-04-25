@@ -7,6 +7,7 @@ package abletive.vo;
  */
 public class UserVO {
     String id;
+    String username;
     String nickname;
     String cookie;
     String gender;
@@ -18,8 +19,9 @@ public class UserVO {
     String weibo;
     String qq;
 
-    public UserVO(String id, String nickname, String cookie, String gender, String email, String url, String description, String signTime, String avatarUrl, String weibo, String qq) {
+    public UserVO(String id, String username, String nickname, String cookie, String gender, String email, String url, String description, String signTime, String avatarUrl, String weibo, String qq) {
         this.id = id;
+        this.username = username;
         this.nickname = nickname;
         this.cookie = cookie;
         this.gender = gender;
@@ -30,6 +32,14 @@ public class UserVO {
         this.avatarUrl = avatarUrl;
         this.weibo = weibo;
         this.qq = qq;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getWeibo() {

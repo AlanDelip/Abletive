@@ -86,6 +86,7 @@ public class UserHttpImpl implements UserHttpService {
                         .addParam(context.getString(R.string.user_pass), signupVO.getUserpass())
                         .addParam(context.getString(R.string.email), signupVO.getEmail())
                         .addParam(context.getString(R.string.display_name), signupVO.getDisplayname())
+                        .addParam(context.getString(R.string.nonce),nonce)
                         .build();
         result = httpConnection.getResult(request);
 

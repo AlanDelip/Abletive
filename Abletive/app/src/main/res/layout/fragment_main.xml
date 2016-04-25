@@ -54,9 +54,9 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#73d9ff"
-            app:fab_colorPressed="#b0a2a1"
+            android:src="@drawable/timeline"
+            app:fab_colorNormal="#cfcfcf"
+            app:fab_colorPressed="#e8e7e7"
             app:fab_label="@string/time"
             app:fab_size="mini" />
 
@@ -64,9 +64,9 @@
             android:id="@+id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#52b9e0"
-            app:fab_colorPressed="#b0a2a1"
+            android:src="@drawable/categories"
+            app:fab_colorNormal="#cfcfcf"
+            app:fab_colorPressed="#e8e7e7"
             app:fab_label="@string/category"
             app:fab_size="mini" />
 
@@ -74,9 +74,9 @@
             android:id="@+id/tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#46a1c4"
-            app:fab_colorPressed="#b0a2a1"
+            android:src="@drawable/tags"
+            app:fab_colorNormal="#cfcfcf"
+            app:fab_colorPressed="#e8e7e7"
             app:fab_label="@string/tag"
             app:fab_size="mini" />
 
@@ -84,12 +84,9 @@
             android:id="@+id/all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_share"
-            app:fab_colorNormal="#3986a4"
-            app:fab_colorPressed="#b0a2a1"
+            android:src="@drawable/launch_logo"
             app:fab_label="@string/all"
             app:fab_size="mini" />
-
 
     </com.github.clans.fab.FloatingActionMenu>
 
