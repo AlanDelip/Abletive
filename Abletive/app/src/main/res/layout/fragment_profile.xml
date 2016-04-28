@@ -1,0 +1,330 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:padding="10dp"
+    tools:context="abletive.presentation.fragment.ProfileFragment">
+
+    <ImageView
+        android:id="@+id/post_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/post_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignBottom="@+id/post_icon"
+        android:layout_alignTop="@+id/post_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/post_icon"
+        android:text="@string/post" />
+
+    <TextView
+        android:id="@+id/post"
+        style="@style/ProfileTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@+id/post_icon"
+        android:layout_alignTop="@+id/post_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/arrow1"
+        android:text="@string/post" />
+
+    <ImageView
+        android:id="@+id/arrow1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/post_icon"
+        android:layout_alignEnd="@+id/post_text"
+        android:layout_alignTop="@+id/post_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/post_icon" />
+
+    <ImageView
+        android:id="@+id/post_comment_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/post_icon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/post_comment_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignBottom="@+id/post_comment_icon"
+        android:layout_alignTop="@+id/post_comment_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/post_comment_icon"
+        android:text="@string/post_comment" />
+
+    <TextView
+        android:id="@+id/post_comment"
+        style="@style/ProfileTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@+id/post_comment_icon"
+        android:layout_alignTop="@+id/post_comment_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/arrow1"
+        android:text="@string/post_comment" />
+
+    <ImageView
+        android:id="@+id/arrow2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/post_comment_icon"
+        android:layout_alignEnd="@+id/post_comment_text"
+        android:layout_alignTop="@+id/post_comment_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/post_comment_icon" />
+
+    <ImageView
+        android:id="@+id/credit_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/post_comment_icon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/credit_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignBottom="@+id/credit_icon"
+        android:layout_alignTop="@+id/credit_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/credit_icon"
+        android:text="@string/community_credits" />
+
+    <TextView
+        android:id="@+id/credit"
+        style="@style/ProfileTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@+id/credit_icon"
+        android:layout_alignTop="@+id/credit_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/arrow3"
+        android:text="@string/community_credits" />
+
+    <ImageView
+        android:id="@+id/arrow3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/credit_icon"
+        android:layout_alignEnd="@+id/credit_text"
+        android:layout_alignTop="@+id/credit_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/credit_icon" />
+
+    <ImageView
+        android:id="@+id/collection_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/credit_icon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/collection_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignBottom="@+id/collection_icon"
+        android:layout_alignTop="@+id/collection_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/collection_icon"
+        android:text="@string/post_collection" />
+
+    <TextView
+        android:id="@+id/collection"
+        style="@style/ProfileTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@+id/collection_icon"
+        android:layout_alignTop="@+id/collection_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/arrow4"
+        android:text="@string/post_collection" />
+
+    <ImageView
+        android:id="@+id/arrow4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/collection_icon"
+        android:layout_alignEnd="@+id/collection_text"
+        android:layout_alignTop="@+id/collection_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/collection_icon" />
+
+    <TextView
+        android:id="@+id/member_info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/arrow4"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/member_info"
+        android:textColor="@color/yellow"
+        android:textSize="16sp" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/member_info_text" />
+
+    <ImageView
+        android:id="@+id/member_state_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/member_info_text"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/member_state_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignBottom="@+id/member_state_icon"
+        android:layout_alignTop="@+id/member_state_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/member_state_icon"
+        android:text="@string/member_info" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/member_state_icon" />
+
+    <ImageView
+        android:id="@+id/due_time_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/member_state_icon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/due_time_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignBottom="@+id/due_time_icon"
+        android:layout_alignTop="@+id/due_time_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/due_time_icon"
+        android:text="@string/due_time" />
+
+    <TextView
+        android:id="@+id/due_time"
+        style="@style/ProfileTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@+id/due_time_icon"
+        android:layout_alignTop="@+id/due_time_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/arrow5"
+        android:text="@string/member_state_unordered" />
+
+    <ImageView
+        android:id="@+id/arrow5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/due_time_icon"
+        android:layout_alignEnd="@+id/due_time_text"
+        android:layout_alignTop="@+id/due_time_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/due_time_icon" />
+
+    <TextView
+        android:id="@+id/basic_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/due_time_text"
+        android:layout_marginTop="30dp"
+        android:text="@string/basic_info"
+        android:textColor="@color/yellow"
+        android:textSize="16sp" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@id/basic_info" />
+
+    <ImageView
+        android:id="@+id/community_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/basic_info"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/community_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignBottom="@+id/community_icon"
+        android:layout_alignTop="@+id/community_icon"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/community_icon"
+        android:text="@string/community_id" />
+
+    <TextView
+        android:id="@+id/community"
+        style="@style/ProfileTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@+id/community_icon"
+        android:layout_alignTop="@+id/community_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@+id/arrow5"
+        android:text="@string/community_id" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/community_icon" />
+
+    <ImageView
+        android:id="@+id/community_page_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/community_icon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/community_page_text"
+        style="@style/ProfileTextStyle"
+        android:layout_below="@+id/community_icon"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/community_page_icon"
+        android:text="@string/community_page" />
+
+    <TextView
+        android:id="@+id/community_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/community_page_text"
+        android:layout_below="@+id/community_page_text"
+        android:layout_marginTop="5dp"
+        android:layout_toStartOf="@+id/arrow6"
+        android:text="@string/community_page"
+        android:textColor="@color/yellow"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/arrow6"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/community_page"
+        android:layout_alignEnd="@+id/community_page_text"
+        android:layout_alignTop="@+id/community_page_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        style="@style/divider"
+        android:layout_below="@+id/community_page" />
+
+</RelativeLayout>

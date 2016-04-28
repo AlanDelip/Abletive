@@ -48,6 +48,10 @@
         <activity
             android:name="abletive.presentation.activity.PersonInfoActivity"
             android:label="@string/title_activity_person_info"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.PersonalPageActivity"
+            android:label="@string/title_activity_personal_page"
             android:theme="@style/AppTheme"></activity>
     </application>
 

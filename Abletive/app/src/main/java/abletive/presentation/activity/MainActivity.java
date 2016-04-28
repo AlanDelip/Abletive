@@ -14,6 +14,9 @@ import android.widget.Toast;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import abletive.businesslogic.blutil.UserData;
+import abletive.businesslogic.userbl.UserSignImpl;
+import abletive.logicservice.userblservice.UserSignService;
 import abletive.presentation.fragment.BBSFragment;
 import abletive.presentation.fragment.MainFragment;
 import abletive.presentation.fragment.MessageFragment;
@@ -78,8 +81,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initViews();
         fragmentManager = getSupportFragmentManager();
+
+        //提前自动登录
+        preLogin();
         //默认加载文章界面
         setTabSelection(0);
+    }
+
+    /**
+     * 自动登录(如果曾经登录过就设置登录状态，注销销毁登录状态)
+     */
+    private void preLogin() {
+        UserSignService userBl = new UserSignImpl();
+        //如果提前登录过就加载本地用户信息
+        if (userBl.preLogin(this)) {
+            UserData.getInstance().setUserVO(userBl.getSignedUserData());
+        }
     }
 
     /**

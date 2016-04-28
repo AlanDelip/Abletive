@@ -1,5 +1,10 @@
 package abletive.businesslogic.userbl;
 
+import android.content.Context;
+
+import java.io.IOException;
+import java.util.Properties;
+
 import abletive.businesslogic.blutil.UserData;
 import abletive.businesslogic.blutil.UserTransformer;
 import abletive.businesslogic.internetbl.UserHttpImpl;
@@ -73,5 +78,32 @@ public class UserSignImpl implements UserSignService {
             userData.setUserVO(userVO);
         }
         return userVO;
+    }
+
+    @Override
+    public boolean preLogin(Context context) {
+        Properties properties = new Properties();
+        try {
+            properties.load(context.getAssets().open("sign_log.properties"));
+            String loginState = properties.getProperty("isLogin");
+            if(loginState.equals("true")){
+                UserData.getInstance().setIsLogin(true);
+                return true;
+            }else{
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public UserVO getSignedUserData() {
+        //TODO 利用GreenDAO从数据库读取已经存取的内容
+        //1. 如果没有存就建一个userlog表，列为UserPO中的所有内容
+        //2. 如果已经存在就直接拿
+        //3. 注销时删除
+        return null;
     }
 }

@@ -46,30 +46,73 @@ public class PersonInfoActivity extends AppCompatActivity {
     private void initFields() {
         ImageView mAvatarView = (RoundImageView) findViewById(R.id.avatar);
         MainActivity.IMAGE_CACHE.get(userVO.getAvatarUrl(), mAvatarView);
+        //TODO 上传自定义头像
 
         TextView genderView = (TextView) findViewById(R.id.gender);
         genderView.setText(userVO.getGender());
+        genderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 弹窗
+            }
+        });
 
         TextView nicknameView = (TextView) findViewById(R.id.nickname);
         nicknameView.setText(userVO.getNickname());
+        nicknameView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 弹窗
+            }
+        });
 
         TextView personalPageView = (TextView) findViewById(R.id.personal_page);
         personalPageView.setText(userVO.getUrl());
+        personalPageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 弹窗
+            }
+        });
 
         TextView descriptionView = (TextView) findViewById(R.id.description);
         descriptionView.setText(userVO.getDescription());
+        descriptionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 弹窗
+            }
+        });
 
         TextView weiboView = (TextView) findViewById(R.id.weibo);
         weiboView.setText(userVO.getWeibo());
+        weiboView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 弹窗
+            }
+        });
 
         TextView qqView = (TextView) findViewById(R.id.qq);
         qqView.setText(userVO.getQq());
+        qqView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 弹窗
+            }
+        });
 
         TextView loginNameView = (TextView) findViewById(R.id.login_username);
         loginNameView.setText(userVO.getUsername());
 
         TextView emailView = (TextView) findViewById(R.id.email);
         emailView.setText(userVO.getEmail());
+        emailView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 弹窗
+            }
+        });
     }
 
     private void initToolBar() {

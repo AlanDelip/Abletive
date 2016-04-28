@@ -1,5 +1,6 @@
 package abletive.businesslogic.blutil;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,6 +75,21 @@ public class UserTransformer {
                 userPO.getEmail(), userPO.getUrl(), userPO.getDescription(), userPO.getRegistered(),
                 avatarUrl, qq, weibo);
     }
+
+    /**
+     * UserPO数组转UserVO数组
+     * @param userPOList
+     * @return
+     */
+    public static ArrayList<UserVO> getUserVOList(ArrayList<UserPO> userPOList){
+        ArrayList<UserVO> userVOList = new ArrayList<>();
+        for(UserPO userPO:userPOList){
+            //暂时设置cookie为空字符串
+            userVOList.add(getUserVO(userPO,""));
+        }
+        return userVOList;
+    }
+
 
     /**
      * 获取html中img标签中src内容

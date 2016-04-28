@@ -120,6 +120,14 @@ public class UserFragment extends Fragment {
         userName = (TextView) currentView.findViewById(R.id.user_nickname);
         //设置显示用户名为“未登录”
         userName.setText(R.string.no_login);
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!userData.isLogin()){
+                    LogActivity.newInstance(getContext());
+                }
+            }
+        });
 
         //设置个人资料和我的收藏按钮不可见
         View buttonGroup = currentView.findViewById(R.id.button_group);
