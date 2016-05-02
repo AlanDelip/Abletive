@@ -1,6 +1,7 @@
 package abletive.businesslogic.internetbl;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -8,6 +9,7 @@ import abletive.businesslogic.blutil.HttpBuilder;
 import abletive.businesslogic.blutil.HttpConnection;
 import abletive.businesslogic.blutil.JSONHandler;
 import abletive.logicservice.internetblservice.UserHttpService;
+import abletive.po.FollowUserPO;
 import abletive.po.HttpDailyCheckinPO;
 import abletive.po.HttpPersonalPagePO;
 import abletive.po.HttpSignupPO;
@@ -86,9 +88,10 @@ public class UserHttpImpl implements UserHttpService {
                         .addParam(context.getString(R.string.user_pass), signupVO.getUserpass())
                         .addParam(context.getString(R.string.email), signupVO.getEmail())
                         .addParam(context.getString(R.string.display_name), signupVO.getDisplayname())
-                        .addParam(context.getString(R.string.nonce),nonce)
+                        .addParam(context.getString(R.string.nonce), nonce)
                         .build();
         result = httpConnection.getResult(request);
+        Log.d(TAG, "signup: " + request);
 
         HttpSignupPO httpSignupPO = null;
         if (result != null) {
@@ -139,18 +142,21 @@ public class UserHttpImpl implements UserHttpService {
     }
 
     @Override
-    public ArrayList<UserPO> getFollowList(String userID, String currentUserID, int page) {
+    public ArrayList<FollowUserPO> getFollowList(String userID, String currentUserID, String type, int page) {
         String request =
                 new HttpBuilder()
                         .addField(context.getString(R.string.user), false)
                         .addField(context.getString(R.string.get_follow_list))
                         .addParam(context.getString(R.string.user_id), userID)
                         .addParam(context.getString(R.string.current_user_id), currentUserID)
+                        .addParam(context.getString(R.string.type), type)
                         .addParam(context.getString(R.string.page), page)
+                        .addParam("count", 10)
                         .build();
+        Log.d(TAG, "getFollowList: " + request);
         String result = httpConnection.getResult(request);
 
-        ArrayList<UserPO> userPOList = null;
+        ArrayList<FollowUserPO> userPOList = null;
         if (result != null) {
             if (result.length() != 0) {
                 userPOList = JSONHandler.getFollowList(result);

@@ -14,12 +14,12 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:background="@color/menu_background"
-            app:title="@string/title_activity_bbs"
-            app:navigationIcon="@drawable/launch_logo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="@color/menu_background"
+            app:navigationIcon="@drawable/launch_logo"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/title_activity_bbs" />
 
     </android.support.design.widget.AppBarLayout>
 

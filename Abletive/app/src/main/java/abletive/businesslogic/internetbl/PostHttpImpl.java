@@ -3,16 +3,19 @@ package abletive.businesslogic.internetbl;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.InputStream;
 
 import abletive.businesslogic.blutil.HttpBuilder;
 import abletive.businesslogic.blutil.HttpConnection;
 import abletive.businesslogic.blutil.JSONHandler;
+import abletive.businesslogic.blutil.UserData;
 import abletive.logicservice.internetblservice.PostHttpService;
 import abletive.po.HttpAuthorPostPO;
 import abletive.po.HttpCategoryPO;
 import abletive.po.HttpCategoryPostPO;
+import abletive.po.HttpCommentPO;
 import abletive.po.HttpDatePostPO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
@@ -63,6 +66,8 @@ public class PostHttpImpl implements PostHttpService {
                         .addParam(context.getString(R.string.cookie), cookie)
                         .addParam(context.getString(R.string.ignore_sticky_posts), ignoreStickyPosts + "")
                         .build();
+
+        Log.d(TAG, "getPostList: "+request);
 
         String result = httpConnection.getResult(request);
 
@@ -246,11 +251,37 @@ public class PostHttpImpl implements PostHttpService {
         String result = httpConnection.getResult(request);
 
         int credit = 0;
-        if(result!=null){
+        if (result != null) {
             if (result.length() != 0) {
                 credit = JSONHandler.getCredit(result);
             }
         }
         return credit;
+    }
+
+    @Override
+    public HttpCommentPO comment(String userID, String postID, String comment, String email) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.respond), false)
+                        .addField(context.getString(R.string.submit_comment))
+                        .addParam("name", UserData.getInstance().getUserVO().getUsername())//TODO 修改API
+                        .addParam(context.getString(R.string.user_id), userID)
+                        .addParam(context.getString(R.string.post_id), postID)
+                        .addParam(context.getString(R.string.email), email)
+                        .addParam(context.getString(R.string.parent), 0)
+                        .addParam(context.getString(R.string.content), comment)
+                        .build();
+
+        Log.d(TAG, "comment: " + request);
+        String result = httpConnection.getResult(request);
+
+        HttpCommentPO httpCommentPO = null;
+        if (result != null) {
+            if (result.length() != 0) {
+                httpCommentPO = JSONHandler.getComment(result);
+            }
+        }
+        return httpCommentPO;
     }
 }

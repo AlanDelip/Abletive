@@ -78,18 +78,20 @@ public class UserTransformer {
 
     /**
      * UserPO数组转UserVO数组
+     *
      * @param userPOList
      * @return
      */
-    public static ArrayList<UserVO> getUserVOList(ArrayList<UserPO> userPOList){
+    public static ArrayList<UserVO> getUserVOList(ArrayList<UserPO> userPOList) {
         ArrayList<UserVO> userVOList = new ArrayList<>();
-        for(UserPO userPO:userPOList){
-            //暂时设置cookie为空字符串
-            userVOList.add(getUserVO(userPO,""));
+        if (userPOList != null) {
+            for (UserPO userPO : userPOList) {
+                //暂时设置cookie为空字符串
+                userVOList.add(getUserVO(userPO, ""));
+            }
         }
         return userVOList;
     }
-
 
     /**
      * 获取html中img标签中src内容
@@ -97,7 +99,7 @@ public class UserTransformer {
      * @param htmlStr html代码
      * @return src内容
      */
-    private static String fetchImg(String htmlStr) {
+    public static String fetchImg(String htmlStr) {
         Pattern p = Pattern
                 .compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
         // <img[^<>]*src=[\'\"]([0-9A-Za-z.\\/]*)[\'\"].(.*?)>");

@@ -68,38 +68,4 @@ public class PostListAdapter extends ArrayAdapter<PostListVO> {
         category.setText(postListVO.getCategory());
         return view;
     }
-
-//    /**
-//     * 异步获取图片
-//     *
-//     * @author Alan
-//     * @version 1.0
-//     */
-//    class ImageTask extends AsyncTask<Void, Void, Bitmap> {
-//
-//        private ImageView imageView;
-//        private String thumbUrl;
-//        private PostService postBl;
-//
-//        public ImageTask(ImageView imageView, String thumbUrl) {
-//            this.imageView = imageView;
-//            this.thumbUrl = thumbUrl;
-//            postBl = new PostImpl();
-//        }
-//
-//        @Override
-//        protected Bitmap doInBackground(Void... param) {
-//            if (thumbUrl != null) {
-//                if (thumbUrl.length() != 0) {
-//                    return postBl.getThumbnail(thumbUrl);
-//                }
-//            }
-//            return ImageLibrary.default_title_thumb;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Bitmap bitmap) {
-//            imageView.setImageBitmap(bitmap);
-//        }
-//    }
 }

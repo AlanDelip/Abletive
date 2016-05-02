@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/domain_color"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,11 +12,80 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="abletive.presentation.fragment.BBSFragment">
 
-    <ListView
-        android:id="@+id/bbs_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+    <ImageView
+        android:id="@+id/rank_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/rank_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignTop="@+id/rank_icon"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/rank_icon"
+        android:text="积分排行榜"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/rank_description"
+        style="@style/ProfileTextStyle"
+        android:layout_below="@+id/rank_text"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/rank_icon"
+        android:text="看看谁是积分老大"
+        android:textColor="@color/light_gray"
+        android:textSize="16sp" />
+
+
+    <ImageView
+        android:id="@+id/arrow1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/rank_icon"
+        android:layout_alignEnd="@+id/rank_text"
+        android:layout_alignTop="@+id/rank_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        android:id="@+id/message_board_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rank_icon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/favicon" />
+
+    <TextView
+        android:id="@+id/message_board_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignTop="@+id/message_board_icon"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/message_board_icon"
+        android:text="留言板"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/message_board_description"
+        style="@style/ProfileTextStyle"
+        android:layout_below="@+id/message_board_text"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/message_board_icon"
+        android:text="随意吐槽留言"
+        android:textColor="@color/light_gray"
+        android:textSize="16sp" />
+
+
+    <ImageView
+        android:id="@+id/arrow2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/message_board_icon"
+        android:layout_alignEnd="@+id/message_board_text"
+        android:layout_alignTop="@+id/message_board_icon"
+        android:src="@android:drawable/ic_media_play" />
 
 </RelativeLayout>

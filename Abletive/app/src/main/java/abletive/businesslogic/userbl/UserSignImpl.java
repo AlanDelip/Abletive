@@ -53,10 +53,14 @@ public class UserSignImpl implements UserSignService {
     }
 
     @Override
-    public boolean signout() {
+    public boolean signout(Context context) {
         boolean isLogin = userData.isLogin();
         if (isLogin) {
             userData.setIsLogin(false);
+            Properties properties = getLogProperty(context);
+            if (properties != null) {
+                properties.setProperty("isLogin", "false");
+            }
             return true;
         } else {
             return false;
@@ -82,18 +86,15 @@ public class UserSignImpl implements UserSignService {
 
     @Override
     public boolean preLogin(Context context) {
-        Properties properties = new Properties();
-        try {
-            properties.load(context.getAssets().open("sign_log.properties"));
+        Properties properties = getLogProperty(context);
+        if (properties != null) {
             String loginState = properties.getProperty("isLogin");
-            if(loginState.equals("true")){
+            if (loginState.equals("true")) {
                 UserData.getInstance().setIsLogin(true);
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return false;
     }
@@ -104,6 +105,22 @@ public class UserSignImpl implements UserSignService {
         //1. 如果没有存就建一个userlog表，列为UserPO中的所有内容
         //2. 如果已经存在就直接拿
         //3. 注销时删除
+        return null;
+    }
+
+    /**
+     * 获得登录日志
+     *
+     * @return 登录日志
+     */
+    private Properties getLogProperty(Context context) {
+        Properties properties = new Properties();
+        try {
+            properties.load(context.getAssets().open("sign_log.properties"));
+            return properties;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

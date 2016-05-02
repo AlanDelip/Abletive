@@ -1,7 +1,10 @@
 package abletive.presentation.uiutil;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -58,5 +61,54 @@ public class WidgetTool {
      */
     public static boolean isEmpty(ArrayList<Object> arrayList) {
         return (arrayList.size() == 0);
+    }
+
+    /**
+     * 创建单选框
+     *
+     * @param context  上下文
+     * @param title    标题
+     * @param items    内容列表
+     * @param listener 监听
+     * @return 单选弹框
+     */
+    public static AlertDialog getChoiceDialog(Context context, String title, String[] items,
+                                              DialogInterface.OnClickListener listener,
+                                              DialogInterface.OnClickListener positiveListener) {
+        return new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setSingleChoiceItems(items, 0, listener)
+                .setPositiveButton("保存", positiveListener)
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+    }
+
+    /**
+     * 创建编辑弹窗
+     *
+     * @param context  上下文
+     * @param title    标题
+     * @param content  原先内容
+     * @param listener 监听
+     * @return 编辑弹窗
+     */
+    public static AlertDialog getTextDialog(Context context, String title, String content, DialogInterface.OnClickListener listener) {
+        EditText editText = new EditText(context);
+        editText.setText(content);
+        return new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setView(editText)
+                .setPositiveButton("保存", listener)
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
     }
 }

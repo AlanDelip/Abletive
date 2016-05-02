@@ -2,6 +2,7 @@ package abletive.logicservice.internetblservice;
 
 import java.util.ArrayList;
 
+import abletive.po.FollowUserPO;
 import abletive.po.HttpDailyCheckinPO;
 import abletive.po.HttpPersonalPagePO;
 import abletive.po.HttpSignupPO;
@@ -57,7 +58,7 @@ public interface UserHttpService {
      * @param page          第几页
      * @return 关注者列表
      */
-    ArrayList<UserPO> getFollowList(String userID, String currentUserID, int page);
+    ArrayList<FollowUserPO> getFollowList(String userID, String currentUserID, String type, int page);
 
     /**
      * 每日签到

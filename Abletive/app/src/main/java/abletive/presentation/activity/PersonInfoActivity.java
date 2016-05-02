@@ -1,6 +1,7 @@
 package abletive.presentation.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import abletive.businesslogic.blutil.UserData;
+import abletive.businesslogic.userbl.UserSignImpl;
+import abletive.logicservice.userblservice.UserSignService;
+import abletive.presentation.uiutil.WidgetTool;
 import abletive.presentation.widget.RoundImageView;
 import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
@@ -48,12 +52,34 @@ public class PersonInfoActivity extends AppCompatActivity {
         MainActivity.IMAGE_CACHE.get(userVO.getAvatarUrl(), mAvatarView);
         //TODO 上传自定义头像
 
+        //TODO 暂时没有设置个人资料的接口API
         TextView genderView = (TextView) findViewById(R.id.gender);
         genderView.setText(userVO.getGender());
-        genderView.setOnClickListener(new View.OnClickListener() {
+        TextView genderText = (TextView) findViewById(R.id.gender_text);
+        genderText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 弹窗
+                WidgetTool.getChoiceDialog(PersonInfoActivity.this, "性别",
+                        new String[]{"男", "女", "未知"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        break;
+                                    case 1:
+                                        break;
+                                    case 2:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO 点击确定后的动作
+                            }
+                        }).show();
             }
         });
 
@@ -62,7 +88,13 @@ public class PersonInfoActivity extends AppCompatActivity {
         nicknameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 弹窗
+                WidgetTool.getTextDialog(PersonInfoActivity.this, "昵称",
+                        userVO.getNickname(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO 点击确认后的反应
+                            }
+                        }).show();
             }
         });
 
@@ -71,7 +103,13 @@ public class PersonInfoActivity extends AppCompatActivity {
         personalPageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 弹窗
+                WidgetTool.getTextDialog(PersonInfoActivity.this, "个人主页",
+                        userVO.getUrl(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO 点击确认后的反应
+                            }
+                        }).show();
             }
         });
 
@@ -80,7 +118,13 @@ public class PersonInfoActivity extends AppCompatActivity {
         descriptionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 弹窗
+                WidgetTool.getTextDialog(PersonInfoActivity.this, "个人简介",
+                        userVO.getDescription(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO 点击确认后的保存
+                            }
+                        }).show();
             }
         });
 
@@ -89,7 +133,13 @@ public class PersonInfoActivity extends AppCompatActivity {
         weiboView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 弹窗
+                WidgetTool.getTextDialog(PersonInfoActivity.this, "微博",
+                        userVO.getWeibo(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
             }
         });
 
@@ -98,7 +148,13 @@ public class PersonInfoActivity extends AppCompatActivity {
         qqView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 弹窗
+                WidgetTool.getTextDialog(PersonInfoActivity.this, "QQ",
+                        userVO.getQq(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
             }
         });
 
@@ -110,7 +166,13 @@ public class PersonInfoActivity extends AppCompatActivity {
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 弹窗
+                WidgetTool.getTextDialog(PersonInfoActivity.this, "电子邮件",
+                        userVO.getEmail(), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).show();
             }
         });
     }
@@ -129,7 +191,8 @@ public class PersonInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //设置注销登录状态
-                userData.setIsLogin(false);
+                UserSignService userBl = new UserSignImpl();
+                userBl.signout(PersonInfoActivity.this);
                 finish();
             }
         });

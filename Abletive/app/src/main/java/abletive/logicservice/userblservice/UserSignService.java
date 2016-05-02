@@ -26,7 +26,7 @@ public interface UserSignService {
      *
      * @return 是否成功登出
      */
-    boolean signout();
+    boolean signout(Context context);
 
     /**
      * 注册

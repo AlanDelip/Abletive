@@ -3,6 +3,7 @@ package abletive.presentation.tasks;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
+import abletive.businesslogic.blutil.UserTransformer;
 import abletive.businesslogic.postbl.PostImpl;
 import abletive.logicservice.postblservice.PostService;
 
@@ -18,6 +19,9 @@ public class ImageTask extends AsyncTask<Void, Void, Void> {
     Bitmap image;
 
     public ImageTask(String imageUrl) {
+        if (imageUrl.startsWith("<")) {
+            imageUrl = UserTransformer.fetchImg(imageUrl);
+        }
         this.imageUrl = imageUrl;
         postBl = new PostImpl();
     }

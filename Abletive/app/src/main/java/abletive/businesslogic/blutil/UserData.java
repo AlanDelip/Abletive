@@ -1,5 +1,6 @@
 package abletive.businesslogic.blutil;
 
+import abletive.vo.PersonalPageVO;
 import abletive.vo.UserVO;
 
 /**
@@ -28,6 +29,11 @@ public class UserData {
      * 目前加载的用户信息
      */
     private UserVO userVO;
+
+    /**
+     * 目前加载的个人主页
+     */
+    private PersonalPageVO personalPageVO;
 
     private UserData() {
     }
@@ -66,5 +72,13 @@ public class UserData {
 
     public void setUserVO(UserVO userVO) {
         this.userVO = userVO;
+    }
+
+    public PersonalPageVO getPersonalPageVO() {
+        return personalPageVO;
+    }
+
+    public void setPersonalPageVO(PersonalPageVO personalPageVO) {
+        this.personalPageVO = personalPageVO;
     }
 }

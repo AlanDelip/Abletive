@@ -22,6 +22,7 @@ import com.cjj.MaterialRefreshListener;
 import java.util.HashMap;
 
 import abletive.businesslogic.blutil.UserData;
+import abletive.presentation.tasks.CommentTask;
 import abletive.presentation.tasks.ImageTask;
 import abletive.presentation.tasks.PostTask;
 import abletive.vo.PostVO;
@@ -105,12 +106,14 @@ public class PostActivity extends AppCompatActivity {
         imageTask.setImageTaskCallBack(new ImageTask.ImageTaskCallBack() {
             @Override
             public void setImage(Bitmap image) {
-                Palette palette = Palette.from(image).generate();
-                Palette.Swatch muteSwatch = palette.getDarkMutedSwatch();
-                if (muteSwatch != null) {
-                    toolbar.setBackgroundColor(muteSwatch.getRgb());
-                    toolbarTitle.setTextColor(muteSwatch.getTitleTextColor());
-                    toolbarAuthor.setTextColor(muteSwatch.getBodyTextColor());
+                if (image != null) {
+                    Palette palette = Palette.from(image).generate();
+                    Palette.Swatch muteSwatch = palette.getDarkMutedSwatch();
+                    if (muteSwatch != null) {
+                        toolbar.setBackgroundColor(muteSwatch.getRgb());
+                        toolbarTitle.setTextColor(muteSwatch.getTitleTextColor());
+                        toolbarAuthor.setTextColor(muteSwatch.getBodyTextColor());
+                    }
                 }
             }
         });
@@ -155,6 +158,14 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String commentContent = mCommentText.getText().toString();
                 //TODO 发表评论并且刷新
+                if (UserData.getInstance().isLogin()) {
+                    CommentTask commentTask = new CommentTask(PostActivity.this,
+                            UserData.getInstance().getUserID(), id, commentContent,
+                            UserData.getInstance().getUserVO().getEmail());
+                    commentTask.execute();
+                } else {
+                    Toast.makeText(PostActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

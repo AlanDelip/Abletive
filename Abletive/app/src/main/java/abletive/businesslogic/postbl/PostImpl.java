@@ -8,6 +8,7 @@ import abletive.businesslogic.blutil.PostTransformer;
 import abletive.businesslogic.internetbl.PostHttpImpl;
 import abletive.logicservice.internetblservice.PostHttpService;
 import abletive.logicservice.postblservice.PostService;
+import abletive.po.HttpCommentPO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
 import abletive.po.PostPO;
@@ -86,5 +87,11 @@ public class PostImpl implements PostService {
     @Override
     public Bitmap getThumbnail(String thumbnailUrl) {
         return postHttpBl.getThumbnail(thumbnailUrl);
+    }
+
+    @Override
+    public boolean comment(String userID, String postID, String comment, String email) {
+        HttpCommentPO httpCommentPO = postHttpBl.comment(userID, postID, comment, email);
+        return httpCommentPO.getStatus().equals("ok");
     }
 }

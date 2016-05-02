@@ -21,6 +21,7 @@ import abletive.businesslogic.blutil.UserData;
 import abletive.presentation.activity.LogActivity;
 import abletive.presentation.activity.MainActivity;
 import abletive.presentation.activity.PersonInfoActivity;
+import abletive.presentation.activity.PersonalPageActivity;
 import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
 import jp.wasabeef.blurry.Blurry;
@@ -102,6 +103,15 @@ public class UserFragment extends Fragment {
                 }
             }
         });
+
+        TextView mPersonalPageView = (TextView) currentView.findViewById(R.id.personal_page_text);
+        mPersonalPageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转至本人的个人界面
+                PersonalPageActivity.newInstance(getContext(), userVO.getId());
+            }
+        });
     }
 
     /**
@@ -123,7 +133,7 @@ public class UserFragment extends Fragment {
         userName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!userData.isLogin()){
+                if (!userData.isLogin()) {
                     LogActivity.newInstance(getContext());
                 }
             }
@@ -208,7 +218,6 @@ public class UserFragment extends Fragment {
         View userInfoLayout = currentView.findViewById(R.id.user_info_group);
         userInfoLayout.setVisibility(View.VISIBLE);
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

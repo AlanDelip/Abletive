@@ -11,6 +11,7 @@ public class HttpPersonalPagePO {
     String follower_count;
     int posts_count;
     int comments_count;
+    int collects_count;
     int credit;
     String gender;
     int registered_days;
@@ -18,19 +19,28 @@ public class HttpPersonalPagePO {
     int orders_count;
     UserInfoPO user_info;
 
-    public HttpPersonalPagePO(String avatar, int follow_status, String following_count, String follower_count, int posts_count, int comments_count, int credit, String gender, int registered_days, MembershipPO membership, int orders_count, UserInfoPO user_info) {
+    public HttpPersonalPagePO(String avatar, int follow_status, String following_count, String follower_count, int posts_count, int comments_count, int collects_count, int credit, String gender, int registered_days, MembershipPO membership, int orders_count, UserInfoPO user_info) {
         this.avatar = avatar;
         this.follow_status = follow_status;
         this.following_count = following_count;
         this.follower_count = follower_count;
         this.posts_count = posts_count;
         this.comments_count = comments_count;
+        this.collects_count = collects_count;
         this.credit = credit;
         this.gender = gender;
         this.registered_days = registered_days;
         this.membership = membership;
         this.orders_count = orders_count;
         this.user_info = user_info;
+    }
+
+    public int getCollects_count() {
+        return collects_count;
+    }
+
+    public void setCollects_count(int collects_count) {
+        this.collects_count = collects_count;
     }
 
     public String getAvatar() {

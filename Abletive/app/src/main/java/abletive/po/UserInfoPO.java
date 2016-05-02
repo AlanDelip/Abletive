@@ -5,15 +5,15 @@ package abletive.po;
  * Created by Alan on 2016/4/22.
  */
 public class UserInfoPO {
-    int id;
+    String ID;//TODO 修改API
     String user_login;
     String user_nicename;
     String user_email;
     String user_url;
     String display_name;
 
-    public UserInfoPO(int id, String user_login, String user_nicename, String user_email, String user_url,String display_name) {
-        this.id = id;
+    public UserInfoPO(String ID, String user_login, String user_nicename, String user_email, String user_url, String display_name) {
+        this.ID = ID;
         this.user_login = user_login;
         this.user_nicename = user_nicename;
         this.user_email = user_email;
@@ -21,12 +21,12 @@ public class UserInfoPO {
         this.display_name = display_name;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return ID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.ID = id;
     }
 
     public String getUser_login() {

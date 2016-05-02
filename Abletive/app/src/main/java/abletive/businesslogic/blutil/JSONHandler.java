@@ -1,5 +1,7 @@
 package abletive.businesslogic.blutil;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -8,9 +10,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import abletive.po.FollowUserPO;
 import abletive.po.HttpAuthorPostPO;
 import abletive.po.HttpCategoryPO;
 import abletive.po.HttpCategoryPostPO;
+import abletive.po.HttpCommentPO;
 import abletive.po.HttpDailyCheckinPO;
 import abletive.po.HttpDatePostPO;
 import abletive.po.HttpPersonalPagePO;
@@ -108,15 +112,19 @@ public class JSONHandler {
         return gson.fromJson(result, HttpPersonalPagePO.class);
     }
 
-    public static ArrayList<UserPO> getFollowList(String result) {
+    public static ArrayList<FollowUserPO> getFollowList(String result) {
 
-        ArrayList<UserPO> userPOList = new ArrayList<>();
+        ArrayList<FollowUserPO> userPOList = new ArrayList<>();
         try {
-            JSONArray jsonArray = new JSONArray(result);
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject = new JSONObject(result);
+            jsonArray = jsonObject.getJSONArray("user_lists");
+            Gson gson = new Gson();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                UserPO userPO = getUserPO(object.toString());
-                if (userPO != null && userPO.getStatus().equals(MApplication.getContext().getString(R.string.ok))) {
+                Log.d("Abletive", "getFollowList: " + object);
+                FollowUserPO userPO = gson.fromJson(object.toString(), FollowUserPO.class);
+                if (userPO != null) {
                     userPOList.add(userPO);
                 }
             }
@@ -127,12 +135,12 @@ public class JSONHandler {
         return userPOList;
     }
 
-    public static HttpDailyCheckinPO getCheckinInfo(String result){
+    public static HttpDailyCheckinPO getCheckinInfo(String result) {
         Gson gson = new Gson();
-        return gson.fromJson(result,HttpDailyCheckinPO.class);
+        return gson.fromJson(result, HttpDailyCheckinPO.class);
     }
 
-    public static int getFollowState(String result){
+    public static int getFollowState(String result) {
         int followState = 0;
         try {
             JSONObject jsonObject = new JSONObject(result);
@@ -143,7 +151,7 @@ public class JSONHandler {
         return followState;
     }
 
-    public static int getCredit(String result){
+    public static int getCredit(String result) {
         int credit = 0;
         try {
             JSONObject jsonObject = new JSONObject(result);
@@ -152,5 +160,10 @@ public class JSONHandler {
             e.printStackTrace();
         }
         return credit;
+    }
+
+    public static HttpCommentPO getComment(String result) {
+        Gson gson = new Gson();
+        return gson.fromJson(result, HttpCommentPO.class);
     }
 }

@@ -61,4 +61,15 @@ public interface PostService {
      * @return 文章简略图
      */
     Bitmap getThumbnail(String thumbnailUrl);
+
+    /**
+     * 评论文章
+     *
+     * @param userID  用户ID
+     * @param postID  文章ID
+     * @param comment 评论内容
+     * @param email   邮箱
+     * @return 是否评论成功
+     */
+    boolean comment(String userID, String postID, String comment, String email);
 }

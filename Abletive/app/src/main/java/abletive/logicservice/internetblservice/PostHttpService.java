@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import abletive.po.HttpAuthorPostPO;
 import abletive.po.HttpCategoryPO;
 import abletive.po.HttpCategoryPostPO;
+import abletive.po.HttpCommentPO;
 import abletive.po.HttpDatePostPO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
@@ -37,12 +38,13 @@ public interface PostHttpService {
 
     /**
      * 获得文章列表
-     * @param page 第几页
-     * @param cookie 用户登录cookie
+     *
+     * @param page              第几页
+     * @param cookie            用户登录cookie
      * @param ignoreStickyPosts 是否忽略置顶文章
      * @return 文章列表数组
      */
-    HttpPostPO getPostList(int page,String cookie,boolean ignoreStickyPosts);
+    HttpPostPO getPostList(int page, String cookie, boolean ignoreStickyPosts);
 
     /**
      * 获得文章内容
@@ -130,9 +132,20 @@ public interface PostHttpService {
 
     /**
      * 点赞文章动作
+     *
      * @param postID 文章ID
      * @param userID 用户ID
      * @return 点赞成功获得的积分
      */
-    int like(String postID,String userID);
+    int like(String postID, String userID);
+
+    /**
+     * 评论文章
+     *
+     * @param userID  用户ID
+     * @param postID  文章ID
+     * @param comment 评论内容
+     * @return
+     */
+    HttpCommentPO comment(String userID, String postID, String comment, String email);
 }
