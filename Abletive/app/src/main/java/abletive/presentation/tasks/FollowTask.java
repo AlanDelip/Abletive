@@ -4,58 +4,60 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import abletive.businesslogic.blutil.UserData;
 import abletive.businesslogic.userbl.UserInfoImpl;
 import abletive.logicservice.userblservice.UserInfoService;
 import abletive.presentation.uiutil.WidgetTool;
-import abletive.vo.FollowUserVO;
-import alandelip.abletivedemo.R;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
- * 关注人，被关注人任务
- * Created by Alan on 2016/4/30.
+ * 关注任务
+ * Created by Alan on 2016/5/3.
  */
-public class FollowTask extends AsyncTask<Integer, Void, Void> {
+public class FollowTask extends AsyncTask<Void, Void, Boolean> {
 
+    private String userID, followPresent;
+    private FollowState followState;
     private Context context;
-    private String userID, type;
-    private UserInfoService userBl;
     private SweetAlertDialog dialog;
-    private ArrayList<FollowUserVO> userVOList;
+    private UserInfoService userBl;
     private FollowTaskCallBack followTaskCallBack;
 
-
-    public FollowTask(Context context, String userID, String type) {
+    public FollowTask(Context context, String userID, FollowState followState) {
         this.context = context;
         this.userID = userID;
-        this.type = type;
+        this.followState = followState;
+        if (followState == FollowState.FOLLOW) {
+            followPresent = "关注";
+        } else {
+            followPresent = "取消关注";
+        }
         userBl = new UserInfoImpl();
     }
 
     @Override
     protected void onPreExecute() {
-        dialog = WidgetTool.getDefaultDialog(context);
+        dialog = WidgetTool.getDialog(context, followPresent + "中...");
         dialog.show();
     }
 
     @Override
-    protected Void doInBackground(Integer... page) {
-        userVOList = userBl.getFollowList(userID, UserData.getInstance().getUserID(), type, page[0]);
-        return null;
+    protected Boolean doInBackground(Void... params) {
+        if (followState == FollowState.FOLLOW) {
+            return userBl.follow(userID, UserData.getInstance().getUserID());
+        } else {
+            return userBl.unfollow(userID, UserData.getInstance().getUserID());
+        }
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean state) {
         dialog.dismissWithAnimation();
-        if (userVOList != null) {
-            if (followTaskCallBack != null) {
-                followTaskCallBack.init(userVOList);
-            }
+        if (state) {
+            Toast.makeText(context, followPresent + "成功", Toast.LENGTH_SHORT).show();
+            followTaskCallBack.afterFollow("已" + followPresent);
         } else {
-            Toast.makeText(context, context.getString(R.string.internet_failure), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, followPresent + "失败", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -63,10 +65,16 @@ public class FollowTask extends AsyncTask<Integer, Void, Void> {
         this.followTaskCallBack = followTaskCallBack;
     }
 
+    public enum FollowState {
+        FOLLOW, UNFOLLOW;
+    }
+
     public interface FollowTaskCallBack {
         /**
-         * 初始化界面
+         * 在关注操作后改变用户之间的状态
+         *
+         * @param content 状态内容
          */
-        void init(ArrayList<FollowUserVO> userVOList);
+        void afterFollow(String content);
     }
 }

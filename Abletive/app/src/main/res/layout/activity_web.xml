@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,96 +18,103 @@
     <!--android:layout_height="match_parent"-->
     <!--android:background="@color/white"-->
     <!--android:alpha="0.3"/>-->
-
-    <android.support.design.widget.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/menu_background"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!--<ImageView-->
-                <!--android:id="@+id/toolbar_background"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
-
-                <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="@color/domain_color" />-->
-
-                <ImageView
-                    android:id="@+id/toolbar_navigation"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerVertical="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/launch_logo" />
-
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@+id/toolbar_navigation"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/welcome_text"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/toolbar_author"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/toolbar_title"
-                    android:layout_below="@+id/toolbar_title"
-                    android:text="@string/author_icon" />
-            </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/webview_background"
+        <android.support.design.widget.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/menu_background"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--<ImageView-->
+                    <!--android:id="@+id/toolbar_background"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent" />-->
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@color/domain_color" />-->
+
+                    <abletive.presentation.widget.RoundImageView
+                        android:id="@+id/toolbar_navigation"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/launch_logo" />
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_toEndOf="@+id/toolbar_navigation"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/welcome_text"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/toolbar_author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/toolbar_title"
+                        android:layout_below="@+id/toolbar_title"
+                        android:text="@string/author_icon" />
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:layout_below="@+id/app_bar">
 
-        <com.cjj.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:overlay="false">
-
-            <ScrollView
-                android:id="@+id/scrollView"
+            <ImageView
+                android:id="@+id/webview_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.75">
+                android:scaleType="centerCrop" />
 
-                <im.delight.android.webview.AdvancedWebView
-                    android:id="@+id/webview"
+            <com.cjj.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:overlay="false">
+
+                <ScrollView
+                    android:id="@+id/scrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:alpha="0.75">
 
-            </ScrollView>
+                    <im.delight.android.webview.AdvancedWebView
+                        android:id="@+id/webview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-        </com.cjj.MaterialRefreshLayout>
+                </ScrollView>
+
+            </com.cjj.MaterialRefreshLayout>
+
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/bottom"
@@ -154,4 +161,13 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="20dp"
+        android:src="@android:drawable/ic_menu_share" />
+
+</android.support.design.widget.CoordinatorLayout>

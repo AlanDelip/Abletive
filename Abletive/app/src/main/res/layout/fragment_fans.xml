@@ -3,14 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
-    android:padding="10dp"
     tools:context="abletive.presentation.fragment.FansFragment">
 
-    <ListView
-        android:id="@+id/fans_user_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+    <com.cjj.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:isLoadMore="true"
+        app:overlay="false"
+        app:wave_color="@color/transparent"
+        app:wave_show="false">
+
+        <ListView
+            android:id="@+id/fans_user_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+    </com.cjj.MaterialRefreshLayout>
 
 </RelativeLayout>

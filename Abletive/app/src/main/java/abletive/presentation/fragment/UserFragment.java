@@ -112,6 +112,15 @@ public class UserFragment extends Fragment {
                 PersonalPageActivity.newInstance(getContext(), userVO.getId());
             }
         });
+
+        TextView mCardView = (TextView) currentView.findViewById(R.id.my_matrix_text);
+        mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //显示个人名片
+
+            }
+        });
     }
 
     /**

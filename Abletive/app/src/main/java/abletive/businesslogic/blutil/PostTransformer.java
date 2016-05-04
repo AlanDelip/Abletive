@@ -25,9 +25,11 @@ public class PostTransformer {
      */
     public static ArrayList<PostListVO> getPostList(ArrayList<PostPO> postPOList) {
         ArrayList<PostListVO> postVOList = new ArrayList<>();
-        for (PostPO post : postPOList) {
-            PostListVO postListVO = getPost(post);
-            postVOList.add(postListVO);
+        if (postPOList != null) {
+            for (PostPO post : postPOList) {
+                PostListVO postListVO = getPost(post);
+                postVOList.add(postListVO);
+            }
         }
         return postVOList;
     }

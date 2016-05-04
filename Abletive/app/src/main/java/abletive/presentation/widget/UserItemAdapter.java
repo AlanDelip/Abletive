@@ -1,8 +1,6 @@
 package abletive.presentation.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,43 +30,57 @@ public class UserItemAdapter extends ArrayAdapter<FollowUserVO> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view;
+        ViewHolder viewHolder = null;
         FollowUserVO userVO = getItem(position);
-        if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(resource, null);
+        if (convertView != null) {
+            viewHolder = (ViewHolder) convertView.getTag();
         } else {
-            view = convertView;
+            convertView = LayoutInflater.from(getContext()).inflate(resource, null);
+            viewHolder = new ViewHolder();
+            viewHolder.background = convertView.findViewById(R.id.user_item);
+            viewHolder.backgroundImage = (ImageView) convertView.findViewById(R.id.background);
+            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            viewHolder.userName = (TextView) convertView.findViewById(R.id.username);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.description);
+            //保存ViewHolder
+            convertView.setTag(viewHolder);
         }
 
-        ImageView avatar = (ImageView) view.findViewById(R.id.avatar);
+        viewHolder.userName.setText(userVO.getName());
+        viewHolder.description.setText(userVO.getDescription());
+
+        //处理头像缓存
         String avatarUrl = userVO.getAvatarUrl();
         if (avatarUrl.startsWith("<")) {
             avatarUrl = UserTransformer.fetchImg(avatarUrl);
         }
-        MainActivity.IMAGE_CACHE.get(avatarUrl, avatar);
-        Bitmap loadedImage = MainActivity.IMAGE_CACHE.get(avatarUrl).getData();
+        MainActivity.IMAGE_CACHE.get(avatarUrl, viewHolder.avatar);
+        MainActivity.IMAGE_CACHE.get(avatarUrl, viewHolder.backgroundImage);
 
-        TextView userName = (TextView) view.findViewById(R.id.username),
-                description = (TextView) view.findViewById(R.id.description);
-        userName.setText(userVO.getName());
-        description.setText(userVO.getDescription());
+//        //根据头像设置背景和文字颜色
+//            viewHolder.backgroundImage.setImageBitmap(loadedImage);
+//            Palette palette = Palette.from(loadedImage).generate();
+//            Palette.Swatch muteLight = palette.getLightMutedSwatch(),
+//                    vibrantLight = palette.getLightVibrantSwatch();
+//            if (muteLight != null) {
+//                viewHolder.background.setBackgroundColor(muteLight.getRgb());
+//                viewHolder.userName.setTextColor(muteLight.getTitleTextColor());
+//                viewHolder.description.setTextColor(muteLight.getBodyTextColor());
+//            }
+//            if (vibrantLight != null) {
+//                viewHolder.background.setBackgroundColor(vibrantLight.getRgb());
+//                viewHolder.userName.setTextColor(vibrantLight.getTitleTextColor());
+//                viewHolder.description.setTextColor(vibrantLight.getBodyTextColor());
+//            }
 
-        //根据头像设置背景和文字颜色
-        View background = view.findViewById(R.id.user_item);
-        Palette palette = Palette.from(loadedImage).generate();
-        Palette.Swatch muteLight = palette.getLightMutedSwatch(),
-                vibrantLight = palette.getLightVibrantSwatch();
-        if (muteLight != null) {
-            background.setBackgroundColor(muteLight.getRgb());
-            userName.setTextColor(muteLight.getTitleTextColor());
-            description.setTextColor(muteLight.getBodyTextColor());
-        }
-        if (vibrantLight != null) {
-            background.setBackgroundColor(vibrantLight.getRgb());
-            userName.setTextColor(vibrantLight.getTitleTextColor());
-            description.setTextColor(vibrantLight.getBodyTextColor());
-        }
+        return convertView;
+    }
 
-        return view;
+    private static class ViewHolder {
+        View background;
+        ImageView backgroundImage;
+        ImageView avatar;
+        TextView userName;
+        TextView description;
     }
 }

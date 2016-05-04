@@ -21,12 +21,31 @@ public interface UserInfoService {
 
     /**
      * 获得指定用户的关注者列表
-     * @param userID 查看的用户ID
+     *
+     * @param userID        查看的用户ID
      * @param currentUserID 目前的用户ID
-     * @param type 粉丝还是关注者（following/follower）
-     * @param page 第几页
+     * @param type          粉丝还是关注者（following/follower）
+     * @param page          第几页
      * @return 用户对象列表
      */
     ArrayList<FollowUserVO> getFollowList(String userID, String currentUserID, String type, int page);
+
+    /**
+     * 关注
+     *
+     * @param userID        关注的用户ID
+     * @param currentUserID 当前用户ID
+     * @return 是否成功
+     */
+    boolean follow(String userID, String currentUserID);
+
+    /**
+     * 取消关注
+     *
+     * @param userID        关注的用户ID
+     * @param currentUserID 当前用户ID
+     * @return 是否成功
+     */
+    boolean unfollow(String userID, String currentUserID);
 
 }

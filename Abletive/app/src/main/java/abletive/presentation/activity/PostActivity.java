@@ -25,6 +25,7 @@ import abletive.businesslogic.blutil.UserData;
 import abletive.presentation.tasks.CommentTask;
 import abletive.presentation.tasks.ImageTask;
 import abletive.presentation.tasks.PostTask;
+import abletive.presentation.widget.RoundImageView;
 import abletive.vo.PostVO;
 import alandelip.abletivedemo.R;
 import im.delight.android.webview.AdvancedWebView;
@@ -33,7 +34,6 @@ import jp.wasabeef.blurry.Blurry;
 public class PostActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
     private static final String ARG_DATAMAP = "datamap";
-    private HashMap<String, String> data;
     private AdvancedWebView mWebView;
     private PostVO postVO;
     private MaterialRefreshLayout materialRefreshLayout;
@@ -59,7 +59,7 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web);
 
         //从intent中获取数据
-        data = (HashMap<String, String>) getIntent().getSerializableExtra(ARG_DATAMAP);
+        HashMap<String, String> data = (HashMap<String, String>) getIntent().getSerializableExtra(ARG_DATAMAP);
         url = data.get("url");
         id = data.get("id");
         title = data.get("title");
@@ -177,12 +177,27 @@ public class PostActivity extends AppCompatActivity {
         PostTask postTask = new PostTask(id, UserData.getInstance().getCookie());
         postTask.setPostTaskCallBack(new PostTask.PostTaskCallBack() {
             @Override
-            public void setPost(PostVO postVO) {
+            public void setPost(final PostVO postVO) {
                 PostActivity.this.postVO = postVO;
 //                mWebView.loadData(postVO.getContentHtml(), "text/html;charset=utf-8", null);
                 mWebView.loadUrl(url);
-                postInfoText.setText("点赞:" + postVO.getLikesNum() + "     收藏:" + postVO.getCollectsNum());
+                String postInfo = "点赞:" + postVO.getLikesNum() + "     收藏:" + postVO.getCollectsNum();
+                postInfoText.setText(postInfo);
                 materialRefreshLayout.finishRefresh();
+
+                //加载作者头像
+                RoundImageView authorAvatar = (RoundImageView) findViewById(R.id.toolbar_navigation);
+                MainActivity.IMAGE_CACHE.get(postVO.getAuthorAvatarUrl(), authorAvatar);
+                authorAvatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (UserData.getInstance().isLogin()) {
+                            PersonalPageActivity.newInstance(PostActivity.this, postVO.getAuthorID());
+                        } else {
+                            Toast.makeText(PostActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
         postTask.execute();

@@ -68,6 +68,9 @@ public class PostListTask extends AsyncTask<Void, Void, Void> {
          */
         void increasePage();
 
+        /**
+         * 重置Adapter已
+         */
         void setAdapter();
     }
 }

@@ -190,11 +190,12 @@ public class UserHttpImpl implements UserHttpService {
                 new HttpBuilder()
                         .addField(context.getString(R.string.user), false)
                         .addField(context.getString(R.string.follow_act))
-                        .addParam(context.getString(R.string.user_id), userID)
-                        .addParam(context.getString(R.string.followed), currentUserID)
+                        .addParam(context.getString(R.string.user_id), currentUserID)
+                        .addParam(context.getString(R.string.followed), userID)
                         .addParam(context.getString(R.string.act), act)
                         .build();
         String result = httpConnection.getResult(request);
+        Log.d(TAG, "follow: " + request);
 
         int followState = 0;
         if (result != null) {

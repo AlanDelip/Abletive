@@ -1,5 +1,8 @@
 package abletive.businesslogic.blutil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import abletive.presentation.uiutil.MApplication;
 
 /**
@@ -18,6 +21,22 @@ public class HttpBuilder {
 
     public HttpBuilder() {
         url = MApplication.getServerIP();
+    }
+
+    /**
+     * string转utf8编码
+     *
+     * @param str 字符串
+     * @return utf8编码字符串
+     */
+    public static String string2UTF8(String str) {
+        String xmlUTF8 = "";
+        try {
+            xmlUTF8 = URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return xmlUTF8;
     }
 
     public HttpBuilder addParam(String key, String value) {

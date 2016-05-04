@@ -189,4 +189,6 @@
     <string name="title_activity_log">登录</string>
     <string name="title_activity_person_info">PersonInfoActivity</string>
     <string name="title_activity_personal_page">PersonalPageActivity</string>
+    <string name="title_activity_follow">FollowActivity</string>
+    <string name="title_activity_personal_card">PersonalCardActivity</string>
 </resources>

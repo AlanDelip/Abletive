@@ -53,6 +53,22 @@ public class SearchActivity extends AppCompatActivity {
         ((Activity) context).overridePendingTransition(R.anim.in_from_bottom, R.anim.out_to_top);
     }
 
+    /**
+     * @param context     上下文
+     * @param authorName  作者名
+     * @param id          作者ID
+     * @param listService 列表接口
+     */
+    public static void newInstanceForUserPage(Context context, String authorName, String id, ListService listService) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("keyWord", authorName);
+        intent.putExtra("id", id);
+        intent.putExtra("user", true);
+        ClientLogic.getInstance().setListService(listService);
+        context.startActivity(intent);
+        ((Activity) context).overridePendingTransition(R.anim.in_from_bottom, R.anim.out_to_top);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +86,9 @@ public class SearchActivity extends AppCompatActivity {
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("搜索结果:" + keyWord);
+        if (getIntent().getBooleanExtra("user", false)) {
+            toolbar.setTitle(keyWord + "的文章列表");
+        }
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

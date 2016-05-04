@@ -15,12 +15,7 @@ import java.util.HashMap;
 import alandelip.abletivedemo.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PostFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PostFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 文章界面碎片
  */
 public class PostFragment extends Fragment {
     private static final String ARG_DATAMAP = "datamap";

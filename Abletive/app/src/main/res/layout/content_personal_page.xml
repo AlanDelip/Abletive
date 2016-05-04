@@ -2,12 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="abletive.presentation.activity.PersonalPageActivity"
     tools:showIn="@layout/activity_personal_page">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.6"
+        android:scaleType="centerCrop" />
 
     <abletive.presentation.widget.RoundImageView
         android:id="@+id/user_avatar"
@@ -24,7 +30,6 @@
         android:layout_below="@+id/user_avatar"
         android:layout_marginTop="15dp"
         android:gravity="center"
-        android:text="AlanDelip"
         android:textColor="@color/yellow"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -37,18 +42,18 @@
         android:layout_alignEnd="@+id/user_nickname"
         android:paddingEnd="10dp"
         android:text="自己"
-        android:textColor="@color/light_gray"
-        android:textSize="17sp" />
+        android:textColor="@color/yellow"
+        android:textSize="14sp" />
 
     <org.honorato.multistatetogglebutton.MultiStateToggleButton
         android:id="@+id/button_group"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/user_nickname"
+        android:layout_margin="10dp"
         android:layout_marginTop="10dp"
         android:background="@color/transparent"
         android:gravity="center"
-        android:layout_margin="10dp"
         app:mstbPrimaryColor="@color/white"
         app:mstbSecondaryColor="@color/azure"
         app:values="@array/personal_options" />
@@ -57,7 +62,6 @@
         android:id="@+id/personal_page_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_nickname"
-        android:layout_marginTop="80dp"
-        android:padding="10dp" />
+        android:layout_below="@+id/button_group"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>

@@ -67,7 +67,7 @@ public class PostHttpImpl implements PostHttpService {
                         .addParam(context.getString(R.string.ignore_sticky_posts), ignoreStickyPosts + "")
                         .build();
 
-        Log.d(TAG, "getPostList: "+request);
+        Log.d(TAG, "getPostList: " + request);
 
         String result = httpConnection.getResult(request);
 
@@ -270,7 +270,7 @@ public class PostHttpImpl implements PostHttpService {
                         .addParam(context.getString(R.string.post_id), postID)
                         .addParam(context.getString(R.string.email), email)
                         .addParam(context.getString(R.string.parent), 0)
-                        .addParam(context.getString(R.string.content), comment)
+                        .addParam(context.getString(R.string.content), HttpBuilder.string2UTF8(comment))
                         .build();
 
         Log.d(TAG, "comment: " + request);

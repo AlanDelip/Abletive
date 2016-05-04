@@ -72,7 +72,8 @@ public class UserInfoImpl implements UserInfoService {
             avatarUrl = UserTransformer.fetchImg(avatarUrl);
         }
 
-        return new PersonalPageVO(avatarUrl, followState, postCount,
+        return new PersonalPageVO(avatarUrl, followState, httpPersonalPagePO.getFollowing_count(),
+                httpPersonalPagePO.getFollower_count(), postCount,
                 postComment, credits, postCollection, memberVO,
                 gender, registerDays, shopOrders,
                 httpPersonalPagePO.getUser_info());
@@ -87,4 +88,26 @@ public class UserInfoImpl implements UserInfoService {
         }
         return userVOList;
     }
+
+    @Override
+    public boolean follow(String userID, String currentUserID) {
+        int state = userBl.follow(userID, currentUserID, "follow");
+        if (state == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean unfollow(String userID, String currentUserID) {
+        int state = userBl.follow(userID, currentUserID, "unfollow");
+        if (state == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

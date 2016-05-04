@@ -10,6 +10,8 @@ public class PersonalPageVO {
 
     String avatarUrl;
     String followState;
+    String followingCount;
+    String followerCount;
     String postCount;
     String postComment;
     String credits;
@@ -20,9 +22,11 @@ public class PersonalPageVO {
     String shopOrders;
     UserInfoPO userInfoPO;
 
-    public PersonalPageVO(String avatarUrl, String followState, String postCount, String postComment, String credits, String collectionCount, MemberVO memberVO, String gender, String registerTime, String shopOrders, UserInfoPO userInfoPO) {
+    public PersonalPageVO(String avatarUrl, String followState, String followingCount, String followerCount, String postCount, String postComment, String credits, String collectionCount, MemberVO memberVO, String gender, String registerTime, String shopOrders, UserInfoPO userInfoPO) {
         this.avatarUrl = avatarUrl;
         this.followState = followState;
+        this.followerCount = followerCount;
+        this.followingCount = followingCount;
         this.postCount = postCount;
         this.postComment = postComment;
         this.credits = credits;
@@ -32,6 +36,22 @@ public class PersonalPageVO {
         this.registerTime = registerTime;
         this.shopOrders = shopOrders;
         this.userInfoPO = userInfoPO;
+    }
+
+    public String getFollowingCount() {
+        return followingCount;
+    }
+
+    public void setFollowingCount(String followingCount) {
+        this.followingCount = followingCount;
+    }
+
+    public String getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(String followerCount) {
+        this.followerCount = followerCount;
     }
 
     public String getAvatarUrl() {

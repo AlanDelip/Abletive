@@ -14,8 +14,10 @@ public class PostVO {
     String contentHtml;
     String likesNum;
     String collectsNum;
+    String authorID;
+    String authorAvatarUrl;
 
-    public PostVO(String title, String viewsNum, String commentsNum, String category, String time, String contentHtml, String likesNum, String collectsNum) {
+    public PostVO(String title, String viewsNum, String commentsNum, String category, String time, String contentHtml, String likesNum, String collectsNum, String authorID, String authorAvatarUrl) {
         this.title = title;
         this.viewsNum = viewsNum;
         this.commentsNum = commentsNum;
@@ -24,6 +26,8 @@ public class PostVO {
         this.contentHtml = contentHtml;
         this.likesNum = likesNum;
         this.collectsNum = collectsNum;
+        this.authorID = authorID;
+        this.authorAvatarUrl = authorAvatarUrl;
     }
 
     public String getTitle() {
@@ -88,5 +92,21 @@ public class PostVO {
 
     public void setCollectsNum(String collectsNum) {
         this.collectsNum = collectsNum;
+    }
+
+    public String getAuthorID() {
+        return authorID;
+    }
+
+    public void setAuthorID(String authorID) {
+        this.authorID = authorID;
+    }
+
+    public String getAuthorAvatarUrl() {
+        return authorAvatarUrl;
+    }
+
+    public void setAuthorAvatarUrl(String authorAvatarUrl) {
+        this.authorAvatarUrl = authorAvatarUrl;
     }
 }

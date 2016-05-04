@@ -60,7 +60,9 @@ public class PostImpl implements PostService {
                 postPO.getDate(),
                 postPO.getContent(),
                 postPO.getCustom_fields().getUm_post_likes() + "",
-                postPO.getCustom_fields().getUm_post_collects() + "");
+                postPO.getCustom_fields().getUm_post_collects() + "",
+                postPO.getAuthor().getId() + "",
+                postPO.getAuthor().getAvatar());
     }
 
     @Override
