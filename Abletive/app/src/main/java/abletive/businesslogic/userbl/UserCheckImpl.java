@@ -14,11 +14,11 @@ import abletive.vo.UserVO;
  * 用户签到逻辑
  * Created by Alan on 2016/4/27.
  */
-public class UserCheckImpl implements UserCheckService{
+public class UserCheckImpl implements UserCheckService {
 
     UserHttpService userBl;
 
-    public UserCheckImpl(){
+    public UserCheckImpl() {
         userBl = new UserHttpImpl();
     }
 
@@ -26,18 +26,18 @@ public class UserCheckImpl implements UserCheckService{
     public DailyCheckinVO checkIn(String userID) {
         HttpDailyCheckinPO httpDailyCheckinPO = userBl.dailyCheckin(userID);
         ArrayList<UserVO> userList = null;
-        String msg="",credit="";
-        if(httpDailyCheckinPO!=null){
-            if(httpDailyCheckinPO.getSuccess()==1){
+        String msg = "", credit = "";
+        if (httpDailyCheckinPO != null) {
+            if (httpDailyCheckinPO.getSuccess() == 1) {
                 msg = httpDailyCheckinPO.getMsg();
-                credit = httpDailyCheckinPO.getCredits()+"";
+                credit = httpDailyCheckinPO.getCredits() + "";
                 userList =
                         UserTransformer.getUserVOList(httpDailyCheckinPO.getCheckin_list());
-            }else{
+            } else {
                 msg = "签到失败";
                 credit = "0";
             }
         }
-        return new DailyCheckinVO(msg,credit,userList);
+        return new DailyCheckinVO(msg, credit, userList);
     }
 }

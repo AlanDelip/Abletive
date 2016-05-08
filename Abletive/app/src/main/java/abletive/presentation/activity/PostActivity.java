@@ -18,12 +18,16 @@ import android.widget.Toast;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.HashMap;
 
 import abletive.businesslogic.blutil.UserData;
+import abletive.presentation.tasks.CollectTask;
 import abletive.presentation.tasks.CommentTask;
 import abletive.presentation.tasks.ImageTask;
+import abletive.presentation.tasks.LikeTask;
 import abletive.presentation.tasks.PostTask;
 import abletive.presentation.widget.RoundImageView;
 import abletive.vo.PostVO;
@@ -35,13 +39,13 @@ public class PostActivity extends AppCompatActivity {
     private static final String TAG = "Abletive";
     private static final String ARG_DATAMAP = "datamap";
     private AdvancedWebView mWebView;
-    private PostVO postVO;
     private MaterialRefreshLayout materialRefreshLayout;
     private String id, title, author, views, thumbUrl, comments, url;
     private Toolbar toolbar;
     private EditText mCommentText;
     private TextView postInfoText;
     private View bottomView;
+    private UserData userData;
 
     /**
      * @param context 启动活动的上下文
@@ -67,13 +71,67 @@ public class PostActivity extends AppCompatActivity {
         views = data.get("views");
         thumbUrl = data.get("thumbUrl");
         comments = data.get("comments");
+        userData = UserData.getInstance();
 
         initToolbar();
         initWebview();
         initText();
         initRefreshLayout();
+        initFloatingButton();
 
         fetchContent();
+    }
+
+    /**
+     * 初始化FloatingButton
+     */
+    private void initFloatingButton() {
+        final FloatingActionMenu fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
+        FloatingActionButton fabCommentList = (FloatingActionButton) findViewById(R.id.comment_list);
+        fabCommentList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转评论列表
+                CommentListActivity.newInstance(PostActivity.this, id);
+                fabMenu.close(true);
+            }
+        });
+        FloatingActionButton fabLike = (FloatingActionButton) findViewById(R.id.like);
+        fabLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //文章点赞
+                if (userData.isLogin()) {
+                    new LikeTask(PostActivity.this, id, userData.getUserID()).execute();
+                    fabMenu.close(true);
+                } else {
+                    Toast.makeText(PostActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        FloatingActionButton fabCollect = (FloatingActionButton) findViewById(R.id.collect);
+        fabCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //收藏文章
+                if (userData.isLogin()) {
+                    new CollectTask(PostActivity.this, userData.getUserID(), id, "add").execute();
+                    fabMenu.close(true);
+                } else {
+                    Toast.makeText(PostActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        FloatingActionButton fabShare = (FloatingActionButton) findViewById(R.id.share);
+        fabShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 分享
+                Toast.makeText(PostActivity.this, "分享功能即将开放，敬请期待！", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     /**
@@ -157,11 +215,11 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String commentContent = mCommentText.getText().toString();
-                //TODO 发表评论并且刷新
-                if (UserData.getInstance().isLogin()) {
+                //发表评论
+                if (userData.isLogin()) {
                     CommentTask commentTask = new CommentTask(PostActivity.this,
-                            UserData.getInstance().getUserID(), id, commentContent,
-                            UserData.getInstance().getUserVO().getEmail());
+                            userData.getUserID(), id, "0", commentContent,
+                            userData.getUserVO().getEmail());
                     commentTask.execute();
                 } else {
                     Toast.makeText(PostActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
@@ -178,7 +236,6 @@ public class PostActivity extends AppCompatActivity {
         postTask.setPostTaskCallBack(new PostTask.PostTaskCallBack() {
             @Override
             public void setPost(final PostVO postVO) {
-                PostActivity.this.postVO = postVO;
 //                mWebView.loadData(postVO.getContentHtml(), "text/html;charset=utf-8", null);
                 mWebView.loadUrl(url);
                 String postInfo = "点赞:" + postVO.getLikesNum() + "     收藏:" + postVO.getCollectsNum();
@@ -191,7 +248,7 @@ public class PostActivity extends AppCompatActivity {
                 authorAvatar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (UserData.getInstance().isLogin()) {
+                        if (userData.isLogin()) {
                             PersonalPageActivity.newInstance(PostActivity.this, postVO.getAuthorID());
                         } else {
                             Toast.makeText(PostActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();

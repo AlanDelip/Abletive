@@ -65,11 +65,31 @@ public interface PostService {
     /**
      * 评论文章
      *
-     * @param userID  用户ID
-     * @param postID  文章ID
-     * @param comment 评论内容
-     * @param email   邮箱
+     * @param userID   用户ID
+     * @param postID   文章ID
+     * @param parentID 评论父类（0为文章评论）
+     * @param comment  评论内容
+     * @param email    邮箱
      * @return 是否评论成功
      */
-    boolean comment(String userID, String postID, String comment, String email);
+    boolean comment(String userID, String postID, String parentID, String comment, String email);
+
+    /**
+     * 点赞
+     *
+     * @param postID 文章ID
+     * @param userID 用户ID
+     * @return 点赞获得的积分
+     */
+    int like(String postID, String userID);
+
+    /**
+     * 收藏
+     *
+     * @param postID 文章ID
+     * @param userID 用户ID
+     * @param act    remove/add
+     * @return 是否成功收藏
+     */
+    boolean collect(String postID, String userID, String act);
 }

@@ -2,8 +2,11 @@ package abletive.logicservice.userblservice;
 
 import java.util.ArrayList;
 
+import abletive.vo.CreditListVO;
 import abletive.vo.FollowUserVO;
 import abletive.vo.PersonalPageVO;
+import abletive.vo.PostCollectionVO;
+import abletive.vo.UserCommentVO;
 
 /**
  * 用户信息服务
@@ -47,5 +50,33 @@ public interface UserInfoService {
      * @return 是否成功
      */
     boolean unfollow(String userID, String currentUserID);
+
+    /**
+     * 获得收藏文章列表
+     *
+     * @param userID 用户ID
+     * @param page   页码
+     * @return 收藏文章列表
+     */
+    ArrayList<PostCollectionVO> getPostCollectionList(String userID, int page);
+
+    /**
+     * 获得积分列表
+     *
+     * @param userID 用户ID
+     * @param page   页码
+     * @return 积分列表
+     */
+    ArrayList<CreditListVO> getCreditList(String userID, int page);
+
+    /**
+     * 获得个人主页评论列表
+     *
+     * @param userID 用户ID
+     * @param page   页码
+     * @return 评论列表
+     */
+    ArrayList<UserCommentVO> getUserCommentList(String userID, int page);
+
 
 }

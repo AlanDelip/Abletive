@@ -62,6 +62,26 @@
         <activity
             android:name="abletive.presentation.activity.PersonalCardActivity"
             android:label="@string/title_activity_personal_card"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.CollectionActivity"
+            android:label="@string/title_activity_colection"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.RankBoardActivity"
+            android:label="@string/title_activity_rank_board"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.CreditActivity"
+            android:label="@string/title_activity_credit"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.UserCommentActivity"
+            android:label="@string/title_activity_comment"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.CommentListActivity"
+            android:label="@string/title_activity_comment_list"
             android:theme="@style/AppTheme"></activity>
     </application>
 

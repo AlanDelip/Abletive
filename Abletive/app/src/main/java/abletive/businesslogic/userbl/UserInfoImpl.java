@@ -2,16 +2,26 @@ package abletive.businesslogic.userbl;
 
 import java.util.ArrayList;
 
+import abletive.businesslogic.blutil.PostTransformer;
 import abletive.businesslogic.blutil.UserTransformer;
 import abletive.businesslogic.internetbl.UserHttpImpl;
 import abletive.logicservice.internetblservice.UserHttpService;
 import abletive.logicservice.userblservice.UserInfoService;
+import abletive.po.UserCommentListPO;
+import abletive.po.CreditPO;
 import abletive.po.FollowUserPO;
+import abletive.po.HttpCollectionListPO;
+import abletive.po.HttpCreditPO;
 import abletive.po.HttpPersonalPagePO;
+import abletive.po.HttpUserCommentPO;
 import abletive.po.MembershipPO;
+import abletive.po.PostCollectionPO;
+import abletive.vo.CreditListVO;
 import abletive.vo.FollowUserVO;
 import abletive.vo.MemberVO;
 import abletive.vo.PersonalPageVO;
+import abletive.vo.PostCollectionVO;
+import abletive.vo.UserCommentVO;
 
 /**
  * 用户具体信息逻辑
@@ -107,6 +117,39 @@ public class UserInfoImpl implements UserInfoService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public ArrayList<PostCollectionVO> getPostCollectionList(String userID, int page) {
+        HttpCollectionListPO httpCollectionListPO = userBl.getPostCollectionList(userID, page);
+        if (httpCollectionListPO != null) {
+            ArrayList<PostCollectionPO> postCollectionList = httpCollectionListPO.getCollection_list();
+            return PostTransformer.getCollectionPostList(postCollectionList);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public ArrayList<CreditListVO> getCreditList(String userID, int page) {
+        HttpCreditPO httpCreditPO = userBl.getCreditList(userID, page);
+        ArrayList<CreditListVO> creditList = new ArrayList<>();
+        ArrayList<CreditPO> creditPOList = httpCreditPO.getCredit_list();
+        for (CreditPO po : creditPOList) {
+            creditList.add(po.toCreditListVO());
+        }
+        return creditList;
+    }
+
+    @Override
+    public ArrayList<UserCommentVO> getUserCommentList(String userID, int page) {
+        HttpUserCommentPO httpUserCommentPO = userBl.getUserCommentList(userID, page);
+        ArrayList<UserCommentListPO> commentPOList = httpUserCommentPO.getComment_list();
+        ArrayList<UserCommentVO> commentList = new ArrayList<>();
+        for (UserCommentListPO po : commentPOList) {
+            commentList.add(po.toUserCommentVO());
+        }
+        return commentList;
     }
 
 

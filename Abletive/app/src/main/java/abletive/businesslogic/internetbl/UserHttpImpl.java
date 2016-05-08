@@ -10,9 +10,12 @@ import abletive.businesslogic.blutil.HttpConnection;
 import abletive.businesslogic.blutil.JSONHandler;
 import abletive.logicservice.internetblservice.UserHttpService;
 import abletive.po.FollowUserPO;
+import abletive.po.HttpCollectionListPO;
+import abletive.po.HttpCreditPO;
 import abletive.po.HttpDailyCheckinPO;
 import abletive.po.HttpPersonalPagePO;
 import abletive.po.HttpSignupPO;
+import abletive.po.HttpUserCommentPO;
 import abletive.po.HttpUserPO;
 import abletive.po.UserPO;
 import abletive.presentation.uiutil.MApplication;
@@ -204,5 +207,64 @@ public class UserHttpImpl implements UserHttpService {
             }
         }
         return followState;
+    }
+
+    @Override
+    public HttpCollectionListPO getPostCollectionList(String userID, int page) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.user), false)
+                        .addField(context.getString(R.string.get_collection_list))
+                        .addParam(context.getString(R.string.user_id), userID)
+                        .addParam(context.getString(R.string.page), page)
+                        .addParam("count", 10)
+                        .build();
+        String result = httpConnection.getResult(request);
+        Log.d(TAG, "getPostCollectionList-REQUEST: " + request);
+        Log.d(TAG, "getPostCollectionList-RESULT: " + result);
+
+        HttpCollectionListPO httpCollectionListPO = null;
+        if (result != null) {
+            if (result.length() != 0) {
+                httpCollectionListPO = JSONHandler.getHttpCollection(result);
+            }
+        }
+        return httpCollectionListPO;
+    }
+
+    @Override
+    public HttpCreditPO getCreditList(String userID, int page) {
+        String request = new HttpBuilder()
+                .addField(context.getString(R.string.user), false)
+                .addField(context.getString(R.string.get_credit_list))
+                .addParam(context.getString(R.string.user_id), userID)
+                .addParam(context.getString(R.string.page), page)
+                .addParam("count", 10)
+                .build();
+        String result = httpConnection.getResult(request);
+
+        HttpCreditPO httpCreditPO = null;
+        if (result != null) {
+            httpCreditPO = JSONHandler.getCreditList(result);
+        }
+        return httpCreditPO;
+    }
+
+    @Override
+    public HttpUserCommentPO getUserCommentList(String userID, int page) {
+        String request = new HttpBuilder()
+                .addField(context.getString(R.string.user), false)
+                .addField(context.getString(R.string.get_comment_list))
+                .addParam(context.getString(R.string.user_id), userID)
+                .addParam(context.getString(R.string.page), page)
+                .build();
+
+        String result = httpConnection.getResult(request);
+
+        HttpUserCommentPO httpUserCommentPO = null;
+        if (result != null) {
+            httpUserCommentPO = JSONHandler.getUserComment(result);
+        }
+        return httpUserCommentPO;
     }
 }

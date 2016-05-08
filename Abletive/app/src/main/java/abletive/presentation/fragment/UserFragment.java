@@ -18,10 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import abletive.businesslogic.blutil.UserData;
+import abletive.presentation.activity.CollectionActivity;
 import abletive.presentation.activity.LogActivity;
 import abletive.presentation.activity.MainActivity;
 import abletive.presentation.activity.PersonInfoActivity;
 import abletive.presentation.activity.PersonalPageActivity;
+import abletive.presentation.tasks.DailyCheckInTask;
 import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
 import jp.wasabeef.blurry.Blurry;
@@ -90,7 +92,8 @@ public class UserFragment extends Fragment {
         collectionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 跳转至收藏界面
+                //跳转至收藏界面
+                CollectionActivity.newInstance(getContext(), userVO.getId(), userVO.getUsername());
             }
         });
 
@@ -118,7 +121,6 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //显示个人名片
-
             }
         });
     }
@@ -237,8 +239,12 @@ public class UserFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.sign_up) {
-            //TODO 签到
-            Toast.makeText(getContext(), getString(R.string.sign), Toast.LENGTH_SHORT).show();
+            //签到
+            if (userData.isLogin()) {
+                new DailyCheckInTask(getContext(), userVO.getId()).execute();
+            } else {
+                Toast.makeText(getContext(), "请先登录~", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.action_settings) {
             //TODO 设置
             Toast.makeText(getContext(), getString(R.string.action_settings), Toast.LENGTH_SHORT).show();

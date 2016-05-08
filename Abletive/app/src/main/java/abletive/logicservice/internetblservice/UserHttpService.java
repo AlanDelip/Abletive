@@ -3,9 +3,12 @@ package abletive.logicservice.internetblservice;
 import java.util.ArrayList;
 
 import abletive.po.FollowUserPO;
+import abletive.po.HttpCollectionListPO;
+import abletive.po.HttpCreditPO;
 import abletive.po.HttpDailyCheckinPO;
 import abletive.po.HttpPersonalPagePO;
 import abletive.po.HttpSignupPO;
+import abletive.po.HttpUserCommentPO;
 import abletive.po.HttpUserPO;
 import abletive.po.UserPO;
 import abletive.vo.SignupVO;
@@ -77,6 +80,33 @@ public interface UserHttpService {
      * @return 是否成功（1/0）
      */
     int follow(String userID, String currentUserID, String act);
+
+    /**
+     * 获取文章收藏列表
+     *
+     * @param userID 用户ID
+     * @param page   页码
+     * @return 文章收藏列表
+     */
+    HttpCollectionListPO getPostCollectionList(String userID, int page);
+
+    /**
+     * 获得积分列表
+     *
+     * @param userID 用户ID
+     * @param page   页码
+     * @return 积分列表数据
+     */
+    HttpCreditPO getCreditList(String userID, int page);
+
+    /**
+     * 获得用户评论列表
+     *
+     * @param userID 用户ID
+     * @param page   页码
+     * @return 评论列表数据
+     */
+    HttpUserCommentPO getUserCommentList(String userID, int page);
 
 
 }

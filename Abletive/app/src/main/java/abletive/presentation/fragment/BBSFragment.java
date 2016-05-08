@@ -7,7 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import abletive.presentation.activity.RankBoardActivity;
 import alandelip.abletivedemo.R;
 
 /**
@@ -48,7 +51,22 @@ public class BBSFragment extends Fragment {
      * 初始化点击响应
      */
     private void initItems() {
+        TextView rankText = (TextView) currentView.findViewById(R.id.rank_text);
+        rankText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RankBoardActivity.newInstance(getContext(), 30);
+            }
+        });
 
+        TextView messageText = (TextView) currentView.findViewById(R.id.message_board_text);
+        messageText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 留言板暂时还没有API
+                Toast.makeText(getContext(), "留言板功能将于下一个版本开放，敬请期待!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

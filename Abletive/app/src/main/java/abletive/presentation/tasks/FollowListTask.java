@@ -39,8 +39,8 @@ public class FollowListTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-        dialog = WidgetTool.getDefaultDialog(context);
         if (page == 1) {
+            dialog = WidgetTool.getDefaultDialog(context);
             dialog.show();
         }
     }
@@ -53,7 +53,7 @@ public class FollowListTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        if (dialog != null && dialog.isShowing()) {
+        if (dialog != null) {
             dialog.dismissWithAnimation();
         }
         if (userVOList != null) {

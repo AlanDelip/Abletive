@@ -6,8 +6,10 @@ import abletive.po.AuthorPO;
 import abletive.po.CategoryPO;
 import abletive.po.CustomFieldsPO;
 import abletive.po.ImagePO;
+import abletive.po.PostCollectionPO;
 import abletive.po.PostPO;
 import abletive.po.ThumbnailImagePO;
+import abletive.vo.PostCollectionVO;
 import abletive.vo.PostListVO;
 
 /**
@@ -66,5 +68,37 @@ public class PostTransformer {
                 imageUrl, categoryPO.get(0).getTitle(),
                 postPO.getDate(), customFieldsPO.getViews() + "",
                 stringCommentCount, postPO.getUrl());
+    }
+
+    /**
+     * 获得文章收藏
+     *
+     * @param postCollectionPO 文章收藏PO
+     * @return 文章收藏VO
+     */
+    public static PostCollectionVO getCollectionPost(PostCollectionPO postCollectionPO) {
+        return new PostCollectionVO(postCollectionPO.getId() + "",
+                postCollectionPO.getTitle(),
+                postCollectionPO.getAuthor(),
+                postCollectionPO.getThumbnail(),
+                postCollectionPO.getCategory(),
+                postCollectionPO.getDate(),
+                postCollectionPO.getViews() + "",
+                postCollectionPO.getComment_count() + "",
+                postCollectionPO.getExcerpt());
+    }
+
+    /**
+     * 获得文章收藏列表
+     *
+     * @param postCollectionPOList 文章收藏列表PO
+     * @return 文章收藏列表VO
+     */
+    public static ArrayList<PostCollectionVO> getCollectionPostList(ArrayList<PostCollectionPO> postCollectionPOList) {
+        ArrayList<PostCollectionVO> postCollectionVOList = new ArrayList<>();
+        for (PostCollectionPO po : postCollectionPOList) {
+            postCollectionVOList.add(getCollectionPost(po));
+        }
+        return postCollectionVOList;
     }
 }

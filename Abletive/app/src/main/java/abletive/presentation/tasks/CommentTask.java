@@ -17,14 +17,15 @@ public class CommentTask extends AsyncTask<Void, Void, Void> {
 
     private SweetAlertDialog dialog;
     private Context context;
-    private String userID, postID, comment, email;
+    private String userID, postID, parentID, comment, email;
     private PostService postBl;
     private boolean isCommented;
 
-    public CommentTask(Context context, String userID, String postID, String comment, String email) {
+    public CommentTask(Context context, String userID, String postID, String parentID, String comment, String email) {
         this.context = context;
         this.userID = userID;
         this.postID = postID;
+        this.parentID = parentID;
         this.comment = comment;
         this.email = email;
         postBl = new PostImpl();
@@ -38,7 +39,7 @@ public class CommentTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        isCommented = postBl.comment(userID, postID, comment, email);
+        isCommented = postBl.comment(userID, postID, parentID, comment, email);
         return null;
     }
 

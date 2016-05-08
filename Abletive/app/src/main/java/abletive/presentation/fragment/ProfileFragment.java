@@ -1,7 +1,9 @@
 package abletive.presentation.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
@@ -10,10 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import abletive.businesslogic.blutil.UserData;
 import abletive.businesslogic.postbl.AuthorListImpl;
+import abletive.po.UserInfoPO;
+import abletive.presentation.activity.CollectionActivity;
+import abletive.presentation.activity.CreditActivity;
 import abletive.presentation.activity.SearchActivity;
+import abletive.presentation.activity.UserCommentActivity;
 import abletive.vo.PersonalPageVO;
 import alandelip.abletivedemo.R;
 
@@ -24,9 +31,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "Abletive";
     private static final String ARG_BITMAP = "image";
     private Bitmap loadedImage;
+    private String communityPage;
     private View currentView;
     private PersonalPageVO personalPageVO;
     private Palette.Swatch swatch;
+    private UserInfoPO userInfo;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -63,6 +72,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         }
         personalPageVO = UserData.getInstance().getPersonalPageVO();
+        userInfo = personalPageVO.getUserInfoPO();
     }
 
     @Override
@@ -155,6 +165,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         TextView mCommunityPageView = (TextView) currentView.findViewById(R.id.community_page);
         mCommunityPageView.setTextColor(swatch.getBodyTextColor());
+        communityPage = "http://abletive.com/author/" + personalPageVO.getUserInfoPO().getId();
         mCommunityPageView.
                 setText("http://abletive.com/author/" + personalPageVO.getUserInfoPO().getId());
 
@@ -177,28 +188,34 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             //文章列表
             case R.id.post_text:
-                String authorID = personalPageVO.getUserInfoPO().getId();
-                String authorName = personalPageVO.getUserInfoPO().getDisplay_name();
                 SearchActivity.newInstanceForUserPage(getContext(),
-                        authorName, authorID, new AuthorListImpl());
+                        userInfo.getDisplay_name(), userInfo.getId(), new AuthorListImpl());
                 break;
             //文章评论
             case R.id.post_comment_text:
+                UserCommentActivity.newInstance(getContext(), userInfo.getId(), userInfo.getDisplay_name());
                 break;
             //积分
             case R.id.credit_text:
+                CreditActivity.newInstance(getContext(), userInfo.getDisplay_name(), userInfo.getId());
                 break;
             //文章收藏
             case R.id.collection_text:
+                CollectionActivity.newInstance(getContext(),
+                        userInfo.getId(), userInfo.getDisplay_name());
                 break;
             //到期日期
             case R.id.due_time_text:
+                Toast.makeText(getContext(), "会员相关功能将在下一个版本开放，敬请期待！", Toast.LENGTH_SHORT).show();
                 break;
             //社区主页
             case R.id.community_page_text:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(communityPage));
+                getContext().startActivity(intent);
                 break;
             //商店订单
             case R.id.shop_text:
+                Toast.makeText(getContext(), "购物相关功能将在下一个版本开放，敬请期待！", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

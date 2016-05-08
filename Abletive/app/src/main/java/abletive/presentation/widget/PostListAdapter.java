@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import abletive.businesslogic.blutil.UserTransformer;
 import abletive.presentation.activity.MainActivity;
 import abletive.presentation.uiutil.ImageLibrary;
 import abletive.vo.PostListVO;
@@ -39,7 +40,11 @@ public class PostListAdapter extends ArrayAdapter<PostListVO> {
         }
         ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
         thumb.setImageBitmap(ImageLibrary.default_title_thumb);
-        MainActivity.IMAGE_CACHE.get(postListVO.getThumbUrl(), thumb);
+        String thumbUrl = postListVO.getThumbUrl();
+        if (thumbUrl.startsWith("<")) {
+            thumbUrl = UserTransformer.fetchImg(thumbUrl);
+        }
+        MainActivity.IMAGE_CACHE.get(thumbUrl, thumb);
 
         TextView title = (TextView) view.findViewById(R.id.title);
         title.setText(postListVO.getTitle());

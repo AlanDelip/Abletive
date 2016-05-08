@@ -2,6 +2,7 @@ package abletive.presentation.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,8 +94,11 @@ public class FocusFragment extends Fragment {
                             getContext().getString(R.string.reach_last), Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                Log.d("Abletive", "init: " + requiredPage);
+
                 //如果加载下一页就添加列表，否则重新创建列表
-                if (FocusFragment.this.userVOList != null) {
+                if (FocusFragment.this.userVOList != null && requiredPage != 1) {
                     FocusFragment.this.userVOList.addAll(userVOList);
                 } else {
                     FocusFragment.this.userVOList = userVOList;

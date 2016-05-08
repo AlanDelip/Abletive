@@ -13,8 +13,8 @@ public interface RankBoardService {
     /**
      * 获得积分榜列表
      *
-     * @param page 第几页
+     * @param limit 获取的个数
      * @return 积分榜列表数组
      */
-    ArrayList<RankVO> getRankList(int page);
+    ArrayList<RankVO> getRankList(int limit);
 }

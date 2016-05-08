@@ -1,5 +1,7 @@
 package abletive.vo;
 
+import java.util.ArrayList;
+
 /**
  * 文章内容
  *
@@ -16,8 +18,10 @@ public class PostVO {
     String collectsNum;
     String authorID;
     String authorAvatarUrl;
+    String url;
+    ArrayList<CommentListVO> commentList;
 
-    public PostVO(String title, String viewsNum, String commentsNum, String category, String time, String contentHtml, String likesNum, String collectsNum, String authorID, String authorAvatarUrl) {
+    public PostVO(String title, String viewsNum, String commentsNum, String category, String time, String contentHtml, String likesNum, String collectsNum, String authorID, String authorAvatarUrl, String url,ArrayList<CommentListVO> commentList) {
         this.title = title;
         this.viewsNum = viewsNum;
         this.commentsNum = commentsNum;
@@ -28,6 +32,8 @@ public class PostVO {
         this.collectsNum = collectsNum;
         this.authorID = authorID;
         this.authorAvatarUrl = authorAvatarUrl;
+        this.url = url;
+        this.commentList = commentList;
     }
 
     public String getTitle() {
@@ -108,5 +114,21 @@ public class PostVO {
 
     public void setAuthorAvatarUrl(String authorAvatarUrl) {
         this.authorAvatarUrl = authorAvatarUrl;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public ArrayList<CommentListVO> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(ArrayList<CommentListVO> commentList) {
+        this.commentList = commentList;
     }
 }

@@ -118,7 +118,7 @@ public class PersonalPageActivity extends AppCompatActivity {
                 toolbar.setBackgroundColor(muteLight.getRgb());
             } else if (vibrantLight != null) {
                 userName.setTextColor(vibrantLight.getRgb());
-                toolbar.setBackgroundColor(muteLight.getRgb());
+                toolbar.setBackgroundColor(vibrantLight.getRgb());
             }
         }
     }

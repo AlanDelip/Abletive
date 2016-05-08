@@ -260,7 +260,27 @@ public class PostHttpImpl implements PostHttpService {
     }
 
     @Override
-    public HttpCommentPO comment(String userID, String postID, String comment, String email) {
+    public boolean collect(String postID, String userID, String act) {
+        String request =
+                new HttpBuilder()
+                        .addField(context.getString(R.string.user), false)
+                        .addField(context.getString(R.string.collect))
+                        .addParam(context.getString(R.string.post_id), postID)
+                        .addParam(context.getString(R.string.user_id), userID)
+                        .addParam(context.getString(R.string.act), act)
+                        .build();
+        String result = httpConnection.getResult(request);
+        Log.d(TAG, "collect: " + result);
+
+        boolean collected = false;
+        if (result != null) {
+            collected = JSONHandler.getCollectedResult(result);
+        }
+        return collected;
+    }
+
+    @Override
+    public HttpCommentPO comment(String userID, String postID, String parentID, String comment, String email) {
         String request =
                 new HttpBuilder()
                         .addField(context.getString(R.string.respond), false)
@@ -269,8 +289,8 @@ public class PostHttpImpl implements PostHttpService {
                         .addParam(context.getString(R.string.user_id), userID)
                         .addParam(context.getString(R.string.post_id), postID)
                         .addParam(context.getString(R.string.email), email)
-                        .addParam(context.getString(R.string.parent), 0)
-                        .addParam(context.getString(R.string.content), HttpBuilder.string2UTF8(comment))
+                        .addParam(context.getString(R.string.parent), parentID)
+                        .addParam(context.getString(R.string.content), HttpBuilder.string2UTF8(comment))//转化为URLEncoding编码
                         .build();
 
         Log.d(TAG, "comment: " + request);
@@ -284,4 +304,6 @@ public class PostHttpImpl implements PostHttpService {
         }
         return httpCommentPO;
     }
+
+
 }

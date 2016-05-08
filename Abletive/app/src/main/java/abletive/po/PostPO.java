@@ -1,7 +1,6 @@
 package abletive.po;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * 文章内容对象，文章列表不包含content
@@ -22,13 +21,13 @@ public class PostPO {
     ArrayList<CategoryPO> categories;
     ArrayList<TagPO> tags;
     AuthorPO author;
-    ArrayList<Map<Object, Object>> comments;
+    ArrayList<CommentPO> comments;
     int comment_count;
     String comment_status;
     CustomFieldsPO custom_fields;
     ThumbnailImagePO thumbnail_images;
 
-    public PostPO(int id, String type, String slug, String url, String status, String title, String title_plain, String content, String excerpt, String date, ArrayList<CategoryPO> categories, ArrayList<TagPO> tags, AuthorPO author, ArrayList<Map<Object, Object>> comments, int comment_count, String comment_status, CustomFieldsPO custom_fields, ThumbnailImagePO thumbnail_images) {
+    public PostPO(int id, String type, String slug, String url, String status, String title, String title_plain, String content, String excerpt, String date, ArrayList<CategoryPO> categories, ArrayList<TagPO> tags, AuthorPO author, ArrayList<CommentPO> comments, int comment_count, String comment_status, CustomFieldsPO custom_fields, ThumbnailImagePO thumbnail_images) {
         this.id = id;
         this.type = type;
         this.slug = slug;
@@ -153,11 +152,11 @@ public class PostPO {
         this.author = author;
     }
 
-    public ArrayList<Map<Object, Object>> getComments() {
+    public ArrayList<CommentPO> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<Map<Object, Object>> comments) {
+    public void setComments(ArrayList<CommentPO> comments) {
         this.comments = comments;
     }
 

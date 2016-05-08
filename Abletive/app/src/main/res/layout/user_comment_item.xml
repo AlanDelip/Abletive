@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/domain_color"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="在xx文章里的评论"
+        android:textColor="@color/yellow"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="5dp"
+        android:text="在xx文章里的评论"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/agent_icon"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/agent_icon"
+        android:gravity="center"
+        android:text="2016-5-1 17:00:00"
+        android:textColor="@color/light_gray"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/agent_icon"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/comment"
+        android:layout_marginTop="10dp"
+        android:src="@android:drawable/ic_menu_info_details" />
+
+    <TextView
+        android:id="@+id/agent"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/agent_icon"
+        android:layout_alignTop="@+id/agent_icon"
+        android:layout_toEndOf="@+id/agent_icon"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:text="IOS APP"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/agent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:alpha="0.6"
+        android:src="@color/light_gray" />
+</RelativeLayout>

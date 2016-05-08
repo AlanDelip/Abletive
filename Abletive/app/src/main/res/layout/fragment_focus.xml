@@ -6,8 +6,8 @@
     tools:context="abletive.presentation.fragment.FocusFragment">
 
     <com.cjj.MaterialRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
         android:id="@+id/refresh"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:isLoadMore="true"
         app:overlay="false"

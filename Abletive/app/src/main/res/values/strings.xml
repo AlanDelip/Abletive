@@ -191,4 +191,9 @@
     <string name="title_activity_personal_page">PersonalPageActivity</string>
     <string name="title_activity_follow">FollowActivity</string>
     <string name="title_activity_personal_card">PersonalCardActivity</string>
+    <string name="title_activity_colection">ColectionActivity</string>
+    <string name="title_activity_rank_board">积分排行榜</string>
+    <string name="title_activity_credit">CreditActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_comment_list">CommentListActivity</string>
 </resources>

@@ -1,33 +1,35 @@
 package abletive.po;
 
-import abletive.po.AuthorPO;
+import abletive.vo.CommentListVO;
 
 /**
  * 评论区的信息
  * Created by Alan on 2016/5/4.
  */
 public class CommentPO {
-    String id;
+    int id;
     String name;
     String date;
     String parent;
+    String content;
     AuthorPO author;
     String agent;
 
-    public CommentPO(String id, String name, String date, String parent, AuthorPO author, String agent) {
+    public CommentPO(int id, String name, String date, String parent, String content, AuthorPO author, String agent) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.parent = parent;
+        this.content = content;
         this.author = author;
         this.agent = agent;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -69,5 +71,19 @@ public class CommentPO {
 
     public void setAgent(String agent) {
         this.agent = agent;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public CommentListVO toCommentListVO() {
+        //暂时设置parentName为空字符串
+        return new CommentListVO(author.avatar, author.name, parent, "",
+                content, agent, date, id + "", author.membership);
     }
 }

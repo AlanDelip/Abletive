@@ -21,6 +21,7 @@ import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -115,9 +116,9 @@ public class MainFragment extends Fragment {
      * 设置监听
      */
     private void initFAB() {
-        final com.github.clans.fab.FloatingActionMenu fabMenu =
-                (com.github.clans.fab.FloatingActionMenu) currentView.findViewById(R.id.fab_menu);
-        final com.github.clans.fab.FloatingActionButton fabAll =
+        final FloatingActionMenu fabMenu =
+                (FloatingActionMenu) currentView.findViewById(R.id.fab_menu);
+        final FloatingActionButton fabAll =
                 (FloatingActionButton) fabMenu.findViewById(R.id.all);
         fabAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +129,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        final com.github.clans.fab.FloatingActionButton fabTag =
+        final FloatingActionButton fabTag =
                 (FloatingActionButton) fabMenu.findViewById(R.id.tag);
         fabTag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +141,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        final com.github.clans.fab.FloatingActionButton fabCategory =
+        final FloatingActionButton fabCategory =
                 (FloatingActionButton) fabMenu.findViewById(R.id.category);
         fabCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +153,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        final com.github.clans.fab.FloatingActionButton fabDate =
+        final FloatingActionButton fabDate =
                 (FloatingActionButton) fabMenu.findViewById(R.id.date);
         fabDate.setOnClickListener(new View.OnClickListener() {
             @Override

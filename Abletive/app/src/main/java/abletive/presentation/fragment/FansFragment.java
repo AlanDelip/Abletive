@@ -90,7 +90,7 @@ public class FansFragment extends Fragment {
                     return;
                 }
                 //如果加载下一页就添加列表，否则重新创建列表
-                if (FansFragment.this.userVOList != null) {
+                if (FansFragment.this.userVOList != null && requiredPage != 1) {
                     FansFragment.this.userVOList.addAll(userVOList);
                 } else {
                     FansFragment.this.userVOList = userVOList;

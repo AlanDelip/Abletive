@@ -140,12 +140,22 @@ public interface PostHttpService {
     int like(String postID, String userID);
 
     /**
-     * 评论文章
-     *
-     * @param userID  用户ID
-     * @param postID  文章ID
-     * @param comment 评论内容
+     * @param postID 文章ID
+     * @param userID 用户ID
+     * @param act    add添加收藏/remove取消收藏
      * @return
      */
-    HttpCommentPO comment(String userID, String postID, String comment, String email);
+    boolean collect(String postID, String userID, String act);
+
+    /**
+     * 评论文章
+     *
+     * @param userID   用户ID
+     * @param postID   文章ID
+     * @param parentID 父类评论
+     * @param comment  评论内容
+     * @param email    邮箱
+     * @return
+     */
+    HttpCommentPO comment(String userID, String postID, String parentID, String comment, String email);
 }

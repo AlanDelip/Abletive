@@ -14,16 +14,20 @@ import abletive.po.FollowUserPO;
 import abletive.po.HttpAuthorPostPO;
 import abletive.po.HttpCategoryPO;
 import abletive.po.HttpCategoryPostPO;
+import abletive.po.HttpCollectionListPO;
 import abletive.po.HttpCommentPO;
+import abletive.po.HttpCreditPO;
 import abletive.po.HttpDailyCheckinPO;
 import abletive.po.HttpDatePostPO;
 import abletive.po.HttpPersonalPagePO;
 import abletive.po.HttpPostContentPO;
 import abletive.po.HttpPostPO;
+import abletive.po.HttpRankListPO;
 import abletive.po.HttpSearchPO;
 import abletive.po.HttpSignupPO;
 import abletive.po.HttpTagPO;
 import abletive.po.HttpTagPostPO;
+import abletive.po.HttpUserCommentPO;
 import abletive.po.HttpUserPO;
 import abletive.po.UserPO;
 import abletive.presentation.uiutil.MApplication;
@@ -165,5 +169,36 @@ public class JSONHandler {
     public static HttpCommentPO getComment(String result) {
         Gson gson = new Gson();
         return gson.fromJson(result, HttpCommentPO.class);
+    }
+
+    public static HttpCollectionListPO getHttpCollection(String result) {
+        Gson gson = new Gson();
+        return gson.fromJson(result, HttpCollectionListPO.class);
+    }
+
+    public static boolean getCollectedResult(String result) {
+        String collected = null;
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            collected = jsonObject.getString("collected");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return (collected != null);
+    }
+
+    public static HttpRankListPO getRankList(String result) {
+        Gson gson = new Gson();
+        return gson.fromJson(result, HttpRankListPO.class);
+    }
+
+    public static HttpCreditPO getCreditList(String result) {
+        Gson gson = new Gson();
+        return gson.fromJson(result, HttpCreditPO.class);
+    }
+
+    public static HttpUserCommentPO getUserComment(String result) {
+        Gson gson = new Gson();
+        return gson.fromJson(result, HttpUserCommentPO.class);
     }
 }
