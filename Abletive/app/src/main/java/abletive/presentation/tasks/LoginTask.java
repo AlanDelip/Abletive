@@ -41,7 +41,7 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        userVO = userBl.signin(username, password);
+        userVO = userBl.signin(context,username, password);
         return null;
     }
 

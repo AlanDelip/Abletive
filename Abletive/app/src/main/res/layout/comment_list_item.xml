@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/domain_color"
+    android:background="@color/transparent"
+    android:descendantFocusability="blocksDescendants"
     android:padding="10dp">
 
     <abletive.presentation.widget.RoundImageView
@@ -15,13 +16,15 @@
 
     <TextView
         android:id="@+id/user_name"
-        style="@style/PersonalInfoTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@+id/avatar"
         android:padding="3dp"
-        android:text="@string/default_user_name" />
+        android:text="@string/default_user_name"
+        android:textColor="@color/domain_color"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/reply"
@@ -31,7 +34,7 @@
         android:layout_below="@+id/user_name"
         android:padding="3dp"
         android:text="对我的回复"
-        android:textColor="@color/white"
+        android:textColor="@color/domain_color"
         android:textSize="15sp" />
 
     <ImageView
@@ -53,21 +56,23 @@
         android:layout_alignTop="@+id/user_name"
         android:gravity="center"
         android:text="2016-5-1 17:00:00"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/domain_color"
         android:textSize="15sp" />
 
     <RelativeLayout
         android:id="@+id/web_view_layout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="match_parent"
         android:layout_alignStart="@+id/user_name"
         android:layout_below="@+id/reply"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:focusable="false">
 
         <WebView
             android:id="@+id/comment_web_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:focusable="false" />
     </RelativeLayout>
 
     <ImageView
@@ -90,30 +95,8 @@
         android:gravity="center_vertical"
         android:maxLines="1"
         android:text="IOS APP"
-        android:textColor="@color/white"
+        android:textColor="@color/domain_color"
         android:textSize="16sp" />
-
-    <!--<TextView-->
-    <!--android:id="@+id/reply_button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignBottom="@+id/device_info"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_alignTop="@+id/device_info"-->
-    <!--android:layout_below="@+id/web_view_layout"-->
-    <!--android:gravity="center"-->
-    <!--android:text="回复"-->
-    <!--android:textColor="@color/yellow"-->
-    <!--android:textSize="16sp" />-->
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/device_info"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:alpha="0.6"
-        android:src="@color/light_gray" />
 
 </RelativeLayout>
 

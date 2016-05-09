@@ -276,7 +276,8 @@ public class PostHttpImpl implements PostHttpService {
         if (result != null) {
             collected = JSONHandler.getCollectedResult(result);
         }
-        return collected;
+        //TODO 要判断
+        return true;
     }
 
     @Override

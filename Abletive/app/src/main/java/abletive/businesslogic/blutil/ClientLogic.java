@@ -1,5 +1,7 @@
 package abletive.businesslogic.blutil;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 
 import abletive.logicservice.postblservice.ListService;
@@ -23,6 +25,16 @@ public class ClientLogic {
      * 类别列表
      */
     private ArrayList<TypeListVO> typeList;
+
+    private Activity MainActivity;
+
+    public Activity getMainActivity() {
+        return MainActivity;
+    }
+
+    public void setMainActivity(Activity mainActivity) {
+        MainActivity = mainActivity;
+    }
 
     private ClientLogic() {
     }

@@ -34,7 +34,7 @@ public class UserCheckImpl implements UserCheckService {
                 userList =
                         UserTransformer.getUserVOList(httpDailyCheckinPO.getCheckin_list());
             } else {
-                msg = "签到失败";
+                msg = "已经签过到啦!";
                 credit = "0";
             }
         }

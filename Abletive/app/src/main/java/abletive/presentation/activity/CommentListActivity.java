@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -67,6 +66,8 @@ public class CommentListActivity extends AppCompatActivity {
                             UserData.getInstance().getUserID(), postID, parentID, commentContent,
                             UserData.getInstance().getUserVO().getEmail());
                     commentTask.execute();
+                    //清空评论
+                    replyEdit.setText("");
                 } else {
                     Toast.makeText(CommentListActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
                 }
@@ -111,17 +112,28 @@ public class CommentListActivity extends AppCompatActivity {
     }
 
     private void initListView() {
-        ListView commentListView = (ListView) findViewById(R.id.comment_list);
+        ListView commentListView = (ListView) findViewById(R.id.commentlist);
         commentListItemAdapter = new CommentListItemAdapter(this, R.layout.comment_list_item, commentList);
         commentListView.setAdapter(commentListItemAdapter);
-
-        Log.d("Abletive", "initListView: ");
         commentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("Ableitve", "onItemClick: ");
                 CommentListVO commentListVO = (CommentListVO) parent.getItemAtPosition(position);
-                //获得焦点
+//                final EditText editText = new EditText(CommentListActivity.this);
+//                AlertDialog dialog = WidgetTool.getTextDialog(CommentListActivity.this, "回复" + commentListVO.getAuthor(), editText, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        if (UserData.getInstance().isLogin()) {
+//                            CommentTask commentTask = new CommentTask(CommentListActivity.this,
+//                                    UserData.getInstance().getUserID(), postID, parentID, editText.getText().toString(),
+//                                    UserData.getInstance().getUserVO().getEmail());
+//                            commentTask.execute();
+//                        } else {
+//                            Toast.makeText(CommentListActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
                 replyEdit.requestFocus();
                 replyEdit.setHint("回复" + commentListVO.getAuthor());
                 parentID = commentListVO.getId();

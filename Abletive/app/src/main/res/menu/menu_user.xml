@@ -10,7 +10,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/sign_up"
-        android:icon="@drawable/favicon"
+        android:icon="@drawable/checkin"
         android:orderInCategory="0"
         android:title="@string/sign"
         app:showAsAction="ifRoom" />

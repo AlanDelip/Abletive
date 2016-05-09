@@ -21,6 +21,7 @@ import abletive.presentation.fragment.BBSFragment;
 import abletive.presentation.fragment.MainFragment;
 import abletive.presentation.fragment.MessageFragment;
 import abletive.presentation.fragment.UserFragment;
+import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
 import cn.trinea.android.common.service.impl.ImageCache;
 import cn.trinea.android.common.util.CacheManager;
@@ -95,7 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         UserSignService userBl = new UserSignImpl();
         //如果提前登录过就加载本地用户信息
         if (userBl.preLogin(this)) {
-            UserData.getInstance().setUserVO(userBl.getSignedUserData());
+            UserVO savedUserVO = userBl.getSignedUserData(this);
+            UserData.getInstance().setUserVO(savedUserVO);
+            UserData.getInstance().setUserID(savedUserVO.getId());
         }
     }
 

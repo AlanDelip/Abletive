@@ -156,7 +156,7 @@ public class UserHttpImpl implements UserHttpService {
                         .addParam(context.getString(R.string.page), page)
                         .addParam("count", 10)
                         .build();
-        Log.d(TAG, "getFollowList: " + request);
+//        Log.d(TAG, "getFollowList: " + request);
         String result = httpConnection.getResult(request);
 
         ArrayList<FollowUserPO> userPOList = null;

@@ -83,7 +83,12 @@ public class CommentPO {
 
     public CommentListVO toCommentListVO() {
         //暂时设置parentName为空字符串
-        return new CommentListVO(author.avatar, author.name, parent, "",
-                content, agent, date, id + "", author.membership);
+        if(author!=null){
+            return new CommentListVO(author.avatar, author.name, parent, "",
+                    content, agent, date, id + "", author.membership);
+        }else{
+            return new CommentListVO("", "", parent, "",
+                    content, agent, date, id + "", "");
+        }
     }
 }

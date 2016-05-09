@@ -131,7 +131,6 @@ public class PostActivity extends AppCompatActivity {
                 Toast.makeText(PostActivity.this, "分享功能即将开放，敬请期待！", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     /**
@@ -221,6 +220,8 @@ public class PostActivity extends AppCompatActivity {
                             userData.getUserID(), id, "0", commentContent,
                             userData.getUserVO().getEmail());
                     commentTask.execute();
+                    //清空评论
+                    mCommentText.setText("");
                 } else {
                     Toast.makeText(PostActivity.this, "请先登录~", Toast.LENGTH_SHORT).show();
                 }

@@ -51,9 +51,8 @@ public class UserItemAdapter extends ArrayAdapter<FollowUserVO> {
 
         //处理头像缓存
         String avatarUrl = userVO.getAvatarUrl();
-        if (avatarUrl.startsWith("<")) {
-            avatarUrl = UserTransformer.fetchImg(avatarUrl);
-        }
+        avatarUrl = UserTransformer.transfer(avatarUrl);
+
         MainActivity.IMAGE_CACHE.get(avatarUrl, viewHolder.avatar);
         MainActivity.IMAGE_CACHE.get(avatarUrl, viewHolder.backgroundImage);
 

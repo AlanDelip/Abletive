@@ -93,13 +93,11 @@ public class WidgetTool {
      *
      * @param context  上下文
      * @param title    标题
-     * @param content  原先内容
+     * @param editText  EditText
      * @param listener 监听
      * @return 编辑弹窗
      */
-    public static AlertDialog getTextDialog(Context context, String title, String content, DialogInterface.OnClickListener listener) {
-        EditText editText = new EditText(context);
-        editText.setText(content);
+    public static AlertDialog getTextDialog(Context context, String title, EditText editText, DialogInterface.OnClickListener listener) {
         return new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setView(editText)

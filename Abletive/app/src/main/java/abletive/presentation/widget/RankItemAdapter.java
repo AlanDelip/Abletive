@@ -37,9 +37,7 @@ public class RankItemAdapter extends ArrayAdapter<RankVO> {
         rankText.setText("#" + (position + 1));
 
         String avatarUrl = rankVO.getAvatarUrl();
-        if(avatarUrl.startsWith("<")){
-            avatarUrl = UserTransformer.fetchImg(avatarUrl);
-        }
+        avatarUrl = UserTransformer.transfer(avatarUrl);
 
         ImageView avatar = (ImageView) convertView.findViewById(R.id.avatar);
         MainActivity.IMAGE_CACHE.get(avatarUrl, avatar);

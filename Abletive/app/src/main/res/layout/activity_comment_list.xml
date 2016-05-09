@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/domain_color"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     tools:context="abletive.presentation.activity.CommentListActivity">
 
@@ -25,48 +25,49 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dj" />
 
-    <RelativeLayout
-        android:id="@+id/bottom"
+    <ListView
+        android:id="@+id/commentlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar"
+        android:layout_margin="5dp" />
+
+    <EditText
+        android:id="@+id/comment_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/app_bar">
+        android:layout_margin="10dp"
+        android:background="@color/edit_background"
+        android:hint="评论一下,说点什么吧..."
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp" />
 
-        <ListView
-            android:id="@+id/comment_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:descendantFocusability="blocksDescendants" />
-
-        <EditText
-            android:id="@+id/comment_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/comment_confirm"
-            android:background="@color/edit_background"
-            android:focusable="false"
-            android:hint="@string/comment_hint"
-            android:paddingBottom="10dp"
-            android:paddingStart="5dp"
-            android:paddingTop="10dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/comment_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:background="@color/edit_background"
-            android:padding="10dp"
-            android:text="@string/publish"
-            android:textColor="@color/light_gray"
-            android:textSize="18sp" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/comment_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:background="@color/edit_background"
+        android:paddingBottom="10dp"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:paddingTop="10dp"
+        android:text="发表"
+        android:textColor="@color/light_gray"
+        android:textSize="20sp" />
 
 </RelativeLayout>

@@ -1,7 +1,5 @@
 package abletive.businesslogic.blutil;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -120,13 +118,11 @@ public class JSONHandler {
 
         ArrayList<FollowUserPO> userPOList = new ArrayList<>();
         try {
-            JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject(result);
-            jsonArray = jsonObject.getJSONArray("user_lists");
+            JSONArray jsonArray = jsonObject.getJSONArray("user_lists");
             Gson gson = new Gson();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                Log.d("Abletive", "getFollowList: " + object);
                 FollowUserPO userPO = gson.fromJson(object.toString(), FollowUserPO.class);
                 if (userPO != null) {
                     userPOList.add(userPO);

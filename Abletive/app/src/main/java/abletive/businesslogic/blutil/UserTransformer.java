@@ -1,5 +1,7 @@
 package abletive.businesslogic.blutil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -109,5 +111,50 @@ public class UserTransformer {
         } else {
             return "";
         }
+    }
+
+    /**
+     * 对地址是html编码的进行转换，并对含有中文字符的地址进行URLEncoding
+     *
+     * @param content 原始字符串
+     * @return 转换后的字符串
+     */
+    public static String transfer(String content) {
+        //如果是html编码就进行正则提取img内容
+        if (content.startsWith("<")) {
+            content = fetchImg(content);
+        }
+
+        String result = "";
+        //单个字符进行查看，如果是中文字符就进行URLEncoding
+        for (int i = 0; i < content.length(); i++) {
+            String strAtI = content.substring(i, i + 1);
+            //中文字符
+            if (isChineseChar(strAtI)) {
+                try {
+                    strAtI = URLEncoder.encode(strAtI, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            result += strAtI;
+        }
+        return result;
+    }
+
+    /**
+     * 判断是否是中文字符
+     *
+     * @param str 传入字符
+     * @return 是否是中文
+     */
+    public static boolean isChineseChar(CharSequence str) {
+        boolean temp = false;
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(str);
+        if (m.find()) {
+            temp = true;
+        }
+        return temp;
     }
 }

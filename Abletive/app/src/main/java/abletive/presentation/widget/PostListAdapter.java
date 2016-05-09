@@ -41,9 +41,8 @@ public class PostListAdapter extends ArrayAdapter<PostListVO> {
         ImageView thumb = (ImageView) view.findViewById(R.id.thumb);
         thumb.setImageBitmap(ImageLibrary.default_title_thumb);
         String thumbUrl = postListVO.getThumbUrl();
-        if (thumbUrl.startsWith("<")) {
-            thumbUrl = UserTransformer.fetchImg(thumbUrl);
-        }
+        thumbUrl = UserTransformer.transfer(thumbUrl);
+
         MainActivity.IMAGE_CACHE.get(thumbUrl, thumb);
 
         TextView title = (TextView) view.findViewById(R.id.title);

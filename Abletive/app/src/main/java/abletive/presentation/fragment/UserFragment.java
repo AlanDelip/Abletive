@@ -3,12 +3,9 @@ package abletive.presentation.fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +20,7 @@ import abletive.presentation.activity.LogActivity;
 import abletive.presentation.activity.MainActivity;
 import abletive.presentation.activity.PersonInfoActivity;
 import abletive.presentation.activity.PersonalPageActivity;
+import abletive.presentation.tasks.CacheImageTask;
 import abletive.presentation.tasks.DailyCheckInTask;
 import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
@@ -33,8 +31,9 @@ import jp.wasabeef.blurry.Blurry;
  */
 public class UserFragment extends Fragment {
 
+    private static final String TAG = "Abletive";
     private View currentView;
-    private UserVO userVO;
+    private UserVO userVO = UserData.getDefaultUserVO();
     private UserData userData;
     private TextView userName;
     private Toolbar toolbar;
@@ -59,6 +58,7 @@ public class UserFragment extends Fragment {
         super.onResume();
 
         currentView = getView();
+
         userData = UserData.getInstance();
         userVO = userData.getUserVO();
 
@@ -116,11 +116,30 @@ public class UserFragment extends Fragment {
             }
         });
 
+        TextView mMemberView = (TextView) currentView.findViewById(R.id.my_member_text);
+        mMemberView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 会员
+                Toast.makeText(getContext(), "会员相关功能将在下个版本上线~", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextView mMatrixView = (TextView) currentView.findViewById(R.id.scan_matrix_text);
+        mMatrixView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 扫二维码
+                Toast.makeText(getContext(), "二维码相关功能将在下个版本上线~", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         TextView mCardView = (TextView) currentView.findViewById(R.id.my_matrix_text);
         mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //显示个人名片
+                //TODO 显示个人名片
+                Toast.makeText(getContext(), "二维码名片功能即将上线！", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -130,8 +149,25 @@ public class UserFragment extends Fragment {
      */
     private void initToolBar() {
         toolbar = (Toolbar) currentView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        setHasOptionsMenu(true);
+        toolbar.inflateMenu(R.menu.menu_user);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.sign_up) {
+                    //签到
+                    if (userData.isLogin()) {
+                        new DailyCheckInTask(getContext(), userVO.getId()).execute();
+                    } else {
+                        Toast.makeText(getContext(), "请先登录~", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (id == R.id.action_settings) {
+                    //TODO 设置
+                    Toast.makeText(getContext(), "此版本暂无设置~", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
     }
 
     /**
@@ -200,55 +236,40 @@ public class UserFragment extends Fragment {
         final ImageView mHeaderBackground = (ImageView) currentView.findViewById(R.id.header_background);
         final ImageView mAvatarView = (ImageView) currentView.findViewById(R.id.user_avatar);
         MainActivity.IMAGE_CACHE.get(userVO.getAvatarUrl(), mAvatarView);
-        Bitmap loadedImage = MainActivity.IMAGE_CACHE.get(userVO.getAvatarUrl()).getData();
-        mHeaderBackground.setImageBitmap(loadedImage);
-        mHeaderBackground.setAlpha(Float.valueOf("0.8"));
-        Blurry.with(getContext())
-                .radius(20)
-                .sampling(8)
-                .async()
-                .capture(mHeaderBackground)
-                .into(mHeaderBackground);
-        //设置个人资料和收藏按钮配色
-        Palette palette = Palette.from(loadedImage).generate();
-        Palette.Swatch muteLight = palette.getLightMutedSwatch(),
-                vibrantLight = palette.getLightVibrantSwatch();
-        if (muteLight != null) {
-            personalInfoButton.setBackgroundColor(muteLight.getRgb());
-            personalInfoButton.setTextColor(muteLight.getTitleTextColor());
-            collectionsButton.setBackgroundColor(muteLight.getRgb());
-            collectionsButton.setTextColor(muteLight.getTitleTextColor());
-        } else if (vibrantLight != null) {
-            personalInfoButton.setBackgroundColor(vibrantLight.getRgb());
-            personalInfoButton.setTextColor(vibrantLight.getTitleTextColor());
-            collectionsButton.setBackgroundColor(vibrantLight.getRgb());
-            collectionsButton.setTextColor(vibrantLight.getTitleTextColor());
-        }
+
+        CacheImageTask cacheImageTask = new CacheImageTask(userVO.getAvatarUrl());
+        cacheImageTask.setCacheImageTaskCallBack(new CacheImageTask.CacheImageTaskCallBack() {
+            @Override
+            public void updateImage(Bitmap loadedImage) {
+                mHeaderBackground.setImageBitmap(loadedImage);
+                mHeaderBackground.setAlpha(Float.valueOf("0.8"));
+                Blurry.with(getContext())
+                        .radius(20)
+                        .sampling(8)
+                        .async()
+                        .capture(mHeaderBackground)
+                        .into(mHeaderBackground);
+                //设置个人资料和收藏按钮配色
+                Palette palette = Palette.from(loadedImage).generate();
+                Palette.Swatch muteLight = palette.getLightMutedSwatch(),
+                        vibrantLight = palette.getLightVibrantSwatch();
+                if (muteLight != null) {
+                    personalInfoButton.setBackgroundColor(muteLight.getRgb());
+                    personalInfoButton.setTextColor(muteLight.getTitleTextColor());
+                    collectionsButton.setBackgroundColor(muteLight.getRgb());
+                    collectionsButton.setTextColor(muteLight.getTitleTextColor());
+                } else if (vibrantLight != null) {
+                    personalInfoButton.setBackgroundColor(vibrantLight.getRgb());
+                    personalInfoButton.setTextColor(vibrantLight.getTitleTextColor());
+                    collectionsButton.setBackgroundColor(vibrantLight.getRgb());
+                    collectionsButton.setTextColor(vibrantLight.getTitleTextColor());
+                }
+            }
+        });
+        cacheImageTask.execute();
 
         //设置列表
         View userInfoLayout = currentView.findViewById(R.id.user_info_group);
         userInfoLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_user, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.sign_up) {
-            //签到
-            if (userData.isLogin()) {
-                new DailyCheckInTask(getContext(), userVO.getId()).execute();
-            } else {
-                Toast.makeText(getContext(), "请先登录~", Toast.LENGTH_SHORT).show();
-            }
-        } else if (id == R.id.action_settings) {
-            //TODO 设置
-            Toast.makeText(getContext(), getString(R.string.action_settings), Toast.LENGTH_SHORT).show();
-        }
-        return true;
     }
 }

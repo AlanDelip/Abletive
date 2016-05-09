@@ -22,11 +22,11 @@ import abletive.businesslogic.blutil.UserData;
 import abletive.presentation.fragment.FansFragment;
 import abletive.presentation.fragment.FocusFragment;
 import abletive.presentation.fragment.ProfileFragment;
+import abletive.presentation.tasks.CacheImageTask;
 import abletive.presentation.tasks.FollowTask;
 import abletive.presentation.tasks.PersonalPageTask;
 import abletive.vo.PersonalPageVO;
 import alandelip.abletivedemo.R;
-import cn.trinea.android.common.entity.CacheObject;
 import jp.wasabeef.blurry.Blurry;
 
 public class PersonalPageActivity extends AppCompatActivity {
@@ -79,7 +79,6 @@ public class PersonalPageActivity extends AppCompatActivity {
         initToolBar();
         initAvatar();
         initOthers();
-        initButton();
     }
 
     /**
@@ -87,40 +86,44 @@ public class PersonalPageActivity extends AppCompatActivity {
      */
     private void initAvatar() {
         //用户名
-        TextView userName = (TextView) findViewById(R.id.user_nickname);
+        final TextView userName = (TextView) findViewById(R.id.user_nickname);
         userName.setText(personalPageVO.getUserInfoPO().getDisplay_name());
 
         //头像
         ImageView avatar = (ImageView) findViewById(R.id.user_avatar);
         MainActivity.IMAGE_CACHE.get(personalPageVO.getAvatarUrl(), avatar);
-        CacheObject<Bitmap> cacheObject = MainActivity.IMAGE_CACHE.get(personalPageVO.getAvatarUrl());
-        if (cacheObject != null) {
-            loadedImage = cacheObject.getData();
-        }
+        CacheImageTask cacheImageTask = new CacheImageTask(personalPageVO.getAvatarUrl());
+        cacheImageTask.setCacheImageTaskCallBack(new CacheImageTask.CacheImageTaskCallBack() {
+            @Override
+            public void updateImage(Bitmap loadedImage) {
+                //设置背景
+                ImageView background = (ImageView) findViewById(R.id.background);
+                if (loadedImage != null) {
+                    background.setImageBitmap(loadedImage);
+                    Blurry.with(PersonalPageActivity.this)
+                            .radius(20)
+                            .sampling(8)
+                            .async()
+                            .capture(background)
+                            .into(background);
 
-        //设置背景
-        ImageView background = (ImageView) findViewById(R.id.background);
-        if (loadedImage != null) {
-            background.setImageBitmap(loadedImage);
-            Blurry.with(this)
-                    .radius(20)
-                    .sampling(8)
-                    .async()
-                    .capture(background)
-                    .into(background);
-
-            //配色
-            Palette palette = Palette.from(loadedImage).generate();
-            muteLight = palette.getLightMutedSwatch();
-            vibrantLight = palette.getLightVibrantSwatch();
-            if (muteLight != null) {
-                userName.setTextColor(muteLight.getRgb());
-                toolbar.setBackgroundColor(muteLight.getRgb());
-            } else if (vibrantLight != null) {
-                userName.setTextColor(vibrantLight.getRgb());
-                toolbar.setBackgroundColor(vibrantLight.getRgb());
+                    //配色
+                    Palette palette = Palette.from(loadedImage).generate();
+                    muteLight = palette.getLightMutedSwatch();
+                    vibrantLight = palette.getLightVibrantSwatch();
+                    if (muteLight != null) {
+                        userName.setTextColor(muteLight.getRgb());
+                        toolbar.setBackgroundColor(muteLight.getRgb());
+                    } else if (vibrantLight != null) {
+                        userName.setTextColor(vibrantLight.getRgb());
+                        toolbar.setBackgroundColor(vibrantLight.getRgb());
+                    }
+                }
+                //加载完配色后再更新按钮
+                initButton();
             }
-        }
+        });
+        cacheImageTask.execute();
     }
 
     private void initOthers() {

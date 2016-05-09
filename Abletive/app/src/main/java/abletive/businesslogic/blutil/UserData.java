@@ -16,9 +16,9 @@ public class UserData {
     private String cookie;
 
     /**
-     * 当前登录的userID
+     * 当前登录的userID(防止出现未知的加载异常，设置默认ID为开发者的ID34605)
      */
-    private String userID;
+    private String userID = "34605";
 
     /**
      * 是否已经登录，初始化为未登录
@@ -40,6 +40,10 @@ public class UserData {
 
     public static UserData getInstance() {
         return userData;
+    }
+
+    public static UserVO getDefaultUserVO() {
+        return new UserVO("34605", "", "", "", "", "", "", "", "", "", "", "");
     }
 
     public String getCookie() {

@@ -16,7 +16,8 @@
         android:id="@+id/rank_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/favicon" />
+        android:padding="3dp"
+        android:src="@drawable/my_credits" />
 
     <TextView
         android:id="@+id/rank_text"
@@ -55,7 +56,8 @@
         android:layout_height="50dp"
         android:layout_below="@+id/rank_icon"
         android:layout_marginTop="10dp"
-        android:src="@drawable/favicon" />
+        android:padding="5dp"
+        android:src="@drawable/notification" />
 
     <TextView
         android:id="@+id/message_board_text"
@@ -86,6 +88,45 @@
         android:layout_alignBottom="@+id/message_board_icon"
         android:layout_alignEnd="@+id/message_board_text"
         android:layout_alignTop="@+id/message_board_icon"
+        android:src="@android:drawable/ic_media_play" />
+
+    <ImageView
+        android:id="@+id/email_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/message_board_icon"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/launch_logo" />
+
+    <TextView
+        android:id="@+id/email_text"
+        style="@style/ProfileTextStyle"
+        android:layout_alignTop="@+id/email_icon"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/email_icon"
+        android:text="联系开发者"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/email_description"
+        style="@style/ProfileTextStyle"
+        android:layout_below="@+id/email_text"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/email_icon"
+        android:text="联系开发者，夸奖，吐槽~"
+        android:textColor="@color/light_gray"
+        android:textSize="16sp" />
+
+
+    <ImageView
+        android:id="@+id/arrow3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/email_icon"
+        android:layout_alignEnd="@+id/email_text"
+        android:layout_alignTop="@+id/email_icon"
         android:src="@android:drawable/ic_media_play" />
 
 </RelativeLayout>

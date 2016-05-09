@@ -1,6 +1,7 @@
 package abletive.presentation.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +38,7 @@ public class CommentListItemAdapter extends ArrayAdapter<CommentListVO> {
 
         ImageView avatarView = (ImageView) convertView.findViewById(R.id.avatar);
         String thumbUrl = commentListVO.getAvatarUrl();
-        if (thumbUrl.startsWith("<")) {
-            thumbUrl = UserTransformer.fetchImg(thumbUrl);
-        }
+        thumbUrl = UserTransformer.transfer(thumbUrl);
         MainActivity.IMAGE_CACHE.get(thumbUrl, avatarView);
 
         TextView replyView = (TextView) convertView.findViewById(R.id.reply);
@@ -48,14 +47,15 @@ public class CommentListItemAdapter extends ArrayAdapter<CommentListVO> {
         TextView authorView = (TextView) convertView.findViewById(R.id.user_name);
         authorView.setText(commentListVO.getAuthor());
 
+        WebView commentWebView = (WebView) convertView.findViewById(R.id.comment_web_view);
+        commentWebView.loadData(commentListVO.getCommentHtml(), "text/html;charset=utf-8", null);
+        commentWebView.setBackgroundColor(Color.TRANSPARENT);
+
         TextView agentView = (TextView) convertView.findViewById(R.id.device_info);
         agentView.setText(commentListVO.getAgent());
 
         TextView timeView = (TextView) convertView.findViewById(R.id.time);
         timeView.setText(commentListVO.getTime());
-
-        WebView commentWebView = (WebView) convertView.findViewById(R.id.comment_web_view);
-        commentWebView.loadData(commentListVO.getCommentHtml(), "text/html;charset=utf-8", null);
 
         return convertView;
     }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,11 +86,13 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         TextView nicknameView = (TextView) findViewById(R.id.nickname);
         nicknameView.setText(userVO.getNickname());
+        final EditText nicknameEdit = new EditText(this);
+        nicknameEdit.setText(userVO.getNickname());
         nicknameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WidgetTool.getTextDialog(PersonInfoActivity.this, "昵称",
-                        userVO.getNickname(), new DialogInterface.OnClickListener() {
+                        nicknameEdit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO 点击确认后的反应
@@ -100,11 +103,13 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         TextView personalPageView = (TextView) findViewById(R.id.personal_page);
         personalPageView.setText(userVO.getUrl());
+        final EditText personalPageEdit = new EditText(this);
+        nicknameEdit.setText(userVO.getUrl());
         personalPageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WidgetTool.getTextDialog(PersonInfoActivity.this, "个人主页",
-                        userVO.getUrl(), new DialogInterface.OnClickListener() {
+                        personalPageEdit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO 点击确认后的反应
@@ -115,11 +120,13 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         TextView descriptionView = (TextView) findViewById(R.id.description);
         descriptionView.setText(userVO.getDescription());
+        final EditText descriptionEdit = new EditText(this);
+        descriptionEdit.setText(userVO.getDescription());
         descriptionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WidgetTool.getTextDialog(PersonInfoActivity.this, "个人简介",
-                        userVO.getDescription(), new DialogInterface.OnClickListener() {
+                        descriptionEdit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO 点击确认后的保存
@@ -130,11 +137,13 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         TextView weiboView = (TextView) findViewById(R.id.weibo);
         weiboView.setText(userVO.getWeibo());
+        final EditText weiboEdit = new EditText(this);
+        weiboEdit.setText(userVO.getWeibo());
         weiboView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WidgetTool.getTextDialog(PersonInfoActivity.this, "微博",
-                        userVO.getWeibo(), new DialogInterface.OnClickListener() {
+                        weiboEdit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -145,11 +154,13 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         TextView qqView = (TextView) findViewById(R.id.qq);
         qqView.setText(userVO.getQq());
+        final EditText qqEdit = new EditText(this);
+        qqEdit.setText(userVO.getQq());
         qqView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WidgetTool.getTextDialog(PersonInfoActivity.this, "QQ",
-                        userVO.getQq(), new DialogInterface.OnClickListener() {
+                        qqEdit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -163,11 +174,13 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         TextView emailView = (TextView) findViewById(R.id.email);
         emailView.setText(userVO.getEmail());
+        final EditText emailEdit = new EditText(this);
+        emailEdit.setText(userVO.getEmail());
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WidgetTool.getTextDialog(PersonInfoActivity.this, "电子邮件",
-                        userVO.getEmail(), new DialogInterface.OnClickListener() {
+                        emailEdit, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -202,7 +215,7 @@ public class PersonInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO 保存信息
-                Toast.makeText(PersonInfoActivity.this, "已保存", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonInfoActivity.this, "此版本暂不支持修改~", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -212,7 +225,7 @@ public class PersonInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO 跳转至修改密码界面
-                Toast.makeText(PersonInfoActivity.this, "修改密码...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PersonInfoActivity.this, "暂时不能修改诶~", Toast.LENGTH_SHORT).show();
             }
         });
 

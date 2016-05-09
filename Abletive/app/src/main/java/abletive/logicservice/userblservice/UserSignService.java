@@ -15,11 +15,12 @@ public interface UserSignService {
     /**
      * 登录
      *
+     * @param context 上下文
      * @param userID   用户ID
      * @param password 密码
      * @return 用户信息
      */
-    UserVO signin(String userID, String password);
+    UserVO signin(Context context,String userID, String password);
 
     /**
      * 登出
@@ -45,8 +46,9 @@ public interface UserSignService {
 
     /**
      * 获得已登录的用户信息
+     * @param context 上下文
      * @return 已登录的用户信息
      */
-    UserVO getSignedUserData();
+    UserVO getSignedUserData(Context context);
 
 }

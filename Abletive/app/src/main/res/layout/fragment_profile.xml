@@ -16,9 +16,9 @@
 
             <ImageView
                 android:id="@+id/rank_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/favicon" />
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/my_posts" />
 
             <TextView
                 android:id="@+id/post_text"
@@ -54,11 +54,12 @@
 
             <ImageView
                 android:id="@+id/post_comment_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_below="@+id/rank_icon"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:padding="3dp"
+                android:src="@drawable/notification" />
 
             <TextView
                 android:id="@+id/post_comment_text"
@@ -98,7 +99,8 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/post_comment_icon"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:padding="3dp"
+                android:src="@drawable/my_credits" />
 
             <TextView
                 android:id="@+id/credit_text"
@@ -138,7 +140,8 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/credit_icon"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:padding="3dp"
+                android:src="@drawable/my_collects" />
 
             <TextView
                 android:id="@+id/collection_text"
@@ -193,7 +196,8 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/member_info_text"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:padding="3dp"
+                android:src="@drawable/membership" />
 
             <TextView
                 android:id="@+id/member_state_text"
@@ -214,7 +218,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/member_state_icon"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:src="@drawable/calendar_item" />
 
             <TextView
                 android:id="@+id/due_time_text"
@@ -269,7 +273,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/basic_info"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:src="@drawable/launch_logo" />
 
             <TextView
                 android:id="@+id/community_text"
@@ -301,7 +305,7 @@
                 android:layout_alignBottom="@+id/community_page"
                 android:layout_below="@+id/community_icon"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:src="@drawable/profile_url" />
 
             <TextView
                 android:id="@+id/community_page_text"
@@ -343,7 +347,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/community_page_icon"
                 android:layout_marginTop="13dp"
-                android:src="@drawable/favicon" />
+                android:src="@drawable/gender" />
 
             <TextView
                 android:id="@+id/gender"
@@ -365,7 +369,8 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/gender"
                 android:layout_marginTop="13dp"
-                android:src="@drawable/favicon" />
+                android:padding="3dp"
+                android:src="@drawable/membership" />
 
             <TextView
                 android:id="@+id/member"
@@ -388,7 +393,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/member"
                 android:layout_marginTop="13dp"
-                android:src="@drawable/favicon" />
+                android:src="@drawable/website" />
 
             <TextView
                 android:id="@+id/personal_web"
@@ -410,7 +415,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/personal_web"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/favicon" />
+                android:src="@drawable/profile_orders" />
 
             <TextView
                 android:id="@+id/shop_text"

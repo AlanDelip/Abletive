@@ -41,7 +41,7 @@ public class CollectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_colection);
+        setContentView(R.layout.activity_collection);
 
         if (getIntent() != null) {
             userName = getIntent().getStringExtra(ARG_USERNAME);

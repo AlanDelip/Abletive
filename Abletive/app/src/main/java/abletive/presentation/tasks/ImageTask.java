@@ -19,9 +19,7 @@ public class ImageTask extends AsyncTask<Void, Void, Void> {
     Bitmap image;
 
     public ImageTask(String imageUrl) {
-        if (imageUrl.startsWith("<")) {
-            imageUrl = UserTransformer.fetchImg(imageUrl);
-        }
+        imageUrl = UserTransformer.transfer(imageUrl);
         this.imageUrl = imageUrl;
         postBl = new PostImpl();
     }

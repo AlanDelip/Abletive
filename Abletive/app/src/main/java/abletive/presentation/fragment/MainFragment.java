@@ -3,11 +3,8 @@ package abletive.presentation.fragment;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,8 +104,21 @@ public class MainFragment extends Fragment {
      */
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) currentView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        setHasOptionsMenu(true);
+        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.action_search) {
+                    if (!mSearchView.isActivated()) {
+                        mSearchView.setVisibility(View.VISIBLE);
+                    } else {
+                        mSearchView.setVisibility(View.GONE);
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     /**
@@ -315,23 +325,5 @@ public class MainFragment extends Fragment {
                 SearchActivity.newInstance(getContext(), currentQuery, currentQuery, new KeywordListImpl());
             }
         });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_bar, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_search) {
-            if (!mSearchView.isActivated()) {
-                mSearchView.setVisibility(View.VISIBLE);
-            } else {
-                mSearchView.setVisibility(View.GONE);
-            }
-        }
-        return true;
     }
 }
