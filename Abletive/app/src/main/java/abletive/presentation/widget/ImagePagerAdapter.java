@@ -11,6 +11,7 @@ import java.util.List;
 
 import abletive.presentation.activity.MainActivity;
 import abletive.presentation.activity.PostActivity;
+import abletive.presentation.uiutil.ImageLibrary;
 import abletive.vo.PostListVO;
 import alandelip.abletivedemo.R;
 import cn.trinea.android.common.util.ListUtils;
@@ -61,6 +62,7 @@ public class ImagePagerAdapter extends RecyclingPagerAdapter {
         }
         holder = new ViewHolder();
         holder.imageView = (ImageView) view.findViewById(R.id.viewpager_image);
+        holder.imageView.setImageBitmap(ImageLibrary.default_title_thumb);
         MainActivity.IMAGE_CACHE.get(postVOList.get(getPosition(position)).getThumbUrl(), holder.imageView);
         holder.textView = (TextView) view.findViewById(R.id.viewpager_text);
         holder.textView.setText(postVOList.get(getPosition(position)).getTitle());

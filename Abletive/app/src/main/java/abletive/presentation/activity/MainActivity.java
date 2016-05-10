@@ -1,9 +1,13 @@
 package abletive.presentation.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -23,12 +27,15 @@ import abletive.presentation.fragment.MessageFragment;
 import abletive.presentation.fragment.UserFragment;
 import abletive.vo.UserVO;
 import alandelip.abletivedemo.R;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.trinea.android.common.service.impl.ImageCache;
 import cn.trinea.android.common.util.CacheManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final ImageCache IMAGE_CACHE = CacheManager.getImageCache();
     private static final String TAG = "Abletive";
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
+    private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 2;
     /**
      * 文章界面碎片
      */
@@ -83,10 +90,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViews();
         fragmentManager = getSupportFragmentManager();
 
-        //提前自动登录
-        preLogin();
+        //申请权限
+        requirePermissions();
+
         //默认加载文章界面
         setTabSelection(0);
+
+    }
+
+    /**
+     * Android6.0适配
+     * 对敏感权限(Write_external_storage)进行动态申请
+     *
+     * @since 16-5-11
+     */
+    private void requirePermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+        } else {
+            //提前自动登录
+            preLogin();
+            //默认加载文章界面
+            setTabSelection(0);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode, grantResults);
+    }
+
+    /**
+     * 根据动态权限申请的情况进行之后的分析
+     *
+     * @param requestCode  请求码
+     * @param grantResults 返回结果（允许/不允许）
+     */
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults != null) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                } else {
+                    // Permission Denied
+                    SweetAlertDialog alertDialog = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                    alertDialog.setTitleText("存储权限申请失败！");
+                    alertDialog.setContentText("请设置允许进行存储，否则程序中的图片无法正常加载，谢谢！");
+                    alertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                            finish();
+                        }
+                    });
+                    alertDialog.showCancelButton(false);
+                    alertDialog.show();
+                }
+            }
+        }
     }
 
     /**

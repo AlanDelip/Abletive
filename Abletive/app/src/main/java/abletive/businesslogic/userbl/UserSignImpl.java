@@ -120,11 +120,13 @@ public class UserSignImpl implements UserSignService {
         Properties properties = getLogProperty(context);
         if (properties != null) {
             String loginState = properties.getProperty("isLogin");
-            if (loginState.equals("true")) {
-                UserData.getInstance().setIsLogin(true);
-                return true;
-            } else {
-                return false;
+            if (loginState != null) {
+                if (loginState.equals("true")) {
+                    UserData.getInstance().setIsLogin(true);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
         return false;
