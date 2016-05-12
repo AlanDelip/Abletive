@@ -93,7 +93,7 @@ public class WidgetTool {
      *
      * @param context  上下文
      * @param title    标题
-     * @param editText  EditText
+     * @param editText EditText
      * @param listener 监听
      * @return 编辑弹窗
      */
@@ -108,5 +108,23 @@ public class WidgetTool {
                         dialog.dismiss();
                     }
                 }).create();
+    }
+
+    /**
+     * 创建编辑弹窗
+     *
+     * @param context  上下文
+     * @param title    标题
+     * @param editText EditText
+     * @param positive 确认按钮字符
+     * @param listener 监听
+     * @return 编辑弹窗
+     */
+    public static AlertDialog getTextDialog(Context context, String title, EditText editText, String positive, DialogInterface.OnClickListener listener) {
+        return new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setView(editText)
+                .setPositiveButton(positive, listener)
+                .create();
     }
 }

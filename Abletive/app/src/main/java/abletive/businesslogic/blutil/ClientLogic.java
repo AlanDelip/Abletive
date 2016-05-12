@@ -28,6 +28,8 @@ public class ClientLogic {
 
     private Activity MainActivity;
 
+    private boolean isSignup;
+
     public Activity getMainActivity() {
         return MainActivity;
     }
@@ -53,5 +55,13 @@ public class ClientLogic {
 
     public void setTypeList(ArrayList<TypeListVO> typeList) {
         this.typeList = typeList;
+    }
+
+    public void setSignup(boolean signup) {
+        this.isSignup = signup;
+    }
+
+    public boolean isSignup() {
+        return isSignup;
     }
 }

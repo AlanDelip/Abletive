@@ -42,7 +42,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="abletive.presentation.activity.LogActivity"
+            android:name="abletive.presentation.activity.LogInActivity"
             android:label="@string/title_activity_log"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -91,6 +91,10 @@
             android:label="@string/title_activity_comment_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="abletive.presentation.activity.SignupActivity"
+            android:label="@string/title_activity_signup"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

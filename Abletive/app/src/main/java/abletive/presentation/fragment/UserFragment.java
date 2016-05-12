@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import abletive.businesslogic.blutil.UserData;
 import abletive.presentation.activity.CollectionActivity;
-import abletive.presentation.activity.LogActivity;
+import abletive.presentation.activity.LogInActivity;
 import abletive.presentation.activity.MainActivity;
 import abletive.presentation.activity.PersonInfoActivity;
 import abletive.presentation.activity.PersonalPageActivity;
@@ -102,7 +102,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!userData.isLogin()) {
-                    LogActivity.newInstance(getContext());
+                    LogInActivity.newInstance(getContext());
                 }
             }
         });
@@ -181,7 +181,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!userData.isLogin()) {
-                    LogActivity.newInstance(getContext());
+                    LogInActivity.newInstance(getContext());
                 }
             }
         });
@@ -211,7 +211,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //跳转至登录界面
-                LogActivity.newInstance(getContext());
+                LogInActivity.newInstance(getContext());
             }
         });
     }

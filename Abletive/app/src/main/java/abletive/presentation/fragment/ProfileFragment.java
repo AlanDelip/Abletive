@@ -138,7 +138,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         TextView mPostCommentsView = (TextView) currentView.findViewById(R.id.post_comment);
         mPostCommentsView.setTextColor(swatch.getBodyTextColor());
-        mPostCommentsView.setText(personalPageVO.getPostCount());
+        mPostCommentsView.setText(personalPageVO.getPostComment());
 
         TextView mCommunityCreditsView = (TextView) currentView.findViewById(R.id.credit);
         mCommunityCreditsView.setTextColor(swatch.getBodyTextColor());

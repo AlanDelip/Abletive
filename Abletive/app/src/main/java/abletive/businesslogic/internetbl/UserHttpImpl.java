@@ -93,8 +93,9 @@ public class UserHttpImpl implements UserHttpService {
                         .addParam(context.getString(R.string.display_name), signupVO.getDisplayname())
                         .addParam(context.getString(R.string.nonce), nonce)
                         .build();
+        Log.d(TAG, "signup-request: " + request);
         result = httpConnection.getResult(request);
-        Log.d(TAG, "signup: " + request);
+        Log.d(TAG, "signup-result: "+result);
 
         HttpSignupPO httpSignupPO = null;
         if (result != null) {
@@ -134,6 +135,7 @@ public class UserHttpImpl implements UserHttpService {
                         .addParam(context.getString(R.string.current_user_id), currentUserID)
                         .build();
         String result = httpConnection.getResult(request);
+        Log.d(TAG, "getPersonalPage: "+result);
 
         HttpPersonalPagePO httpPersonalPagePO = null;
         if (result != null) {

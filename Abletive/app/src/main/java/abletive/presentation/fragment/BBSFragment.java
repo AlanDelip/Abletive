@@ -87,7 +87,7 @@ public class BBSFragment extends Fragment {
             public void onClick(View v) {
                 final EditText editText = new EditText(getContext());
                 editText.setText("有任何问题，请给1178073068@qq.com发送邮件，或者联系qq~希望能把Abletive做得更好！");
-                AlertDialog dialog = WidgetTool.getTextDialog(getContext(), "给程序员Alan留言:", editText, new DialogInterface.OnClickListener() {
+                AlertDialog dialog = WidgetTool.getTextDialog(getContext(), "给程序员Alan留言:", editText, "OK~", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

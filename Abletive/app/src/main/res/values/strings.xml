@@ -196,4 +196,5 @@
     <string name="title_activity_credit">CreditActivity</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_comment_list">CommentListActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
 </resources>

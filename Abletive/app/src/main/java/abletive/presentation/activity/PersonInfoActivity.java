@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -57,115 +58,123 @@ public class PersonInfoActivity extends AppCompatActivity {
         TextView genderView = (TextView) findViewById(R.id.gender);
         genderView.setText(userVO.getGender());
         TextView genderText = (TextView) findViewById(R.id.gender_text);
+        final AlertDialog genderDialog = WidgetTool.getChoiceDialog(PersonInfoActivity.this, "性别",
+                new String[]{"男", "女", "未知"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                break;
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO 点击确定后的动作
+                    }
+                });
         genderText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WidgetTool.getChoiceDialog(PersonInfoActivity.this, "性别",
-                        new String[]{"男", "女", "未知"}, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        break;
-                                    case 1:
-                                        break;
-                                    case 2:
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        }, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //TODO 点击确定后的动作
-                            }
-                        }).show();
+                genderDialog.show();
             }
         });
 
         TextView nicknameView = (TextView) findViewById(R.id.nickname);
         nicknameView.setText(userVO.getNickname());
         final EditText nicknameEdit = new EditText(this);
+        final AlertDialog nicknameDialog = WidgetTool.getTextDialog(PersonInfoActivity.this, "昵称",
+                nicknameEdit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO 点击确认后的反应
+                    }
+                });
         nicknameEdit.setText(userVO.getNickname());
         nicknameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WidgetTool.getTextDialog(PersonInfoActivity.this, "昵称",
-                        nicknameEdit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //TODO 点击确认后的反应
-                            }
-                        }).show();
+                nicknameDialog.show();
             }
         });
 
         TextView personalPageView = (TextView) findViewById(R.id.personal_page);
         personalPageView.setText(userVO.getUrl());
         final EditText personalPageEdit = new EditText(this);
-        nicknameEdit.setText(userVO.getUrl());
+        final AlertDialog personalPageDialog = WidgetTool.getTextDialog(PersonInfoActivity.this, "个人主页",
+                personalPageEdit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO 点击确认后的反应
+                    }
+                });
+        personalPageEdit.setText(userVO.getUrl());
         personalPageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WidgetTool.getTextDialog(PersonInfoActivity.this, "个人主页",
-                        personalPageEdit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //TODO 点击确认后的反应
-                            }
-                        }).show();
+                personalPageDialog.show();
             }
         });
 
         TextView descriptionView = (TextView) findViewById(R.id.description);
         descriptionView.setText(userVO.getDescription());
         final EditText descriptionEdit = new EditText(this);
+        final AlertDialog descriptionDialog =  WidgetTool.getTextDialog(PersonInfoActivity.this, "个人简介",
+                descriptionEdit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO 点击确认后的保存
+                    }
+                });
         descriptionEdit.setText(userVO.getDescription());
         descriptionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WidgetTool.getTextDialog(PersonInfoActivity.this, "个人简介",
-                        descriptionEdit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //TODO 点击确认后的保存
-                            }
-                        }).show();
+                descriptionDialog.show();
             }
         });
 
         TextView weiboView = (TextView) findViewById(R.id.weibo);
+        TextView weiboText = (TextView) findViewById(R.id.weibo_text);
         weiboView.setText(userVO.getWeibo());
         final EditText weiboEdit = new EditText(this);
+        final AlertDialog weiboDialog = WidgetTool.getTextDialog(PersonInfoActivity.this, "微博",
+                weiboEdit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
         weiboEdit.setText(userVO.getWeibo());
-        weiboView.setOnClickListener(new View.OnClickListener() {
+        weiboText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WidgetTool.getTextDialog(PersonInfoActivity.this, "微博",
-                        weiboEdit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
+                weiboDialog.show();
             }
         });
 
         TextView qqView = (TextView) findViewById(R.id.qq);
+        TextView qqText = (TextView) findViewById(R.id.qq_text);
         qqView.setText(userVO.getQq());
         final EditText qqEdit = new EditText(this);
+        final AlertDialog qqDialog = WidgetTool.getTextDialog(PersonInfoActivity.this, "QQ",
+                qqEdit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO
+                    }
+                });
         qqEdit.setText(userVO.getQq());
-        qqView.setOnClickListener(new View.OnClickListener() {
+        qqText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WidgetTool.getTextDialog(PersonInfoActivity.this, "QQ",
-                        qqEdit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
+                qqDialog.show();
             }
         });
 
@@ -175,17 +184,18 @@ public class PersonInfoActivity extends AppCompatActivity {
         TextView emailView = (TextView) findViewById(R.id.email);
         emailView.setText(userVO.getEmail());
         final EditText emailEdit = new EditText(this);
+        final AlertDialog emailDialog = WidgetTool.getTextDialog(PersonInfoActivity.this, "电子邮件",
+                emailEdit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
         emailEdit.setText(userVO.getEmail());
         emailView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WidgetTool.getTextDialog(PersonInfoActivity.this, "电子邮件",
-                        emailEdit, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
+                emailDialog.show();
             }
         });
     }
