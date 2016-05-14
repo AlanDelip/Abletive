@@ -19,7 +19,9 @@ import abletive.presentation.activity.CollectionActivity;
 import abletive.presentation.activity.LogInActivity;
 import abletive.presentation.activity.MainActivity;
 import abletive.presentation.activity.PersonInfoActivity;
+import abletive.presentation.activity.PersonalCardActivity;
 import abletive.presentation.activity.PersonalPageActivity;
+import abletive.presentation.activity.ScanActivity;
 import abletive.presentation.tasks.CacheImageTask;
 import abletive.presentation.tasks.DailyCheckInTask;
 import abletive.vo.UserVO;
@@ -40,6 +42,7 @@ public class UserFragment extends Fragment {
     private Button personalInfoButton;
     private Button collectionsButton;
     private ImageView mAvatarView;
+    private Bitmap userAvatar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,15 +69,13 @@ public class UserFragment extends Fragment {
         if (toolbar == null) {
             initToolBar();
         }
-        initButton();
-
         //如果登录就显示用户信息，否则显示请登录信息
         if (userData.isLogin()) {
             initUserData();
         } else {
             initLoginData();
         }
-
+        initButton();
 
     }
 
@@ -129,8 +130,8 @@ public class UserFragment extends Fragment {
         mMatrixView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 扫二维码
-                Toast.makeText(getContext(), "二维码相关功能将在下个版本上线~", Toast.LENGTH_SHORT).show();
+                //扫二维码
+                ScanActivity.newInstance(getContext());
             }
         });
 
@@ -138,8 +139,9 @@ public class UserFragment extends Fragment {
         mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 显示个人名片
-                Toast.makeText(getContext(), "二维码名片功能即将上线！", Toast.LENGTH_SHORT).show();
+                //显示个人名片
+                PersonalCardActivity.newInstance(getContext(), userVO.getUsername(),
+                        userVO.getId(), userVO.getDescription(), userVO.getAvatarUrl());
             }
         });
     }
@@ -241,6 +243,7 @@ public class UserFragment extends Fragment {
         cacheImageTask.setCacheImageTaskCallBack(new CacheImageTask.CacheImageTaskCallBack() {
             @Override
             public void updateImage(Bitmap loadedImage) {
+                userAvatar = loadedImage;
                 mHeaderBackground.setImageBitmap(loadedImage);
                 mHeaderBackground.setAlpha(Float.valueOf("0.8"));
                 Blurry.with(getContext())

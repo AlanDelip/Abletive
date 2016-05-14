@@ -292,6 +292,7 @@ public class PostHttpImpl implements PostHttpService {
                         .addParam(context.getString(R.string.email), email)
                         .addParam(context.getString(R.string.parent), parentID)
                         .addParam(context.getString(R.string.content), HttpBuilder.string2UTF8(comment))//转化为URLEncoding编码
+                        .addParam("user_agent","Android App")
                         .build();
 
         Log.d(TAG, "comment: " + request);

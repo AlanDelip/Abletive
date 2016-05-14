@@ -59,6 +59,7 @@ public interface UserHttpService {
      * @param userID        用户ID
      * @param currentUserID 查看者的用户ID
      * @param page          第几页
+     * @param type          关注者following/粉丝follower
      * @return 关注者列表
      */
     ArrayList<FollowUserPO> getFollowList(String userID, String currentUserID, String type, int page);
