@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name="abletive.presentation.uiutil.MApplication"
@@ -31,7 +34,8 @@
         </activity>
         <activity
             android:name="abletive.presentation.activity.PostActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:hardwareAccelerated="true" />
         <activity
             android:name="abletive.presentation.activity.SettingsActivity"
@@ -92,13 +96,38 @@
         <activity
             android:name="abletive.presentation.activity.CommentListActivity"
             android:label="@string/title_activity_comment_list"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name="abletive.presentation.activity.SignupActivity"
             android:label="@string/title_activity_signup"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name="abletive.presentation.activity.ScanActivity"></activity>
+        <activity
+            android:name="abletive.presentation.activity.ScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <!--腾讯接口部分-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1105315463" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

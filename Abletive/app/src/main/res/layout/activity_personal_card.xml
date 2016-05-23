@@ -46,52 +46,38 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar"
-        android:background="@color/domain_color"
-        android:paddingBottom="50dp">
-
-        <ImageView
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_marginTop="30dp"
-            android:alpha="0.5"
-            android:scaleType="centerCrop"
-            android:src="@drawable/studio" />
+        android:layout_margin="16dp"
+        android:background="@color/white"
+        android:paddingBottom="10dp">
 
         <ImageView
             android:id="@+id/header_background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/user_matrix"
-            android:layout_alignEnd="@+id/background"
-            android:layout_alignStart="@+id/background"
-            android:layout_alignTop="@+id/background"
-            android:alpha="0.5" />
+            android:layout_height="180dp"
+            android:alpha="0.7"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dj" />
 
 
         <abletive.presentation.widget.RoundImageView
             android:id="@+id/user_avatar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignStart="@+id/background"
-            android:layout_alignTop="@+id/background"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginBottom="15dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="100dp"
             android:src="@drawable/favicon" />
 
         <TextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/user_avatar"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/divider"
+            android:layout_below="@+id/header_background"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/user_avatar"
             android:text="@string/default_user_name"
-            android:textColor="@color/white"
+            android:textColor="@color/domain_color"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -102,7 +88,7 @@
             android:layout_alignStart="@+id/user_name"
             android:layout_below="@+id/user_name"
             android:text="Abletive ID:30498"
-            android:textColor="@color/white" />
+            android:textColor="@color/domain_color" />
 
         <ImageView
             android:id="@+id/user_matrix"
@@ -114,7 +100,7 @@
             android:layout_below="@+id/user_description"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="7dp"
             android:scaleType="fitCenter"
             android:src="@drawable/launch_logo" />
 
@@ -124,34 +110,36 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/user_id"
             android:layout_below="@+id/user_id"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@string/chinese_long_text"
-            android:textColor="@color/white" />
+            android:textColor="@color/domain_color" />
 
         <TextView
             android:id="@+id/promotion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/background"
+            android:layout_alignBottom="@+id/logo"
+            android:layout_alignParentBottom="true"
+            android:layout_alignTop="@+id/logo"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:textStyle="bold"
             android:text="@string/app_sub_upper"
-            android:textColor="@color/white" />
+            android:textColor="@color/domain_color" />
 
         <ImageView
-            android:id="@+id/divider"
-            android:layout_width="3dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/user_avatar"
-            android:layout_alignTop="@+id/user_avatar"
-            android:layout_toEndOf="@+id/user_avatar"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:src="@color/white" />
+            android:id="@+id/logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/promotion"
+            android:src="@drawable/favicon" />
+
     </RelativeLayout>
 
 </RelativeLayout>

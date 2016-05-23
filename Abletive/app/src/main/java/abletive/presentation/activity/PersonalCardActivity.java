@@ -75,8 +75,8 @@ public class PersonalCardActivity extends AppCompatActivity {
 
     private void initOtherViews(Bitmap loadedImage) {
         //背景
-        ImageView backgroundView = (ImageView) findViewById(R.id.background);
-        backgroundView.setImageBitmap(loadedImage);
+        ImageView headerBackground = (ImageView) findViewById(R.id.header_background);
+        headerBackground.setImageBitmap(loadedImage);
 
         //用户头像
         ImageView avatarView = (ImageView) findViewById(R.id.user_avatar);
@@ -85,26 +85,18 @@ public class PersonalCardActivity extends AppCompatActivity {
         //用户名
         TextView userNameView = (TextView) findViewById(R.id.user_name);
         userNameView.setText(userName);
-        setTextColor(userNameView);
+//        setTextColor(userNameView);
 
         //用户ID
         TextView userIDView = (TextView) findViewById(R.id.user_id);
         String userIDText = "ABLETIVE ID: " + userID;
         userIDView.setText(userIDText);
-        setTextColor(userIDView);
+//        setTextColor(userIDView);
 
         //用户签名
         TextView descriptionView = (TextView) findViewById(R.id.user_description);
         descriptionView.setText(description);
-        setTextColor(descriptionView);
-
-        ImageView headerBackground = (ImageView) findViewById(R.id.header_background);
-        if (vibrantSwatch != null) {
-            headerBackground.setBackgroundColor(vibrantSwatch.getRgb());
-        } else if (muteSwatch != null) {
-            headerBackground.setBackgroundColor(muteSwatch.getRgb());
-        }
-
+//        setTextColor(descriptionView);
 
     }
 
@@ -112,7 +104,7 @@ public class PersonalCardActivity extends AppCompatActivity {
         //生成userID的QRcode
         final ImageView qrcodeView = (ImageView) findViewById(R.id.user_matrix);
         String matrixID = "abletive://user/" + userID;
-        QRCodeEncoder.encodeQRCode(matrixID, DisplayUtils.dp2px(this, 200), Color.TRANSPARENT, new QRCodeEncoder.Delegate() {
+        QRCodeEncoder.encodeQRCode(matrixID, DisplayUtils.dp2px(this, 300), Color.DKGRAY, new QRCodeEncoder.Delegate() {
             @Override
             public void onEncodeQRCodeSuccess(Bitmap bitmap) {
                 qrcodeView.setImageBitmap(bitmap);
