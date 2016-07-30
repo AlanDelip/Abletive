@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,11 +90,11 @@ public class MainFragment extends Fragment {
             //设置已经加载
             isLoaded = true;
             currentView = getView();
+            initSearchView();
             initToolBar();
             initRefreshLayout();
             initListView();
             initViewPager();
-            initSearchView();
             initFAB();
         }
     }
@@ -111,6 +112,7 @@ public class MainFragment extends Fragment {
                 int id = item.getItemId();
                 if (id == R.id.action_search) {
                     if (!mSearchView.isActivated()) {
+                        Log.d(TAG, "onMenuItemClick: "+mSearchView);
                         mSearchView.setVisibility(View.VISIBLE);
                     } else {
                         mSearchView.setVisibility(View.GONE);
